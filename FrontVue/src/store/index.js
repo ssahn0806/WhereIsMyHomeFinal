@@ -3,11 +3,14 @@ import Vuex from "vuex";
 import Constant from "@/common/Constant.js";
 import restApi from "@/util/http-common.js";
 import NoticeStore from "@/store/modules/NoticeStore";
+import memberStore from "@/store/modules/memberStore";
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     NoticeStore,
+    memberStore,
   },
 
   state: {
