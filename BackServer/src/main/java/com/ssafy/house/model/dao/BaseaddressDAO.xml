@@ -12,7 +12,7 @@
 	</select>
 	
 	<select id="selectLatLng" parameterType="string" resultMap="LatLngMap">
-		select lat,lng from baseaddress where dongCode=#{dongCode}
+		select lat,lng from baseaddress where dongCode LIKE CONCAT(#{dongCode},'%') limit 1
 	</select>
 	
 	<resultMap type="map" id="LatLngMap">

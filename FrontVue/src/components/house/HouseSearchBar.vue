@@ -1,5 +1,5 @@
 <template>
-  <b-container class="sm-6">
+  <b-container fluid>
     <b-row>
       <b-col class="sm-3">
         <b-form-select v-model="sidoCode" :options="sidoOpts" @change="gugunLoad"></b-form-select>
@@ -12,7 +12,19 @@
         <b-form-select v-model="dongCode" :options="dongOpts"></b-form-select>
       </b-col>
 
-      <b-button @click="searchApts">조회</b-button>
+      <!-- <b-col class="sm-3" v-if="!gugunCode">
+        <b-form-group
+          class="pt-2"
+          horizontal
+        >
+          <b-form-checkbox v-model="ischecked" name="checkbox"></b-form-checkbox>
+          <b-form-input v-model="searchValue" placeholder="아파트명을 입력하세요"></b-form-input> 
+        
+        </b-form-group>
+      </b-col> -->
+      <b-col class="sm-3">
+       <b-button @click="searchApts">조회</b-button>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -25,6 +37,7 @@ export default {
   name: "HouseSearchBar",
   data() {
     return {
+      ischecked: false,
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
@@ -35,7 +48,7 @@ export default {
   },
 
   methods: {
-    ...mapActions([Constant.GET_APTS]),
+    ...mapActions([Constant.GET_DEALS,Constant.GET_LATLNG]),
     sidoList() {
       this.sidoOpts.push({ value: null, text: "시도를 선택하세요." });
       this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
@@ -76,9 +89,11 @@ export default {
 
     searchApts() {
       if (this.dongCode) {
-        this.getApts(this.dongCode);
+        this.getDeals(this.dongCode);
+        this.getLatLng(this.dongCode);
       } else {
-        this.getApts(this.gugunCode.slice(0, 5));
+        this.getDeals(this.gugunCode.slice(0,5));
+        this.getLatLng(this.gugunCode.slice(0,5));
       }
     },
   },

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import MainView from "../views/MainView.vue";
+import MainView from "@/views/MainView.vue";
 import HouseView from "@/views/HouseView.vue";
 import NoticeView from "@/views/NoticeView.vue";
 

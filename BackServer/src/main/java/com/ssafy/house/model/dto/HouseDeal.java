@@ -14,5 +14,7 @@ public class HouseDeal {
 	private String floor;
 	private String type;
 	private String rentMoney;
-
+	
+	//1:1
+	private HouseInfo houseInfo;
 }
