@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import HeaderInfo from "@/components/HeaderInfo.vue";
+import HeaderInfo from "@/components/header/HeaderInfo.vue";
 export default {
   id: "myHeader",
   components: {

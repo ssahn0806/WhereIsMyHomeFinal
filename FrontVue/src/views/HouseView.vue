@@ -6,7 +6,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="mt-4" lg="8">
+      <b-col class="mt-4" lg="12">
         <house-map></house-map>
       </b-col>
     </b-row>
@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import HouseSearchBar from "@/components/HouseSearchBar.vue";
-import HouseMap from "@/components/HouseMap.vue";
+import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
+import HouseMap from "@/components/house/HouseMap.vue";
 export default {
   components: {
     HouseSearchBar,

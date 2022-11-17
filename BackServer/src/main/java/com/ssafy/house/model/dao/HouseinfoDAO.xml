@@ -8,6 +8,16 @@
 		where aptCode=#{aptCode}
 	</select>
 	
+	<resultMap type="HouseInfo" id="HouseinfoMap">
+		<id column="aptCode" property="aptCode"></id>
+		<result column="aptName" property="aptName"></result>
+		<result column="dongCode" property="dongCode"></result>
+		<result column="dongName" property="dongName"></result>
+		<result column="buildYear" property="buildYear"></result>
+		<result column="jibun" property="jibun"></result>
+		<result column="lat" property="lat"></result>
+		<result column="lng" property="lng"></result>
+	</resultMap>
 </mapper>
 
 

@@ -1,16 +1,23 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import Constant from "@/common/Constant.js";
+import Constant from "@/common/Constant";
 import restApi from "@/util/http-common.js";
+
 import NoticeStore from "@/store/modules/NoticeStore";
 import memberStore from "@/store/modules/memberStore";
 
+import HouseStore from "@/store/modules/HouseStore";
+import UserStore from "@/store/modules/UserStore";
+import MapStore from "@/store/modules/MapStore";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     NoticeStore,
     memberStore,
+    HouseStore,
+    UserStore,
+    MapStore,
   },
 
   state: {
