@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.house.model.dao.PlaceDAO">
+	<select id="selectPlaces" parameterType="map" resultType="Place">
+		select no, name, subname, categorycode, categoryname, dongcode,
+		address, lng, lat
+		from place
+		where dongcode=#{dongCode} and categorycode=#{categoryCode}
+		order by distance
+		<if test="limit != null">
+		limit #{limit}
+		</if>
+	</select>
+
+	<select id="countPlaces" parameterType="map" resultType="int">
+		select
+		count(*)
+		from place
+		where dongcode=#{dongCode} and categorycode=#{categoryCode}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

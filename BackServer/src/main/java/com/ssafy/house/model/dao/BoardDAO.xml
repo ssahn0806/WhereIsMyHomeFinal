@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.house.model.dao.BoardDAO">
+	<select id="noticeList" resultMap="com.ssafy.resultmaps.BoardMap">
+		select article_no, userid, subject, content, hit, register_time from board order by article_no desc
+	</select>
+	
+	<select id="noticeView" parameterType="int" resultMap="com.ssafy.resultmaps.BoardMap">
+		select article_no, userid, subject, content, hit, register_time from board where article_no=#{articleNo}
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		update board set hit = hit+1 where article_no=#{articleNo}
+	</update>
+	
+	<insert id="insert" parameterType="Board">
+		insert into board(userid, subject, content, hit, register_time)
+		values(#{userId},#{subject},#{content},0,now())
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from board where article_no=#{articleNo}
+	</delete>
+	
+	<update id="modify" parameterType="Board">
+		update board set subject=#{subject},content=#{content}
+		where article_no=#{articleNo}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
