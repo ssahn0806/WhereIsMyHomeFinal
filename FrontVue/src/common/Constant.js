@@ -21,4 +21,7 @@ export default Object.freeze({
 
   GET_BLOGS: "getBlogs",
   SET_BLOGS: "setBlogs",
+
+  GET_NEWS: "getNews",
+  SET_NEWS: "setNews",
 });

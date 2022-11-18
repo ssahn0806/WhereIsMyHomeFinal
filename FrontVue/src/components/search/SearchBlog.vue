@@ -15,58 +15,71 @@
               @click="getNaverBlogs">블로그 가져오기</button>
             </div>
         </div>
+        <div>
+          <b-row>
+  <b-col lg="4" class="pb-2"><b-button size="sm">Small Button</b-button></b-col>
+  <b-col lg="4" class="pb-2"><b-button>Default Button</b-button></b-col>
+  <b-col lg="4" class="pb-2"><b-button size="lg">Large Button</b-button></b-col>
+</b-row>
+        </div>
       </div>
       <div>
         <tbody>
+          <b-row>
           <tr
             v-for="blog in blogs.result"
             :key="blog.link"
           >
-            <th scope="row">{{ blog.link }}</th>
+          
+  <b-col  class="pb-2"><b-button variant="primary" @click="openwin(blog.link)">
+    {{blog.title}}</b-button></b-col>
             
           </tr>
+        </b-row>
+        </tbody>
+
+        <tbody>
+          <b-row>
+          <tr
+            v-for="newa in news.result"
+            :key="newa.link"
+          >
           
+  <b-col  class="pb-2"><b-button variant="primary" @click="openwin(newa.link)">
+    {{newa.title}}</b-button></b-col>
+            
+          </tr>
+        </b-row>
         </tbody>
       </div>
       
     </div>
   </template>
   
-  블로그데이터 불러오기 
 
   <script>
   import Constant from "@/common/Constant.js";
   import { mapActions, mapGetters } from "vuex";
   export default {
     computed: {
-      ...mapGetters(["blogs"]),
+      ...mapGetters(["blogs","news"]),
     },
     methods: {
-      ...mapActions([Constant.GET_BLOGS]),
-  
-    //   modify(articleNo) {
-    //     console.log(articleNo);
-    //     this.$router.push(`/notice/modify/${articleNo}`);
-    //   },
-    //   remove(payload) {
-    //     console.log("articleno : " + payload);
-    //     this.removeNotice(payload).then(() => {
-    //       this.$router.push("/notice");
-    //     });
-    //   },
-    //   changeForm() {
-    //     this.$router.push("/notice");
-    //     },
+      ...mapActions([Constant.GET_BLOGS,Constant.GET_NEWS]),
 
         getNaverBlogs() {
             console.log("naver blog 부르기 호출");
             this.getBlogs();
-        },
+      },
+      openwin(link) {
+        window.open(link);
+      },
         
     },
     created() {
         console.log("naver blog 자동 부르기 호출");
-            this.getBlogs();
+      this.getBlogs();
+      this.getNews();
   },
   
     
