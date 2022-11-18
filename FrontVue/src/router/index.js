@@ -91,6 +91,14 @@ const routes = [
       },
     ],
   },
+
+  {
+    path: "/search",
+    name: "search",
+    component: () => import("@/components/search/SearchBlog"),
+  },
+
+
 ];
 
 const router = new VueRouter({

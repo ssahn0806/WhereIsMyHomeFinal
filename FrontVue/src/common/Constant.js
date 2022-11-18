@@ -18,4 +18,7 @@ export default Object.freeze({
   GET_LATLNG: "getLatLng",
 
   SET_LATLNG: "setLatLng",
+
+  GET_BLOGS: "getBlogs",
+  SET_BLOGS: "setBlogs",
 });
