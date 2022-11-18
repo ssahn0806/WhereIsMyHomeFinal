@@ -23,19 +23,6 @@
             </td>
             <td>{{ notice.hit }}</td>
             <td>{{ notice.registerTime }}</td>
-            <!--
-              <c:if test="${userlevel eq 'admin'}">
-                <td>
-                  <a
-                    href="${root}/board/modifyform.do?articleNo=${notice.articleNo}&subject=${notice.subject}&content=${notice.content}"
-                    ><button>수정</button></a
-                  >
-                  <a href="${root}/board/delete.do?articleno=${notice.articleNo}"
-                    ><button>삭제</button></a
-                  >
-                </td>
-              </c:if>
-              -->
           </tr>
         </tbody>
       </table>

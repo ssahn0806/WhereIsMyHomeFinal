@@ -23,5 +23,11 @@ export default Object.freeze({
 
   SET_LEVEL: "setLevel",
 
-  SET_SIDEBAR: "setSidebar"
+  SET_SIDEBAR: "setSidebar",
+  
+  GET_BLOGS: "getBlogs",
+  SET_BLOGS: "setBlogs",
+
+  GET_NEWS: "getNews",
+  SET_NEWS: "setNews",
 });
