@@ -3,6 +3,7 @@
     <b-row>
       <b-col>
         <b-alert variant="secondary" show><h3>회원가입</h3></b-alert>
+        <b-alert variant="secondary" show><h3>여기맞음</h3></b-alert>
       </b-col>
     </b-row>
   </b-container>

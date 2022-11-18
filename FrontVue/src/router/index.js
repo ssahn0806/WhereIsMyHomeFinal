@@ -74,8 +74,8 @@ const routes = [
     component: () => import("@/views/UserView"),
     children: [
       {
-        path: "join",
-        name: "join",
+        path: "regist",
+        name: "regist",
         component: () => import("@/components/user/UserRegister"),
       },
       {
