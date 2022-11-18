@@ -6,8 +6,13 @@ const HouseStore = {
         // 검색된 거래내역 리스트
         deals: [],
         apts: {},
+        // 상세 보기를 눌렀을 때 아파트 정보
+        apt: {}
     },
     getters: {
+        apt(state) {
+            return state.apt;
+        },
         apts(state) {
             return state.apts;
         },
@@ -37,6 +42,10 @@ const HouseStore = {
                 else acc[houseInfo.aptCode] = [curr];
                 return acc;
             }, {});
+        },
+
+        [Constant.SET_APT](state, payload) {
+            state.apt = payload;
         }
       },
       actions: {
@@ -47,7 +56,9 @@ const HouseStore = {
             });
         },
         [Constant.GET_APT](context, payload) {
-            return restApi(`/api/houseinfos/name/${payload}`);
+            return restApi(`/api/houses/houseinfos/name/${payload}`).then(({ data }) => {
+                context.commit(Constant.SET_APT, data);
+            })
         },
     },
 }

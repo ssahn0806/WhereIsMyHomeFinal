@@ -7,6 +7,16 @@
 	</select>
 	
 	<resultMap type="HouseDeal" id="HouseDealWithInfo" >
+		<id column="no" property="no"></id>
+		<result column="aptCode" property="aptCode"></result>
+		<result column="dealAmount" property="dealAmount"></result>
+		<result column="dealYear" property="dealYear"></result>
+		<result column="dealMonth" property="dealMonth"></result>
+		<result column="dealDay" property="dealDay"></result>
+		<result column="area" property="area"></result>
+		<result column="floor" property="floor"></result>
+		<result column="type" property="type"></result>
+		<result column="rentMoney" property="rentMoney"></result>
 		<association property="houseInfo" resultMap="com.ssafy.house.model.dao.HouseinfoDAO.HouseinfoMap"/>
 	</resultMap>
 	

@@ -1,0 +1,23 @@
+diff --git a/node_modules/bootstrap/scss/_variables.scss b/node_modules/bootstrap/scss/_variables.scss
+index 7d8fb3b..151443a 100644
+--- a/node_modules/bootstrap/scss/_variables.scss
++++ b/node_modules/bootstrap/scss/_variables.scss
+@@ -83,7 +83,17 @@ $theme-colors: map-merge(
+     "warning":    $warning,
+     "danger":     $danger,
+     "light":      $light,
+-    "dark":       $dark
++    "dark":       $dark,
++    "blue":    $blue,
++    "indigo": $indigo,
++    "purple": $purple,
++    "pink": $pink,
++    "red": $red,
++    "orange": $orange,
++    "yellow": $yellow,
++    "green": $green,
++    "teal": $teal,
++    "cyan": $cyan
+   ),
+   $theme-colors
+ );

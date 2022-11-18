@@ -14,8 +14,14 @@ export default Object.freeze({
 
   SET_APTS: "setApts",
   GET_APTS: "getApts",
-
+  
+  SET_APT: "setApt",
+  GET_APT: "getApt",
+  
   GET_LATLNG: "getLatLng",
-
   SET_LATLNG: "setLatLng",
+
+  SET_LEVEL: "setLevel",
+
+  SET_SIDEBAR: "setSidebar"
 });

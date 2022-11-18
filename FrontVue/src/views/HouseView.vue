@@ -8,6 +8,7 @@
     <b-row>
       <b-col class="mt-4" lg="12">
         <house-map></house-map>
+        <house-side-bar></house-side-bar>
       </b-col>
     </b-row>
   </b-container>
@@ -16,12 +17,15 @@
 <script>
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseMap from "@/components/house/HouseMap.vue";
+import HouseSideBar from "@/components/house/HouseSideBar.vue";
 export default {
   components: {
     HouseSearchBar,
     HouseMap,
+    HouseSideBar,
   },
 };
 </script>
 
-<style scoped></style>
+<sty,
+    HouseSiderbarle scoped></style>

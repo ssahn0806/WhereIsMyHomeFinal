@@ -32,7 +32,7 @@
 <script>
 import restApi from "@/util/http-common";
 import Constant from "@/common/Constant";
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 export default {
   name: "HouseSearchBar",
   data() {
@@ -49,6 +49,7 @@ export default {
 
   methods: {
     ...mapActions([Constant.GET_DEALS,Constant.GET_LATLNG]),
+    ...mapMutations([Constant.SET_LEVEL]),
     sidoList() {
       this.sidoOpts.push({ value: null, text: "시도를 선택하세요." });
       this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
@@ -91,9 +92,11 @@ export default {
       if (this.dongCode) {
         this.getDeals(this.dongCode);
         this.getLatLng(this.dongCode);
+        this.setLevel(4);
       } else {
         this.getDeals(this.gugunCode.slice(0,5));
         this.getLatLng(this.gugunCode.slice(0,5));
+        this.setLevel(11);
       }
     },
   },

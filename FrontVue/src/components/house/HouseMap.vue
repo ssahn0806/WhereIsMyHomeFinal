@@ -3,27 +3,33 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import Constant from "@/common/Constant.js";
+import {mapGetters,mapActions,mapMutations} from "vuex";
 export default {
   data() {
     return {
       map: null,
       markers: [],
-      set: new Set()
     };
   },
 
   computed: {
-    ...mapGetters(["deals","LatLng","apts"]),
+    ...mapGetters(["deals","LatLng","Level","apts"]),
   },
   methods: {
+    ...mapActions(["getApt"]),
+    ...mapMutations([Constant.SET_SIDEBAR]),
     initMap() {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(this.LatLng.Lat, this.LatLng.Lng),
-        level: 7,
+        level: this.Level,
       };
       this.map = new kakao.maps.Map(container, options);
+
+      kakao.maps.event.addListener(this.map,'click',()=>{
+        this.setSidebar(false);
+      });
     },
 
     updateMarkers(){
@@ -33,15 +39,10 @@ export default {
         //   marker.setMap(this.map);
         //   this.markers.push(marker);
         // })
-        console.log(this.apts);
+        let maxLength = Object.values(this.apts).reduce((max,val)=> max> val.length ? max : val.length);
+        this.level = Math.floor(maxLength/5);
         Object.keys(this.apts).forEach((aptCode)=>{
-          const {houseInfo} = this.apts[aptCode][0];
-          let marker = new kakao.maps.CustomOverlay({
-            map : this.map,
-            position: new kakao.maps.LatLng(houseInfo.lat,houseInfo.lng),
-            content: `<div class="circle">${this.apts[aptCode].length}</div>`
-          })
-          this.markers.push(marker);
+          this.makeMarker(aptCode);
         })
         // this.apts.forEach(apt=>{
         //   let marker = new kakao.maps.Marker({position: new kakao.maps.LatLng(apt.houseInfo.lat,apt.houseInfo.lng)});
@@ -50,13 +51,43 @@ export default {
         // })
     },
 
+    makeMarker(aptCode){
+      const {houseInfo} = this.apts[aptCode][0];
+      let section = Math.floor(this.apts[aptCode].length/this.level);
+      let className = `level`+(section+1);
+      let marker = new kakao.maps.CustomOverlay({
+        map : this.map,
+        position: new kakao.maps.LatLng(houseInfo.lat,houseInfo.lng),
+        content : this.createOverlay(className,aptCode,this.apts[aptCode].length),
+        clickable: true
+      })
+      this.map.setLevel(5);
+      this.markers.push(marker);
+    },
+
+    createOverlay(className,aptCode,data){
+      let div = document.createElement("div");
+      div.classList.add('circle');
+      div.classList.add(className);
+      div.setAttribute('aptCode',aptCode);
+      let text = document.createTextNode(data);
+      div.appendChild(text);
+
+      div.addEventListener('click',()=>{
+        this.getApt(aptCode);
+      });
+
+      return div;
+    },
     removeMarkers(){
       this.setMarkers(null);
     },
 
     setMarkers(map){
       this.markers.forEach(marker=>marker.setMap(map));
-    }
+    },
+
+   
   },
 
   mounted() {
@@ -80,6 +111,9 @@ export default {
     },
     LatLng(){
       this.map.setCenter(new kakao.maps.LatLng(this.LatLng.Lat,this.LatLng.Lng));
+    },
+    Level(){
+      this.map.setLevel(this.Level);
     }
   },
 };
@@ -99,6 +133,26 @@ export default {
   font-size: 15px;
   color: #fff;
   text-align: center;
-  background-color: #55947a
+}
+
+.level1{
+  background-color: #304ffe
+
+}
+
+.level2{
+  background-color: #2e7d32
+}
+
+.level3{
+  background-color: #ffd600
+}
+
+.level4{
+  background-color: #ff9100
+}
+
+.level6{
+  background-color: #d50000
 }
 </style>

@@ -4,7 +4,9 @@ import restApi from "@/util/http-common.js";
 const MapStore = {
     state: {
         Lat: 37.498545,
-        Lng: 127.062223
+        Lng: 127.062223,
+        Level: 7,
+        ToggleSidebar: false,
     },
     getters: {
         LatLng(state) {
@@ -12,15 +14,26 @@ const MapStore = {
                 Lat : state.Lat,
                 Lng : state.Lng
             }
+        },
+        Level(state) {
+            return state.Level;
+        },
+        ToggleSidebar(state) {
+            return state.ToggleSidebar;
         }
     },
 
     mutations: {
         [Constant.SET_LATLNG](state, payload) {
-            console.log(payload);
             state.Lat = payload.lat;
             state.Lng = payload.lng;
         },
+        [Constant.SET_LEVEL](state, payload) {
+            state.Level = payload;
+        },
+        [Constant.SET_SIDEBAR](state, payload) {
+            state.ToggleSidebar = payload;
+        }
     },
 
     actions: {
