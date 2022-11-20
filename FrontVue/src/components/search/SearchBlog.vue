@@ -1,27 +1,45 @@
 <template>
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10 col-sm-12">
-        <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-          <mark class="sky">QnA 보기</mark>
-        </h2>
+       
       </div>
       <div class="col-lg-8 col-md-10 col-sm-12">
         <div class="row">
           <div class="col-md-8">
-            <button
-              type="button"
-              id="btn-list"
-              class="btn btn-outline-primary mb-3"
-              @click="getNaverBlogs">블로그 가져오기</button>
+            
             </div>
         </div>
+
         <div>
-          <b-row>
-  <b-col lg="4" class="pb-2"><b-button size="sm">Small Button</b-button></b-col>
-  <b-col lg="4" class="pb-2"><b-button>Default Button</b-button></b-col>
-  <b-col lg="4" class="pb-2"><b-button size="lg">Large Button</b-button></b-col>
-</b-row>
-        </div>
+    <b-carousel
+      id="carousel-1"
+      v-model="slide"
+      :interval="4000"
+      controls
+      indicators
+      background="#ababab"
+      img-width="1024"
+      img-height="480"
+      style="text-shadow: 1px 1px 2px #333;"
+      @sliding-start="onSlideStart"
+      @sliding-end="onSlideEnd"
+    >
+      <tr v-for="newa in news.result" :key="newa.link">
+        <b-carousel-slide 
+        
+        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
+        img-src="https://picsum.photos/1024/480/?image=52"
+      >
+      <h2 v-html="newa.title" @click="openwin(newa.link)"></h2>
+      <h6 v-html="newa.description"></h6>
+      </b-carousel-slide>
+      </tr>
+      
+    </b-carousel>
+
+  </div>
+
+
       </div>
       <div>
         <tbody>
@@ -32,25 +50,14 @@
           >
           
   <b-col  class="pb-2"><b-button variant="primary" @click="openwin(blog.link)">
-    {{blog.title}}</b-button></b-col>
+    <p v-html="blog.title"></p>
+    </b-button></b-col>
             
           </tr>
         </b-row>
         </tbody>
 
-        <tbody>
-          <b-row>
-          <tr
-            v-for="newa in news.result"
-            :key="newa.link"
-          >
-          
-  <b-col  class="pb-2"><b-button variant="primary" @click="openwin(newa.link)">
-    {{newa.title}}</b-button></b-col>
-            
-          </tr>
-        </b-row>
-        </tbody>
+        
       </div>
       
     </div>
@@ -58,9 +65,23 @@
   
 
   <script>
-  import Constant from "@/common/Constant.js";
+//`@/assets/logo.png`
+import Constant from "@/common/Constant.js";
+// import user from '@/assets/user.json'
+// import test from '@/assets/map.json'
+//import a from 'C:/Users/Byung Hyun Jeon/Desktop/WhereIsMyHomeFinal/FrontVue/src/assets/map.json'
   import { mapActions, mapGetters } from "vuex";
   export default {
+    data() {
+      return {
+        slide: 0,
+        sliding: null
+      }
+    },
+
+
+
+  
     computed: {
       ...mapGetters(["blogs","news"]),
     },
@@ -74,10 +95,14 @@
       openwin(link) {
         window.open(link);
       },
-        
+      onSlideStart() {
+        this.sliding = true
+      },
+      onSlideEnd() {
+        this.sliding = false
+      }
     },
-    created() {
-        console.log("naver blog 자동 부르기 호출");
+  created() {
       this.getBlogs();
       this.getNews();
   },

@@ -25,8 +25,49 @@ export default {
         center: new kakao.maps.LatLng(this.LatLng.Lat, this.LatLng.Lng),
         level: this.Level,
       };
+      //지도 생성
       this.map = new kakao.maps.Map(container, options);
+      
+      var polygonPath = [
+        new kakao.maps.LatLng(37.485570527805734, 127.041345846097684),
+        new kakao.maps.LatLng(37.48479724859385, 127.03396794290876),
+        new kakao.maps.LatLng(37.485099256250635, 127.033777478523902),
+        new kakao.maps.LatLng(37.48954007672873, 127.031623257520422),
+        new kakao.maps.LatLng(37.492413584680669, 127.040888375285618),
+        new kakao.maps.LatLng(37.494305112972256, 127.046692264025225),
+        new kakao.maps.LatLng(37.489869250626548, 127.049043599534428),
+        new kakao.maps.LatLng(37.489453203594884, 127.049261726321987),
+        new kakao.maps.LatLng(37.489191206011675, 127.049399041786714),
+        new kakao.maps.LatLng(37.48838037967024, 127.049823039172196),
+        new kakao.maps.LatLng(37.487716969477404, 127.048379960577932),
+        new kakao.maps.LatLng(37.487677229213425, 127.048008459737375),
+        new kakao.maps.LatLng(37.487147898183736, 127.046747534871614),
+        new kakao.maps.LatLng(37.486534992158688, 127.045393853867196),
+        new kakao.maps.LatLng(37.48648448414103, 127.045282303064624),
+        new kakao.maps.LatLng(37.486356667940882, 127.045374464330109),
+        new kakao.maps.LatLng(37.486229283697035, 127.045035110613384),
+        new kakao.maps.LatLng(37.485970400366497, 127.044225096387265),
+        new kakao.maps.LatLng(37.485954430544524,127.044174292667293 ),
+        new kakao.maps.LatLng(37.485897831890583,127.043814089922734 ),
+        new kakao.maps.LatLng( 37.485570527805734, 127.041345846097684)
+      ];
 
+      // 지도에 표시할 다각형을 생성합니다
+      var polygon = new kakao.maps.Polygon({
+          path:polygonPath, // 그려질 다각형의 좌표 배열입니다
+          strokeWeight: 3, // 선의 두께입니다
+          strokeColor: '#39DE2A', // 선의 색깔입니다
+          strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle: 'longdash', // 선의 스타일입니다
+          fillColor: '#A2FF99', // 채우기 색깔입니다
+          fillOpacity: 0.7 // 채우기 불투명도 입니다
+      });
+
+      // 지도에 다각형을 표시합니다
+      polygon.setMap(this.map);
+
+
+        
       kakao.maps.event.addListener(this.map,'click',()=>{
         this.setSidebar(false);
       });

@@ -9,7 +9,7 @@
       </b-col>
 
       <b-col class="sm-3" v-if="dongOpts.length >= 2">
-        <b-form-select v-model="dongCode" :options="dongOpts"></b-form-select>
+        <b-form-select v-model="sdong" :options="dongOpts"></b-form-select>
       </b-col>
 
       <!-- <b-col class="sm-3" v-if="!gugunCode">
@@ -32,11 +32,17 @@
 <script>
 import restApi from "@/util/http-common";
 import Constant from "@/common/Constant";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations ,mapGetters} from "vuex";
 export default {
   name: "HouseSearchBar",
+
+  computed: {
+    ...mapGetters(["ndong"]),
+  },
+
   data() {
     return {
+      sdong: {},
       ischecked: false,
       sidoCode: null,
       gugunCode: null,
@@ -49,7 +55,7 @@ export default {
 
   methods: {
     ...mapActions([Constant.GET_DEALS,Constant.GET_LATLNG]),
-    ...mapMutations([Constant.SET_LEVEL]),
+    ...mapMutations([Constant.SET_LEVEL,Constant.SET_NDONG]),
     sidoList() {
       this.sidoOpts.push({ value: null, text: "시도를 선택하세요." });
       this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
@@ -62,6 +68,7 @@ export default {
     },
 
     gugunLoad() {
+      this.sdong = {};
       this.dongCode = null;
       this.gugunCode = null;
       this.gugunOpts = [];
@@ -76,22 +83,28 @@ export default {
     },
 
     dongLoad() {
+      this.sDong = {};
       this.dongCode = null;
       this.dongOpts = [];
       this.dongOpts.push({ value: null, text: "동을 선택하세요." });
       if (this.gugunCode) {
         restApi.get(`/api/houses/dong/${this.gugunCode}`).then(({ data }) => {
           data.forEach((dong) => {
-            this.dongOpts.push({ value: dong.dongCode, text: dong.dongName });
+            this.dongOpts.push({ value: dong, text: dong.dongName });
           });
         });
       }
     },
 
     searchApts() {
-      if (this.dongCode) {
-        this.getDeals(this.dongCode);
-        this.getLatLng(this.dongCode);
+      
+      if (this.sdong.dongCode) {
+        
+        this.setNdong(this.sdong);
+        console.log("ndong :"  +this.ndong.dongName +", " + this.ndong.dongCode);
+        console.log(this.sdong.dongName);
+        this.getDeals(this.sdong.dongCode);
+        this.getLatLng(this.sdong.dongCode);
         this.setLevel(4);
       } else {
         this.getDeals(this.gugunCode.slice(0,5));

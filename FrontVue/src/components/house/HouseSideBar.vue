@@ -49,6 +49,23 @@
                     >
                     </b-pagination>
                 </div>
+                
+      
+                <div>지역 뉴스
+                    <b-button v-b-toggle.collapse-1 variant="primary" @click="getLocalNews()">∇</b-button>
+                    <b-collapse id="collapse-1" class="mt-2">
+                        <b-card>
+                        <p class="card-text">{{this.ndong.dongNmae}} 지역 뉴스</p>
+                        <tr v-for="newa in news.result" :key="newa.link">
+                       
+                            <b-card v-html="newa.title" @click="openwin(newa.link)"></b-card>
+                            <b-card v-html="newa.description" @click="openwin(newa.link)"></b-card>
+
+                       
+                        </tr>
+                        </b-card>
+                    </b-collapse>
+                </div>
             </div>
         </b-sidebar>
     </div>
@@ -57,8 +74,9 @@
 <script>
 import Constant from "@/common/Constant";
 import Chart from 'chart.js/auto';
-import {mapGetters,mapMutations} from 'vuex';
-    export default {
+import {mapGetters,mapMutations,mapActions} from 'vuex';
+export default {
+
        name: "HouseSideBar",
        data() {
         return {
@@ -102,7 +120,7 @@ import {mapGetters,mapMutations} from 'vuex';
        },
        methods: {
             ...mapMutations([Constant.SET_SIDEBAR]),
-            
+            ...mapActions([Constant.GET_NEWS]),
             initRoadView(){
                 let roadviewContainer = document.getElementById('roadview');
                 this.roadview = new kakao.maps.Roadview(roadviewContainer);
@@ -173,11 +191,18 @@ import {mapGetters,mapMutations} from 'vuex';
                 })
                 str = str.slice(0,-1);
                 return str;
-            }
+           },
+           getLocalNews() {
+               this.getNews(this.ndong.dongName);
+           },
+           openwin(link) {
+          window.open(link);
+          },
         },
         
-        computed: {
-            ...mapGetters(["ToggleSidebar","apt","apts"]),
+    computed: {
+        
+            ...mapGetters(["ToggleSidebar","apt","apts","news","ndong"]),
             rows(){
                 return this.deals.length;
             }

@@ -3,6 +3,7 @@ import restApi from "@/util/http-common.js";
 
 const HouseStore = {
     state: {
+        ndong:{},
         // 검색된 거래내역 리스트
         deals: [],
         apts: {},
@@ -10,6 +11,9 @@ const HouseStore = {
         apt: {}
     },
     getters: {
+        ndong(state) {
+            return state.ndong;
+        },
         apt(state) {
             return state.apt;
         },
@@ -21,6 +25,9 @@ const HouseStore = {
         },
     },
     mutations: {
+        [Constant.SET_NDONG](state, payload) {
+            state.ndong = payload;
+        },
         [Constant.SET_DEALS](state, payload) {
             state.deals = payload;
             

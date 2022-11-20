@@ -3,7 +3,8 @@ package com.ssafy.house.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,13 +38,13 @@ public class SearchController{
 
         String text = null;
         try {
-            text = URLEncoder.encode("고깃집", "UTF-8");
+            text = URLEncoder.encode("부동산", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text+"&display=9";    // JSON 결과
+        String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text+"&display=3";    // JSON 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
 
@@ -51,9 +52,9 @@ public class SearchController{
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseString = get(apiURL,requestHeaders);
-        System.out.println(responseString);
-        responseString = responseString.replaceAll("<b>", " ");
-        responseString = responseString.replaceAll("<\b>", " ");
+      //  System.out.println(responseString);
+      //  responseString = responseString.replaceAll("<b>", " ");
+      //  responseString = responseString.replaceAll("<\b>", " ");
        // responseString = responseString.replaceAll("<", " ");
         String match = "[^\uAC00-\uD7A30-9a-zA-Z]";
       //  responseString = responseString.replaceAll(match, ",");
@@ -73,6 +74,9 @@ public class SearchController{
         }
 	}
 	
+	
+	//@GetMapping("/{aptCode}")
+	//public ResponseEntity<?> doHouseDetail(@PathVariable int aptCode) {
 	//@GetMapping(value="/news",produces = "application/text; charset=utf8")
 	@GetMapping("/news")
 	private ResponseEntity<?> getNews(){
@@ -83,7 +87,7 @@ public class SearchController{
 
         String text = null;
         try {
-            text = URLEncoder.encode("고깃집", "UTF-8");
+            text = URLEncoder.encode("강남구", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
@@ -97,7 +101,52 @@ public class SearchController{
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseString = get(apiURL,requestHeaders);
-        System.out.println(responseString);
+     //   System.out.println(responseString);
+//        responseString = responseString.replaceAll("<b>", " ");
+//        responseString = responseString.replaceAll("b>", " ");
+//        responseString = responseString.replaceAll("<", " ");
+        String match = "[^\uAC00-\uD7A30-9a-zA-Z]";
+      //  responseString = responseString.replaceAll(match, ",");
+        
+        String[] fields = {"title", "link", "description"};
+        Map<String, Object> result = getResult(responseString, fields);
+        
+        if(result.size() > 0) System.out.println("total -> " + result.get("total"));
+        
+		List<Map<String, Object>> items = (List<Map<String, Object>>) result.get("result");
+        
+        //return responseString;
+        if(result != null) {
+        	return ResponseEntity.ok(result);
+        } else {
+        	return ResponseEntity.noContent().build();
+        }
+	}
+	
+	@GetMapping("/news/{location}")
+	private ResponseEntity<?> getNewsr(@PathVariable String location){
+	//private String getBlog(){
+		String clientId = myID;
+        String clientSecret = mySecret;
+        System.out.println("path :" + location);
+
+        String text = null;
+        try {
+            text = URLEncoder.encode(location, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("검색어 인코딩 실패",e);
+        }
+
+
+        String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text+"&display=9";    // JSON 결과
+        //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
+
+
+        Map<String, String> requestHeaders = new HashMap<>();
+        requestHeaders.put("X-Naver-Client-Id", clientId);
+        requestHeaders.put("X-Naver-Client-Secret", clientSecret);
+        String responseString = get(apiURL,requestHeaders);
+     //   System.out.println(responseString);
 //        responseString = responseString.replaceAll("<b>", " ");
 //        responseString = responseString.replaceAll("b>", " ");
 //        responseString = responseString.replaceAll("<", " ");

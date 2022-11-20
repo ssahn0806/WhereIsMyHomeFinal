@@ -30,4 +30,6 @@ export default Object.freeze({
 
   GET_NEWS: "getNews",
   SET_NEWS: "setNews",
+
+  SET_NDONG: "setNdong",
 });
