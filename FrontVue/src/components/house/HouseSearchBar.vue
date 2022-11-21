@@ -23,8 +23,19 @@
         </b-form-group>
       </b-col> -->
       <b-col class="sm-3">
-       <b-button @click="searchApts">조회</b-button>
+        <b-button @click="searchApts">조회</b-button>
       </b-col>
+      <div>경계구역 보이기</div>
+      <b-form-checkbox
+        id="checkbox-1"
+        v-model="status"
+        name="checkbox-1"
+        value="checked"
+        unchecked-value="not_checked"
+        @change="showPoly"
+      >
+      </b-form-checkbox>
+      <div>State: {{ status }}</div>
     </b-row>
   </b-container>
 </template>
@@ -32,12 +43,12 @@
 <script>
 import restApi from "@/util/http-common";
 import Constant from "@/common/Constant";
-import { mapActions, mapMutations ,mapGetters} from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 export default {
   name: "HouseSearchBar",
 
   computed: {
-    ...mapGetters(["ndong"]),
+    ...mapGetters(["ndong", "status"]),
   },
 
   data() {
@@ -54,8 +65,8 @@ export default {
   },
 
   methods: {
-    ...mapActions([Constant.GET_DEALS,Constant.GET_LATLNG]),
-    ...mapMutations([Constant.SET_LEVEL,Constant.SET_NDONG]),
+    ...mapActions([Constant.GET_DEALS, Constant.GET_LATLNG]),
+    ...mapMutations([Constant.SET_LEVEL, Constant.SET_NDONG, Constant.SET_STATUS]),
     sidoList() {
       this.sidoOpts.push({ value: null, text: "시도를 선택하세요." });
       this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
@@ -97,20 +108,22 @@ export default {
     },
 
     searchApts() {
-      
-      if (this.sdong.dongCode) {
-        
+      if (this.sdong?.dongCode) {
         this.setNdong(this.sdong);
-        console.log("ndong :"  +this.ndong.dongName +", " + this.ndong.dongCode);
+        console.log("ndong :" + this.ndong.dongName + ", " + this.ndong.dongCode);
         console.log(this.sdong.dongName);
         this.getDeals(this.sdong.dongCode);
         this.getLatLng(this.sdong.dongCode);
         this.setLevel(4);
       } else {
-        this.getDeals(this.gugunCode.slice(0,5));
-        this.getLatLng(this.gugunCode.slice(0,5));
+        this.getDeals(this.gugunCode.slice(0, 5));
+        this.getLatLng(this.gugunCode.slice(0, 5));
         this.setLevel(11);
       }
+    },
+    showPoly(status) {
+      console.log("showpoly");
+      this.setStatus(status);
     },
   },
 
