@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     ...mapActions(["getApt"]),
-    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL]),
+    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG]),
     createPolygons() {
       var data = short.features;
       var coordinates = []; //좌표 저장 배열
@@ -180,7 +180,7 @@ export default {
         content : this.createOverlay(className,aptCode,this.apts[aptCode].length,info),
         clickable: true
       })
-      this.map.setLevel(5);
+      this.map.setLevel(6);
       this.markers.push(marker);
     },
 
@@ -230,9 +230,12 @@ export default {
 
     },
     removeMarkers(){
+      this.hideMarkers();
+      this.markers = [];
+    },
+    hideMarkers(){
       this.setMarkers(null);
     },
-
     showMarkers(){
       this.setMarkers(this.map);
     },
@@ -282,8 +285,9 @@ export default {
     },
 
     apt(){
-      this.removeMarkers();
+      this.hideMarkers();
       this.makeMarker(this.apt.aptCode);
+      this.setLatLng({lat:this.apt.lat,lng:this.apt.lng});
     },
 
     status() {
