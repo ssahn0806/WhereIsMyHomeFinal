@@ -6,13 +6,15 @@
 import Constant from "@/common/Constant.js";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 //import geo from "@/assets/ab.json";
-import short from "@/assets/seoul_gu.json";
+import geo from "@/assets/seoul_gu.json";
 export default {
   data() {
     return {
       map: null,
       markers: [],
       polygons: [],
+      guName: [],
+      guCode: [],
     };
   },
 
@@ -20,16 +22,18 @@ export default {
     ...mapGetters(["deals", "LatLng", "Level", "apts", "status","apt","ToggleSidebar"]),
   },
   methods: {
-    ...mapActions(["getApt"]),
-    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_NDONG]),
+
+    ...mapActions(["getApt",Constant.GET_DEALS,Constant.GET_DEALS_NAME]),
+    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_DEALS,Constant.SET_NDONG]),
+
     createPolygons() {
-      var data = short.features;
+      var data = geo.features;
       var coordinates = []; //좌표 저장 배열
-      var name = ""; //행정구 이름
+    
 
       var customOverlay = new kakao.maps.CustomOverlay({});
-      var infowindow = new kakao.maps.InfoWindow({ removable: true });
-      const displayArea = (coordinates) => {
+      //var infowindow = new kakao.maps.InfoWindow({ removable: true });
+      const displayArea = (coordinates,name,code) => {
         var path = [];
         var points = [];
         //let areaResult = pollution.filter((item) => item[0] === name); //없어도 됨
@@ -61,11 +65,21 @@ export default {
           polygon.setOptions({
             fillColor: "#09f",
           });
+          // console.log("mouseover :" + name);
+          // customOverlay.setContent('<div class="area">' + name + '</div>');
+          // customOverlay.setPosition(mouseEvent.latLng);
+          // customOverlay.setMap(this.map);
 
-          customOverlay.setContent('<div class="area">' + name + "</div>");
-
-          customOverlay.setPosition(mouseEvent.latLng);
-          customOverlay.setMap(this.map);
+          // const content = '<div style="padding:2px;"><p><b>' + name + '</div>';
+          // console.log("위에들어옴");
+          // console.log("status :" + this.status);
+          // infowindow.setContent(content);
+          // infowindow.setPosition(mouseEvent.latLng);
+          // infowindow.setMap(this.map);
+          customOverlay.setContent('<div class="area">' + name + '</div>');
+        
+        customOverlay.setPosition(mouseEvent.latLng); 
+        customOverlay.setMap(this.map);
         });
 
         // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
@@ -81,14 +95,9 @@ export default {
         });
 
         // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
-        kakao.maps.event.addListener(polygon, "click", function (mouseEvent) {
-          const content = '<div style="padding:2px;"><p><b>' + name;
-
-          console.log("status :" + this.status);
-          infowindow.setContent(content);
-          infowindow.setPosition(mouseEvent.latLng);
-          infowindow.setMap(this.map);
-        });
+        // kakao.maps.event.addListener(polygon, "click", function (mouseEvent) {
+          
+        // });
 
         function centroid(points) {
           var i, j, len, p1, p2, f, area, x, y;
@@ -107,8 +116,19 @@ export default {
           return new kakao.maps.LatLng(x / area, y / area);
         }
         kakao.maps.event.addListener(polygon, "click", () => {
+      //     var content = '<div class="info">' + 
+      //               '   <div class="title">' + name + '</div>' +
+      //               '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
+      //               '</div>';
+
+      //   infowindow.setContent(content); 
+      //  // infowindow.setPosition(mouseEvent.latLng); 
+      //   infowindow.setMap(this.map);
+
+
           // 현재 지도 레벨에서 2레벨 확대한 레벨
-          var level = 8;
+          console.log("밑에 들어옴");
+          var level = this.map.getLevel()-2;
 
           // 지도를 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다
           this.map.setLevel(level, {
@@ -118,6 +138,7 @@ export default {
             },
           });
           this.setStatus("not_checked");
+          this.getDeals(code.slice(0,5));
           //this.removePolygons(this.polygons);
           //deletePolygon(polygons);                    //폴리곤 제거
         });
@@ -125,9 +146,12 @@ export default {
 
       data.forEach((val) => {
         coordinates = val.geometry.coordinates;
-        name = val.properties.sggnm;
-
-        displayArea(coordinates);
+        var name = val.properties.name;
+        var code = val.properties.code;
+        this.guName.push(name);
+        this.guCode.push(code);
+        console.log(name, code);
+        displayArea(coordinates,name,code);
       });
     },
     initMap() {
@@ -298,6 +322,7 @@ export default {
       console.log("status changed", this.status);
       if (this.status == "checked") {
         this.setPolygons(this.map);
+        this.removeMarkers();
       } else {
         this.removePolygons();
       }
