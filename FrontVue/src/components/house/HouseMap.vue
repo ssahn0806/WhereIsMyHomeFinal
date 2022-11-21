@@ -24,7 +24,7 @@ export default {
   methods: {
 
     ...mapActions(["getApt",Constant.GET_DEALS,Constant.GET_DEALS_NAME]),
-    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_DEALS,Constant.SET_NDONG]),
+    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_DEALS,Constant.SET_NDONG,Constant.SET_LEVEL]),
 
     createPolygons() {
       var data = geo.features;
@@ -167,6 +167,9 @@ export default {
       kakao.maps.event.addListener(this.map, "click", () => {
         this.setSidebar(false);
       });
+      kakao.maps.event.addListener(this.map,"zoom_changed",()=>{
+        this.setLevel(this.map.getLevel());
+      })
     },
 
     updateMarkers() {
@@ -321,6 +324,8 @@ export default {
     status() {
       console.log("status changed", this.status);
       if (this.status == "checked") {
+        this.setLatLng({lat:37.5642,lng:127.0016});
+        this.setLevel(9);
         this.setPolygons(this.map);
         this.removeMarkers();
       } else {
