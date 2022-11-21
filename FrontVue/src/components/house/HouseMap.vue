@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     ...mapActions(["getApt"]),
-    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG]),
+    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_NDONG]),
     createPolygons() {
       var data = short.features;
       var coordinates = []; //좌표 저장 배열
@@ -285,9 +285,13 @@ export default {
     },
 
     apt(){
-      this.hideMarkers();
+      if(this.deals.length==0)
+        this.removeMarkers();
+      else
+        this.hideMarkers();
       this.makeMarker(this.apt.aptCode);
       this.setLatLng({lat:this.apt.lat,lng:this.apt.lng});
+      this.setNdong({dongName:this.apt.dongName,dongCode:this.apt.dongCode});
     },
 
     status() {

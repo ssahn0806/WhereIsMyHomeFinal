@@ -5,67 +5,85 @@
                 <b-overlay :show="loaded" rounded="sm" bg-color="dark" opacity="0.8">
                     <div id="roadview"></div>
                 </b-overlay>
-                <br/>
                 <b-card 
                     bg-variant="dark"
                     text-variant="light"
                     :title="apt.aptName"
+                    class="mt-1"
                 >
-                    <b-card-body>
-                        <b-card-text class="text-left">상세 주소 : <b-badge variant="light">{{apt.dongName}} {{apt.jibun}}</b-badge></b-card-text>
-                        <b-card-text class="text-left">건축 년도 : <b-badge variant="secondary">{{apt.buildYear}}</b-badge></b-card-text>
-                        <b-card-text class="text-left">보유 평형 :
-                            <b-badge pill :variant="color[index%color.length]" v-for="(area,index) in areas" :key="area">
-                                {{area}}
-                            </b-badge>
-                        </b-card-text>
-                    </b-card-body>
                 </b-card>
-                <br/>
-                <div id="canvas">
+                <b-card bg-variant="dark" class="mt-2">
+                    <b-card-text class="text-left text-white">상세 주소 : <b-badge variant="light" pill>{{apt.dongName}} {{apt.jibun}}</b-badge></b-card-text>
+                    <b-card-text class="text-left text-white">건축 년도 : <b-badge variant="light" pill>{{apt.buildYear}}</b-badge></b-card-text>
+                    <b-card-text class="text-left text-white">보유 평형 :
+                        <b-badge pill :variant="color[index%color.length]" v-for="(area,index) in areas" :key="area">
+                            {{area}}
+                        </b-badge>
+                    </b-card-text>
+                </b-card>
+                <div id="canvas" class="mt-2">
                     <canvas id="chart"></canvas>
                 </div>
-                <div>
-                    <b-table 
-                        id="deal-table"
-                        striped 
-                        hover 
-                        :items="deals" 
-                        :fields="fields"
-                        :per-page="perPage"
-                        :current-page="currentPage">
-                        <template #cell(area)="data">
-                            {{Math.floor(data.item.area/3.3)}}
-                        </template>
-                    </b-table>
-
-                    <b-pagination
-                        id="pagination"
-                        v-model="currentPage"
-                        :total-rows="rows"
-                        :per-page="perPage"
-                        aria-controls="deal-table"
-                        pills
-                    >
-                    </b-pagination>
+                <div class="mt-3">
+                    <b-tabs fill v-model="tabIdx">
+                        <b-tab title="거래내역">
+                            <template>
+                                <b-table 
+                                    id="deal-table"
+                                    striped 
+                                    hover 
+                                    :items="deals" 
+                                    :fields="fields"
+                                    :per-page="perPage"
+                                    :current-page="currentPage">
+                                    <template #cell(area)="data">
+                                        {{Math.floor(data.item.area/3.3)}}
+                                    </template>
+                                </b-table>
+                                <b-pagination
+                                    class="pagination"
+                                    v-model="currentPage"
+                                    :total-rows="rows"
+                                    :per-page="perPage"
+                                    aria-controls="deal-table"
+                                    pills
+                                >
+                                </b-pagination>
+                            </template>
+                        </b-tab>
+                        <b-tab :title="`${this.ndong.dongName} 소식`">          
+                            <template >
+                                <div id="news">
+                                    <b-card v-for="article in articles" :key="article.link">
+                                        <b-card-sub-title v-html="article.title" @click="openwin(article.link)"></b-card-sub-title>
+                                        <!-- <b-card v-html="article.description" @click="openwin(newa.link)"></b-card> -->
+                                    </b-card>
+                                </div>
+                                <b-pagination
+                                    class="pagination"
+                                    v-model="currentIdx"
+                                    :total-rows="this.news.length"
+                                    :per-page="newsPerPage"
+                                    aria-controls="news"
+                                    pills
+                                >
+                                </b-pagination>
+                            </template>
+                        </b-tab>
+                    </b-tabs>
                 </div>
                 
-      
-                <div>지역 뉴스
-                    <b-button v-b-toggle.collapse-1 variant="primary" @click="getLocalNews()">∇</b-button>
-                    <b-collapse id="collapse-1" class="mt-2">
-                        <b-card>
-                        <p class="card-text">{{this.ndong.dongNmae}} 지역 뉴스</p>
-                        <tr v-for="newa in news.result" :key="newa.link">
-                       
-                            <b-card v-html="newa.title" @click="openwin(newa.link)"></b-card>
-                            <b-card v-html="newa.description" @click="openwin(newa.link)"></b-card>
+                <!-- <div id="itemList">
+                <house-item v-for="deal in itemForList" :key="deal.aptCode" :info="deal" :service="geocoder"></house-item>
+            </div>
+            <b-pagination
+                :total-rows="deals.length"
+                v-model="currentPage"
+                :per-page="perPage"
+                align="center"
+                aria-controls="itemList"
+            /> -->
 
-                       
-                        </tr>
-                        </b-card>
-                    </b-collapse>
-                </div>
             </div>
         </b-sidebar>
     </div>
@@ -115,7 +133,10 @@ export default {
                 }
             ],
             perPage : 10,
-            currentPage: 1
+            currentPage: 1,
+            currentIdx: 1,
+            newsPerPage : 3,
+            tabIdx: 0,
         }
        },
        methods: {
@@ -198,15 +219,17 @@ export default {
                this.getNews(this.ndong.dongName);
            },
            openwin(link) {
-          window.open(link);
-          },
+                window.open(link);
+           },
         },
         
-    computed: {
-        
+    computed: {  
             ...mapGetters(["ToggleSidebar","apt","apts","news","ndong"]),
             rows(){
                 return this.deals.length;
+            },
+            articles(){
+                return this.news.slice((this.currentIdx-1)*this.newsPerPage,this.currentIdx*this.newsPerPage);
             }
         },
 
@@ -229,6 +252,9 @@ export default {
             this.updateRoadView();
             this.sortData();
             this.drawChart();
+            this.getLocalNews();
+            this.tabIdx = 0;
+            this.currnetIdx = 1;
         }
        },
     }
@@ -246,7 +272,8 @@ export default {
     /* width: 100%; */
 }
 
-#pagination{
+.pagination{
+    margin-top: 3px;
     display: flex;
     justify-content: center;
 }

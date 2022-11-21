@@ -15,7 +15,6 @@
 
         <b-col class="sm-3" v-if="dongOpts.length >= 1">
           <b-form-select v-model="dongCode" :options="dongOpts"></b-form-select>
-          <!-- <b-form-select v-model="sdong" :options="dongOpts"></b-form-select> -->
 
         </b-col>
         <b-col class="sm-3">
@@ -64,7 +63,6 @@ export default {
     return {
       selectedText : "검색 조건을 선택하세요",
       selectedOpt : 0,
-      sdong: null,
       ischecked: false,
       sidoCode: null,
       gugunCode: null,
@@ -97,7 +95,6 @@ export default {
     },
 
     gugunLoad() {
-      this.sdong = null;
       this.dongCode = null;
       this.gugunCode = null;
       this.gugunOpts = [];
@@ -113,7 +110,6 @@ export default {
     },
 
     dongLoad() {
-      this.sDong = null;
       this.dongCode = null;
       this.dongOpts = [];
       this.dongOpts.push({ value: null, text: "동을 선택하세요." });
@@ -127,13 +123,6 @@ export default {
     },
 
     searchAptByCode() {
-      // if (this.sdong?.dongCode) {
-      //   this.setNdong(this.sdong);
-      //   console.log("ndong :" + this.ndong.dongName + ", " + this.ndong.dongCode);
-      //   console.log(this.sdong.dongName);
-      //   this.getDeals(this.sdong.dongCode);
-      //   this.getLatLng(this.sdong.dongCode);
-      //   this.setLevel(4);
       if(this.dongCode){
         this.getDeals(this.dongCode);
         this.getLatLng(this.dongCode);
