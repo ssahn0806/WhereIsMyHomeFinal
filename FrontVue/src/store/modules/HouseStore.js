@@ -5,6 +5,7 @@ const HouseStore = {
     state: {
         // 검색된 거래내역 리스트
         deals: [],
+        dealsname: {},
         apts: {},
         // 상세 보기를 눌렀을 때 아파트 정보
         apt: {}
@@ -17,13 +18,24 @@ const HouseStore = {
             return state.apts;
         },
         deals(state) {
-          return state.deals;
+            return state.deals;
         },
+        dealsname(state) {
+            return state.dealsname;
+        }
     },
     mutations: {
         [Constant.SET_DEALS](state, payload) {
-            state.deals = payload;
-            
+            state.deals = payload;       
+        },
+        [Constant.SET_DEALS_NAME](state, payload) {
+            state.dealsname = payload.reduce((acc, curr) => {
+                const { houseInfo } = curr;
+                if (acc[houseInfo.aptCode]) acc[houseInfo.aptCode].push(curr);
+                else acc[houseInfo.aptCode] = [curr];
+                return acc;
+            }, {});
+        
         },
         [Constant.SET_APTS](state, payload) {
             //중복 제거하기
@@ -54,6 +66,12 @@ const HouseStore = {
                 context.commit(Constant.SET_DEALS, data);
                 context.commit(Constant.SET_APTS, data);
             });
+          },
+        [Constant.GET_DEALS_NAME](context, payload) {
+            return restApi(`/api/houses/housedeals/name/${payload}`).then(({ data }) => {
+                context.commit(Constant.SET_DEALS_NAME, data);
+                context.commit(Constant.SET_MODAL, true);
+            })
         },
         [Constant.GET_APT](context, payload) {
             return restApi(`/api/houses/houseinfos/name/${payload}`).then(({ data }) => {

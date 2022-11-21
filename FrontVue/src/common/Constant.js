@@ -12,6 +12,9 @@ export default Object.freeze({
   GET_DEALS: "getDeals",
   SET_DEALS: "setDeals",
 
+  GET_DEALS_NAME: "getDealsName",
+  SET_DEALS_NAME: "setDealsName",
+
   SET_APTS: "setApts",
   GET_APTS: "getApts",
   
@@ -24,6 +27,7 @@ export default Object.freeze({
   SET_LEVEL: "setLevel",
 
   SET_SIDEBAR: "setSidebar",
+  SET_MODAL: "setModal",
   
   GET_BLOGS: "getBlogs",
   SET_BLOGS: "setBlogs",

@@ -28,8 +28,9 @@
 		where hi.dongCode LIKE concat(#{dongCode},'%')
 	</select>
 	
-	<select id="selectHouseDealsByAptName" parameterType="string" resultType="HouseDeal">
-		select hd.no,hd.aptCode,hd.dealAmount,hd.dealYear,hd.dealMonth,hd.dealDay,hd.area,hd.floor,hd.type,hd.rentMoney
+	<select id="selectHouseDealsByAptName" parameterType="string" resultMap="HouseDealWithInfo">
+		select hd.no,hd.aptCode,hd.dealAmount,hd.dealYear,hd.dealMonth,hd.dealDay,hd.area,hd.floor,hd.type,hd.rentMoney,
+		hi.aptCode,hi.aptName,hi.dongCode,hi.dongName,hi.buildYear,hi.jibun,hi.lat,hi.lng
 		from housedeal hd join houseinfo hi
 		on hd.aptCode = hi.aptCode
 		where hi.aptName LIKE concat('%',#{aptName},'%')

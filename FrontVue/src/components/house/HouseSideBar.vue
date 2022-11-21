@@ -138,10 +138,12 @@ import {mapGetters,mapMutations} from 'vuex';
                             data : this.deals.map(deal=>parseInt(deal.dealAmount.trim().replace(/,/g,''))),
                             fill : false,
                             borderColor : '#e63946',
-                            tension : 0.01
+                            tension : 0.05
                         }]
                     },
-                    
+                    options:{
+                        maintainAspectRatio: false,
+                    }
                 })
             },
 
@@ -157,7 +159,7 @@ import {mapGetters,mapMutations} from 'vuex';
                     if(a.dealDay<b.dealDay) return -1;
                     return 0;
                 });
-
+                
                 this.areas = Object.keys(this.deals.reduce((acc, curr) => {
                     const { area } = curr;
                     if (acc[Math.floor(area/3.31)]) acc[Math.floor(area/3.31)].push(curr);
@@ -186,7 +188,7 @@ import {mapGetters,mapMutations} from 'vuex';
         mounted() {
             if (!window.kakao || !window.kakao.maps) {
             const script = document.createElement("script");
-            script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_MAP_KEY}`;
+            script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services`;
             /* global kakao */
             script.addEventListener("load", () => {
                 kakao.maps.load(this.initRoadView);
@@ -215,7 +217,8 @@ import {mapGetters,mapMutations} from 'vuex';
 
 #canvas{
     background-color: rgba(0.9,0.9,0.9,0.1);
-    border-radius: 15px;
+    height: 250px;
+    /* width: 100%; */
 }
 
 #pagination{

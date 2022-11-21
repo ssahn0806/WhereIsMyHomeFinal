@@ -7,6 +7,7 @@ const MapStore = {
         Lng: 127.062223,
         Level: 7,
         ToggleSidebar: false,
+        ToggleModal: false,
     },
     getters: {
         LatLng(state) {
@@ -20,6 +21,9 @@ const MapStore = {
         },
         ToggleSidebar(state) {
             return state.ToggleSidebar;
+        },
+        ToggleModal(state) {
+            return state.ToggleModal;
         }
     },
 
@@ -33,6 +37,9 @@ const MapStore = {
         },
         [Constant.SET_SIDEBAR](state, payload) {
             state.ToggleSidebar = payload;
+        },
+        [Constant.SET_MODAL](state, payload) {
+            state.ToggleModal = payload;
         }
     },
 

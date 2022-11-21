@@ -3,7 +3,7 @@
     <b-row>
       <b-col>
         <router-link to="/">
-          <b-img fluid :src="require(`@/assets/logo.png`)" width="250px" />
+          <b-img fluid :src="require(`@/assets/logo.png`)" width="200px" />
         </router-link>
       </b-col>
       <b-col>

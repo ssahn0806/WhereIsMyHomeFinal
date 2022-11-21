@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="pt-4 bg-dark">
+  <b-container fluid class="bg-dark">
     <b-nav tabs fill justified>
       <b-nav-item href="/search">이용방법</b-nav-item>
       <b-nav-item href="/notice">공지사항</b-nav-item>
@@ -14,4 +14,10 @@
 export default {};
 </script>
 
-<style scoped></style>
+<style scoped>
+.nav-item.nav-item.nav-item a {
+  color: white;
+  font-size: 15pt;
+  font-weight: 600;
+}
+</style>
