@@ -15,19 +15,36 @@
 
         <b-col class="sm-3" v-if="dongOpts.length >= 1">
           <b-form-select v-model="dongCode" :options="dongOpts"></b-form-select>
+          <!-- <b-form-select v-model="sdong" :options="dongOpts"></b-form-select> -->
+
         </b-col>
         <b-col class="sm-3">
         <b-button @click="searchAptByCode">조회</b-button>
         </b-col>
-      </template>
+        <b-col class="text-center">
+          서울 구 표시
+        </b-col>
+          <b-form-checkbox
+            id="checkbox-1"
+            v-model="status"
+            name="checkbox-1"
+            value="checked"
+            unchecked-value="not_checked"
+            @change="showPoly"
+          >
+          </b-form-checkbox>
+          <!-- <b-col>State: {{ status }}</b-col> -->
+    </template>
       <template v-else-if="selectedOpt == 2">
         <b-col class="sm-3">
-              <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요"></b-form-input>             
+          <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요"></b-form-input>             
         </b-col>
         <b-col class="sm-3">
           <b-button @click="searchAptByName">조회</b-button>
         </b-col>
       </template>
+
+
     </b-row>
   </b-container>
 </template>
@@ -35,13 +52,20 @@
 <script>
 import restApi from "@/util/http-common";
 import Constant from "@/common/Constant";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 export default {
   name: "HouseSearchBar",
+
+  computed: {
+    ...mapGetters(["ndong", "status"]),
+  },
+
   data() {
     return {
       selectedText : "검색 조건을 선택하세요",
       selectedOpt : 0,
+      sdong: null,
+      ischecked: false,
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
@@ -54,12 +78,14 @@ export default {
 
   methods: {
     ...mapActions([Constant.GET_DEALS,Constant.GET_DEALS_NAME,Constant.GET_LATLNG]),
-    ...mapMutations([Constant.SET_LEVEL,Constant.SET_DEALS,Constant.SET_MODAL]),
+    ...mapMutations([Constant.SET_LEVEL,Constant.SET_DEALS,Constant.SET_MODAL,Constant.SET_NDONG,Constant.SET_STATUS,Constant.SET_LATLNG]),
     sidoList() {
       this.sidoCode = null;
       this.gugunCode = null;
+      this.dongCode = null;
       this.sidoOpts = [];
       this.gugunOpts = [];
+      this.dongOpts = [];
       this.sidoOpts.push({ value: null, text: "시도를 선택하세요." });
       this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
 
@@ -71,9 +97,11 @@ export default {
     },
 
     gugunLoad() {
+      this.sdong = null;
       this.dongCode = null;
       this.gugunCode = null;
       this.gugunOpts = [];
+      this.dongOpts = [];
       this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
       if (this.sidoCode) {
         restApi.get(`/api/houses/gugun/${this.sidoCode}`).then(({ data }) => {
@@ -85,6 +113,7 @@ export default {
     },
 
     dongLoad() {
+      this.sDong = null;
       this.dongCode = null;
       this.dongOpts = [];
       this.dongOpts.push({ value: null, text: "동을 선택하세요." });
@@ -98,7 +127,14 @@ export default {
     },
 
     searchAptByCode() {
-      if (this.dongCode) {
+      // if (this.sdong?.dongCode) {
+      //   this.setNdong(this.sdong);
+      //   console.log("ndong :" + this.ndong.dongName + ", " + this.ndong.dongCode);
+      //   console.log(this.sdong.dongName);
+      //   this.getDeals(this.sdong.dongCode);
+      //   this.getLatLng(this.sdong.dongCode);
+      //   this.setLevel(4);
+      if(this.dongCode){
         this.getDeals(this.dongCode);
         this.getLatLng(this.dongCode);
         this.setLevel(4);
@@ -109,8 +145,8 @@ export default {
       } else {
         alert('조회할 동네를 선택하세요');
       }
-    },
-
+    }
+    ,
     searchAptByName(){
       if(this.searchName!=""){
         this.getDealsName(this.searchName);
@@ -131,9 +167,16 @@ export default {
           this.selectedText = "아파트명으로 검색";
           break;
       }
-      // this.selectedText = OptNo==1 ? "법정동으로 검색" : "아파트명으로 검색";
       this.setDeals([]);
-    }
+    },
+    showPoly(status) {
+      console.log("showpoly",status);
+      if(status=="checked"){
+        this.setLevel(9);
+        this.setLatLng({lat:37.5642,lng:127.0016});
+      }
+      this.setStatus(status);
+    },
   },
 
   created() {

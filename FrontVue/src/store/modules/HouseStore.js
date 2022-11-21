@@ -3,14 +3,22 @@ import restApi from "@/util/http-common.js";
 
 const HouseStore = {
     state: {
+        ndong: {},
         // 검색된 거래내역 리스트
         deals: [],
         dealsname: {},
         apts: {},
         // 상세 보기를 눌렀을 때 아파트 정보
-        apt: {}
+        apt: {},
+        status: "not_checked",
     },
     getters: {
+        status(state) {
+            return state.status;
+        },
+        ndong(state) {
+            return state.ndong;
+        },
         apt(state) {
             return state.apt;
         },
@@ -25,6 +33,12 @@ const HouseStore = {
         }
     },
     mutations: {
+        [Constant.SET_STATUS](state, payload) {
+            state.status = payload;
+        },
+        [Constant.SET_NDONG](state, payload) {
+            state.ndong = payload;
+        },
         [Constant.SET_DEALS](state, payload) {
             state.deals = payload;       
         },
@@ -78,7 +92,10 @@ const HouseStore = {
                 context.commit(Constant.SET_APT, data);
             })
         },
-    },
-}
+
+
+  },
+
+};
 
 export default HouseStore;
