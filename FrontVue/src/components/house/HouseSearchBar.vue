@@ -141,7 +141,7 @@ export default {
       } else if(this.gugunCode){
         this.getDeals(this.gugunCode.slice(0,5));
         this.getLatLng(this.gugunCode.slice(0,5));
-        this.setLevel(11);
+        this.setLevel(9);
       } else {
         alert('조회할 동네를 선택하세요');
       }

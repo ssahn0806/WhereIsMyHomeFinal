@@ -17,11 +17,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["deals", "LatLng", "Level", "apts", "status","apt"]),
+    ...mapGetters(["deals", "LatLng", "Level", "apts", "status","apt","ToggleSidebar"]),
   },
   methods: {
     ...mapActions(["getApt"]),
-    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS]),
+    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL]),
     createPolygons() {
       var data = short.features;
       var coordinates = []; //좌표 저장 배열
@@ -131,10 +131,10 @@ export default {
       });
     },
     initMap() {
-      var container = document.getElementById("map");
-      var options = {
+      const container = document.getElementById("map");
+      const options = {
         center: new kakao.maps.LatLng(this.LatLng.Lat, this.LatLng.Lng),
-        level: this.Level,
+        level: 7,
       };
       //지도 생성
       this.map = new kakao.maps.Map(container, options);
@@ -169,7 +169,9 @@ export default {
     makeMarker(aptCode){
       const {houseInfo} = this.apts[aptCode][0];
       let section = Math.floor(this.apts[aptCode].length/this.level);
-      if(isNaN(section)) section= 1;
+      if(isNaN(section)) {
+        section= 1;
+      }
       let className = `level`+(section+1);
       let info = this.createToast(houseInfo);
       let marker = new kakao.maps.CustomOverlay({
@@ -193,6 +195,7 @@ export default {
 
       div.addEventListener("click", () => {
         this.getApt(aptCode);
+        info.setMap(null);
       })
       div.addEventListener('mouseover',()=>{
         info.setMap(this.map);
@@ -228,6 +231,10 @@ export default {
     },
     removeMarkers(){
       this.setMarkers(null);
+    },
+
+    showMarkers(){
+      this.setMarkers(this.map);
     },
 
     setMarkers(map) {
@@ -275,6 +282,7 @@ export default {
     },
 
     apt(){
+      this.removeMarkers();
       this.makeMarker(this.apt.aptCode);
     },
 
@@ -286,7 +294,11 @@ export default {
         this.removePolygons();
       }
     },
-
+    ToggleSidebar(flag){
+      if(!flag){
+        this.showMarkers(this.map);
+      }
+    }
   },
 };
 </script>

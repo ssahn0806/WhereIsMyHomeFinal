@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal id="dealsModal" :visible="ToggleModal" title="검색된 아파트 목록" @cancel="setModal(false)" @ok="setModal(false)">
+        <b-modal id="dealsModal" :visible="ToggleModal" title="검색된 아파트 목록" @cancel="setModal(false)" @ok="setModal(false)" @hide="setModal(false)">
             <div id="itemList">
                 <house-item v-for="deal in itemForList" :key="deal.aptCode" :info="deal" :service="geocoder"></house-item>
             </div>
