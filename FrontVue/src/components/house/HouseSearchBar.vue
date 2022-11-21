@@ -76,7 +76,7 @@ export default {
 
   methods: {
     ...mapActions([Constant.GET_DEALS,Constant.GET_DEALS_NAME,Constant.GET_LATLNG]),
-    ...mapMutations([Constant.SET_LEVEL,Constant.SET_DEALS,Constant.SET_MODAL,Constant.SET_NDONG,Constant.SET_STATUS,Constant.SET_LATLNG]),
+    ...mapMutations([Constant.SET_LEVEL,Constant.SET_DEALS,Constant.SET_MODAL,Constant.SET_NDONG,Constant.SET_STATUS,Constant.SET_LATLNG,Constant.SET_STATUS]),
     sidoList() {
       this.sidoCode = null;
       this.gugunCode = null;
@@ -157,6 +157,7 @@ export default {
           break;
       }
       this.setDeals([]);
+      this.setStatus("not_checked");
     },
     showPoly(status) {
       console.log("showpoly",status);
