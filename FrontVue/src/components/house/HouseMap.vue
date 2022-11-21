@@ -22,8 +22,8 @@ export default {
     ...mapGetters(["deals", "LatLng", "Level", "apts", "status","apt","ToggleSidebar"]),
   },
   methods: {
-    ...mapActions(["getApt"]),
-    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG]),
+    ...mapActions(["getApt",Constant.GET_DEALS,Constant.GET_DEALS_NAME]),
+    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_DEALS]),
 
     
     createPolygons() {
@@ -32,8 +32,8 @@ export default {
     
 
       var customOverlay = new kakao.maps.CustomOverlay({});
-      var infowindow = new kakao.maps.InfoWindow({ removable: true });
-      const displayArea = (coordinates,name) => {
+      //var infowindow = new kakao.maps.InfoWindow({ removable: true });
+      const displayArea = (coordinates,name,code) => {
         var path = [];
         var points = [];
         //let areaResult = pollution.filter((item) => item[0] === name); //없어도 됨
@@ -116,14 +116,14 @@ export default {
           return new kakao.maps.LatLng(x / area, y / area);
         }
         kakao.maps.event.addListener(polygon, "click", () => {
-          var content = '<div class="info">' + 
-                    '   <div class="title">' + name + '</div>' +
-                    '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
-                    '</div>';
+      //     var content = '<div class="info">' + 
+      //               '   <div class="title">' + name + '</div>' +
+      //               '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
+      //               '</div>';
 
-        infowindow.setContent(content); 
-        infowindow.setPosition(mouseEvent.latLng); 
-        infowindow.setMap(this.map);
+      //   infowindow.setContent(content); 
+      //  // infowindow.setPosition(mouseEvent.latLng); 
+      //   infowindow.setMap(this.map);
 
 
           // 현재 지도 레벨에서 2레벨 확대한 레벨
@@ -138,6 +138,7 @@ export default {
             },
           });
           this.setStatus("not_checked");
+          this.getDeals(code.slice(0,5));
           //this.removePolygons(this.polygons);
           //deletePolygon(polygons);                    //폴리곤 제거
         });
@@ -150,7 +151,7 @@ export default {
         this.guName.push(name);
         this.guCode.push(code);
         console.log(name, code);
-        displayArea(coordinates,name);
+        displayArea(coordinates,name,code);
       });
     },
     initMap() {
