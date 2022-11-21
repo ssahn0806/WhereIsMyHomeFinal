@@ -108,7 +108,7 @@ export default {
         }
         kakao.maps.event.addListener(polygon, "click", () => {
           // 현재 지도 레벨에서 2레벨 확대한 레벨
-          var level = this.map.getLevel() - 2;
+          var level = 8;
 
           // 지도를 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다
           this.map.setLevel(level, {
