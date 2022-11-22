@@ -43,8 +43,8 @@
           </b-container>
           <hr class="my-4" />
 
-          <b-button variant="primary" href="#" class="mr-1">정보수정</b-button>
-          <b-button variant="danger" @click="remove(userInfo.username)">회원탈퇴</b-button>
+          <b-button variant="primary" @click="modify()" class="mr-1">정보수정</b-button>
+          <b-button variant="danger" @click="remove(userInfo.userid)">회원탈퇴</b-button>
         </b-jumbotron>
       </b-col>
       <b-col></b-col>
@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import restApi from "@/util/http-common.js";
+import { mapState,mapActions} from "vuex";
+import Constant from "@/common/Constant.js";
 const memberStore = "memberStore";
 
 export default {
@@ -64,11 +64,18 @@ export default {
     ...mapState(memberStore, ["userInfo"]),
   },
   methods: {
-    ...mapActions(memberStore),
-    remove(context, payload) {
-      restApi.delete(`/user/${payload}`);
-      this.$router.push({ name: "user" });
-    },
+    ...mapActions(memberStore,[Constant.DELETE_MEMBER]),
+    remove(payload) {
+      console.log("remove : " + payload);
+       this.deleteMember(payload).then(() => {
+         console.log("remove");
+         this.$router.push({ name: "login" });
+       });
+     },
+    modify() {
+      console.log("modify");
+      this.$router.push({ name: "modify" });
+     }
   },
 };
 </script>

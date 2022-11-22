@@ -5,7 +5,7 @@
       <div class="col-lg-8 col-md-10 col-sm-12">
         <form id="form-register" method="POST" action="">
           <input type="hidden" name="act" value="write" />
-
+          <div>modify</div>
           <div class="mb-3">
             <label for="subject" class="form-label">아이디 : </label>
             <input
@@ -56,9 +56,9 @@
               type="button"
               id="btn-register"
               class="btn btn-outline-primary mb-3"
-              @click="regist(member)"
+              @click="modify(member)"
             >
-              회원 가입
+              회원 정보 수정
             </button>
             <button
               type="button"
@@ -85,13 +85,13 @@ export default {
     };
   },
 
-  name: "UserRegister",
+  name: "UserModify",
 
   computed: {
     ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
   },
   methods: {
-    ...mapActions(memberStore, ["userConfirm", "getUserInfo", Constant.REGIST_MEMBER]),
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo", Constant.MODIFY_MEMBER]),
     async confirm() {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
@@ -105,10 +105,10 @@ export default {
     movePage() {
       this.$router.push({ name: "join" });
     },
-    regist(payload) {
-      this.registMember(payload).then(() => {
+    modify(payload) {
+      this.modifyMember(payload).then(() => {
         console.log("then");
-        this.$router.push({ name: "main" });
+        this.$router.push({ name: "mypage" });
       });
     },
     changeForm() {

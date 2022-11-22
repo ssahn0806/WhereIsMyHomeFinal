@@ -146,12 +146,12 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@PutMapping("/{userid}")
-	private ResponseEntity<?> modify(@PathVariable String userid, @RequestBody MemberDto member)
+	@PutMapping
+	private ResponseEntity<?> modify(@RequestBody MemberDto member)
 			throws Exception {
 		
 		//User target = userService.getUser(userid);
-		MemberDto mem = memberService.userInfo(userid);
+		MemberDto mem = memberService.userInfo(member.getUserid());
 		if (mem != null) {
 			mem.setUsername(member.getUsername());
 			mem.setUserpwd(member.getUserpwd());

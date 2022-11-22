@@ -36,9 +36,20 @@ const memberStore = {
     },
   },
   actions: {
+    [Constant.MODIFY_MEMBER](context,payload){
+      return restApi.put("/user",payload).then(({ data }) => {
+        console.log(data);
+      });
+    },
     [Constant.REGIST_MEMBER](context, payload) {
       console.log(payload);
       return restApi.post("/user", payload).then(({ data }) => {
+        console.log(data);
+      });
+    },
+    [Constant.DELETE_MEMBER](context, payload) {
+      console.log(payload);
+      return restApi.delete(`/user/${payload}`).then(({ data }) => {
         console.log(data);
       });
     },
