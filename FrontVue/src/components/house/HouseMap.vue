@@ -27,15 +27,15 @@ export default {
     ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_DEALS,Constant.SET_NDONG,Constant.SET_LEVEL]),
 
     createPolygons() {
-      var data = geo.features;
-      var coordinates = []; //좌표 저장 배열
+      let data = geo.features;
+      let coordinates = []; //좌표 저장 배열
     
 
-      var customOverlay = new kakao.maps.CustomOverlay({});
       //var infowindow = new kakao.maps.InfoWindow({ removable: true });
       const displayArea = (coordinates,name,code) => {
-        var path = [];
-        var points = [];
+        let customOverlay = new kakao.maps.CustomOverlay({});
+        let path = [];
+        let points = [];
         //let areaResult = pollution.filter((item) => item[0] === name); //없어도 됨
 
         coordinates[0].forEach((coordinate) => {
@@ -47,7 +47,7 @@ export default {
           points.push(point);
           path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
         });
-        var polygon = new kakao.maps.Polygon({
+        let polygon = new kakao.maps.Polygon({
           // map: this.map,
           path: path, // 그려질 다각형의 좌표 배열입니다
           strokeWeight: 2, // 선의 두께입니다
@@ -61,7 +61,8 @@ export default {
         this.polygons.push(polygon);
         //   polygon.setMap(this.map);
 
-        kakao.maps.event.addListener(polygon, "mouseover", function (mouseEvent) {
+        kakao.maps.event.addListener(polygon, "mouseover", ()=>{
+          console.log("mouseover");
           polygon.setOptions({
             fillColor: "#09f",
           });
@@ -76,20 +77,24 @@ export default {
           // infowindow.setContent(content);
           // infowindow.setPosition(mouseEvent.latLng);
           // infowindow.setMap(this.map);
-          customOverlay.setContent('<div class="area">' + name + '</div>');
-        
-        customOverlay.setPosition(mouseEvent.latLng); 
-        customOverlay.setMap(this.map);
+          customOverlay.setContent('<div class="name">' + name + '</div>');
+          // customOverlay.setZIndex(3);
+          // console.log(centroid(points));
+          customOverlay.setPosition(centroid(points)); 
+          customOverlay.setMap(this.map);
         });
 
-        // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
+        // // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
         kakao.maps.event.addListener(polygon, "mousemove", function (mouseEvent) {
+          console.log("mousemove");
           customOverlay.setPosition(mouseEvent.latLng);
+          
         });
 
         // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
         // 커스텀 오버레이를 지도에서 제거합니다
         kakao.maps.event.addListener(polygon, "mouseout", function () {
+          console.log("mouseout");
           polygon.setOptions({ fillColor: "#fff" });
           customOverlay.setMap(null);
         });
@@ -116,6 +121,7 @@ export default {
           return new kakao.maps.LatLng(x / area, y / area);
         }
         kakao.maps.event.addListener(polygon, "click", () => {
+          console.log("click");
       //     var content = '<div class="info">' + 
       //               '   <div class="title">' + name + '</div>' +
       //               '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
@@ -391,4 +397,16 @@ export default {
     .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
     .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
     .info .link {color: #5085BB;}
+.name {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #888;
+    border-radius: 3px;
+    font-size: 12px;
+    top: -5px;
+    left: 15px;
+    padding:2px;
+}
+
+
 </style>

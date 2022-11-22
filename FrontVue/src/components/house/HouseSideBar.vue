@@ -215,8 +215,8 @@ export default {
                 str = str.slice(0,-1);
                 return str;
            },
-           getLocalNews() {
-               this.getNews(this.ndong.dongName);
+           getLocalNews(dongName) {
+               this.getNews(dongName);
            },
            openEmbed(link) {
                 // window.open(link);
@@ -254,7 +254,7 @@ export default {
             this.updateRoadView();
             this.sortData();
             this.drawChart();
-            this.getLocalNews();
+            this.getLocalNews(this.apt.dongName);
             this.tabIdx = 0;
             this.currentIdx = 1;
         }
