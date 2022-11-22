@@ -1,6 +1,8 @@
 import jwtDecode from "jwt-decode";
 import router from "@/router";
 import { login, findById, tokenRegeneration, logout } from "@/api/member";
+import Constant from "@/common/Constant.js";
+import restApi from "@/util/http-common.js";
 
 const memberStore = {
   namespaced: true,
@@ -34,6 +36,13 @@ const memberStore = {
     },
   },
   actions: {
+    [Constant.REGIST_MEMBER](context, payload) {
+      console.log(payload);
+      return restApi.post("/user", payload).then(({ data }) => {
+        console.log(data);
+      });
+    },
+
     async userConfirm({ commit }, user) {
       await login(
         user,

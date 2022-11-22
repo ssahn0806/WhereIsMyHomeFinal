@@ -16,6 +16,21 @@ public class MemberDto {
 	private String email;
 	@ApiModelProperty(value = "회원 가입일")
 	private String joindate;
+	@ApiModelProperty(value = "관심지역")
+	private String favorloc;
+	@ApiModelProperty(value = "토큰")
+	private String token;
+	
+	
+	
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getUserid() {
 		return userid;
@@ -57,4 +72,12 @@ public class MemberDto {
 		this.joindate = joindate;
 	}
 
+	public String getFavorloc() {
+		return favorloc;
+	}
+
+	public void setFavorloc(String favorloc) {
+		this.favorloc = favorloc;
+	}
+	
 }

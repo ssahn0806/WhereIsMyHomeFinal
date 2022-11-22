@@ -1,5 +1,6 @@
 package com.ssafy.house.model.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.house.model.dto.MemberDto;
+import com.ssafy.house.model.dto.User;
 import com.ssafy.house.model.mapper.MemberMapper;
 
 
@@ -49,6 +51,24 @@ public class MemberServiceImpl implements MemberService {
 		map.put("userid", userid);
 		map.put("token", null);
 		sqlSession.getMapper(MemberMapper.class).deleteRefreshToken(map);
+	}
+	
+	
+	@Override
+	public boolean register(MemberDto member) throws Exception {
+		//return userDao.register(user) > 0;
+		return sqlSession.getMapper(MemberMapper.class).register(member);
+	}
+	
+	@Override
+	public boolean modify(MemberDto member) throws Exception {
+		//return userDao.modify(user) > 0;
+		return sqlSession.getMapper(MemberMapper.class).modify(member);
+	}
+
+	@Override
+	public boolean delete(String userid) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).delete(userid);
 	}
 
 }

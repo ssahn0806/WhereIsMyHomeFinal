@@ -34,4 +34,19 @@
 		where userid = #{userid}
 	</update>
 	
+	<insert id="register" parameterType="memberDto">
+		insert into ssafy_member(userid, userpwd, username, email, joindate,token,favorloc) 
+		values(#{userid},#{userpwd},#{username},#{email},#{joindate},#{token},#{favorloc})
+	</insert>
+	
+	<update id="modify" parameterType="memberDto">
+		update ssafy_member set userpwd = #{userpwd}, username = #{username}, email=#{email} where userid=#{userid}
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		delete from ssafy_member where userid=#{userid}
+	</delete>
+	
+	
+	
 </mapper>

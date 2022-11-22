@@ -40,6 +40,8 @@ export default Object.freeze({
   SET_STATUS: "setStatus",
 
   SET_EMBED: "setEmbed",
-  
-  SET_URL : "setUrl",
+
+  SET_URL: "setUrl",
+
+  REGIST_MEMBER: "registMember",
 });

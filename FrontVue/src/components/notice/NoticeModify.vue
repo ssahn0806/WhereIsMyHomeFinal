@@ -84,10 +84,6 @@ export default {
       this.modifyNotice(payload).then(() => {
         this.$router.push("/notice/list");
       });
-      // this.$router.push({
-      //   path: "/notice/detail/:articleNo",
-      //   params: { articleNo: this.notice.articleNo },
-      // });
     },
 
     changeForm() {
