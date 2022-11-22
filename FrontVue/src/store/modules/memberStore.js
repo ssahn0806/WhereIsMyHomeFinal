@@ -21,6 +21,14 @@ const memberStore = {
     },
   },
   mutations: {
+    [Constant.SET_USERINFO](state, payload) {
+      state.userLogin = false;
+      state.userInfo = payload;
+    },
+    [Constant.MODIFY_USERINFO](state, payload) {
+      state.userLogin = true;
+      state.userInfo = payload;
+    },
     SET_IS_LOGIN: (state, isLogin) => {
       state.isLogin = isLogin;
     },
@@ -38,7 +46,7 @@ const memberStore = {
   actions: {
     [Constant.MODIFY_MEMBER](context,payload){
       return restApi.put("/user",payload).then(({ data }) => {
-        console.log(data);
+        context.commit(Constant.MODIFY_USERINFO, data);
       });
     },
     [Constant.REGIST_MEMBER](context, payload) {
@@ -49,8 +57,8 @@ const memberStore = {
     },
     [Constant.DELETE_MEMBER](context, payload) {
       console.log(payload);
-      return restApi.delete(`/user/${payload}`).then(({ data }) => {
-        console.log(data);
+      return restApi.delete(`/user/${payload}`).then(() => {
+        context.commit(Constant.SET_USERINFO, null);
       });
     },
 

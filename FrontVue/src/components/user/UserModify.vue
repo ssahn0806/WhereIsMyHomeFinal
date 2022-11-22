@@ -8,13 +8,15 @@
           <div>modify</div>
           <div class="mb-3">
             <label for="subject" class="form-label">아이디 : </label>
+           
             <input
               type="text"
+              value="11"
               class="form-control"
               id="userid"
               name="userid"
               v-model.lazy="member.userid"
-              placeholder="아이디"
+              
             />
           </div>
           <div class="mb-3">
@@ -75,6 +77,7 @@
   </div>
 </template>
 <script>
+
 import Constant from "@/common/Constant.js";
 import { mapState, mapActions } from "vuex";
 const memberStore = "memberStore";
@@ -92,20 +95,9 @@ export default {
   },
   methods: {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo", Constant.MODIFY_MEMBER]),
-    async confirm() {
-      await this.userConfirm(this.user);
-      let token = sessionStorage.getItem("access-token");
-      // console.log("1. confirm() token >> " + token);
-      if (this.isLogin) {
-        await this.getUserInfo(token);
-        // console.log("4. confirm() userInfo :: ", this.userInfo);
-        this.$router.push({ name: "main" });
-      }
-    },
-    movePage() {
-      this.$router.push({ name: "join" });
-    },
+    
     modify(payload) {
+      console.log("email :" +payload.email);
       this.modifyMember(payload).then(() => {
         console.log("then");
         this.$router.push({ name: "mypage" });

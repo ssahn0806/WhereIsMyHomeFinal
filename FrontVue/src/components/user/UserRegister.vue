@@ -108,7 +108,7 @@ export default {
     regist(payload) {
       this.registMember(payload).then(() => {
         console.log("then");
-        this.$router.push({ name: "main" });
+        this.$router.push({ name: "login" });
       });
     },
     changeForm() {

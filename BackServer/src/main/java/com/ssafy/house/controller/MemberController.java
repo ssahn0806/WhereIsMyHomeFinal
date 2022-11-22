@@ -155,6 +155,7 @@ public class MemberController {
 		if (mem != null) {
 			mem.setUsername(member.getUsername());
 			mem.setUserpwd(member.getUserpwd());
+			mem.setEmail(member.getEmail());
 			boolean res = memberService.modify(mem);
 
 			if (res) {
