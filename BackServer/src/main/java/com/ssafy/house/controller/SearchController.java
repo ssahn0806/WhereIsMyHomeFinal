@@ -243,8 +243,13 @@ public class SearchController{
 					for(String field : fields) {
 						itemMap.put(field, item.get(field));
 					}
+					String obj =  (String)(itemMap.get("link"));
+					if(obj.contains("n.news.naver.com"))
+						continue;
+					
 					itemList.add(itemMap);
 				}
+				
 				
 				rtnObj.put("result", itemList);
 			} catch (Exception e) {
