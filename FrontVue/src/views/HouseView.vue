@@ -9,6 +9,7 @@
       <b-col class="mt-4" lg="12">
         <house-map></house-map>
         <house-modal></house-modal>
+        <house-embed></house-embed>
         <house-side-bar></house-side-bar>
       </b-col>
     </b-row>
@@ -20,6 +21,7 @@ import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseMap from "@/components/house/HouseMap.vue";
 import HouseModal from "@/components/house/HouseModal.vue";
 import HouseSideBar from "@/components/house/HouseSideBar.vue";
+import HouseEmbed from "@/components/house/HouseEmbed.vue";
 
 export default {
   components: {
@@ -27,6 +29,7 @@ export default {
     HouseMap,
     HouseModal,
     HouseSideBar,
+    HouseEmbed
   },
 };
 </script>

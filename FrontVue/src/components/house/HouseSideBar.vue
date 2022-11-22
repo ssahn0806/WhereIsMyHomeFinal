@@ -55,7 +55,7 @@
                             <template >
                                 <div id="news">
                                     <b-card v-for="article in articles" :key="article.link">
-                                        <b-card-sub-title v-html="article.title" @click="openwin(article.link)"></b-card-sub-title>
+                                        <b-card-sub-title v-html="article.title" @click="openEmbed(article.link)"></b-card-sub-title>
                                         <!-- <b-card v-html="article.description" @click="openwin(newa.link)"></b-card> -->
                                     </b-card>
                                 </div>
@@ -140,7 +140,7 @@ export default {
         }
        },
        methods: {
-            ...mapMutations([Constant.SET_SIDEBAR]),
+            ...mapMutations([Constant.SET_SIDEBAR,Constant.SET_EMBED,Constant.SET_URL]),
             ...mapActions([Constant.GET_NEWS]),
             initRoadView(){
                 let roadviewContainer = document.getElementById('roadview');
@@ -218,8 +218,10 @@ export default {
            getLocalNews() {
                this.getNews(this.ndong.dongName);
            },
-           openwin(link) {
-                window.open(link);
+           openEmbed(link) {
+                // window.open(link);
+                this.setUrl(link);
+                this.setEmbed(true);
            },
         },
         
@@ -254,7 +256,7 @@ export default {
             this.drawChart();
             this.getLocalNews();
             this.tabIdx = 0;
-            this.currnetIdx = 1;
+            this.currentIdx = 1;
         }
        },
     }

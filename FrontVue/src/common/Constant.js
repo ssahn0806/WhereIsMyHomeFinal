@@ -38,4 +38,8 @@ export default Object.freeze({
   SET_NDONG: "setNdong",
 
   SET_STATUS: "setStatus",
+
+  SET_EMBED: "setEmbed",
+  
+  SET_URL : "setUrl",
 });

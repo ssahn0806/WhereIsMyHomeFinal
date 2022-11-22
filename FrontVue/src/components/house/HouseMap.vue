@@ -125,7 +125,7 @@ export default {
       //  // infowindow.setPosition(mouseEvent.latLng); 
       //   infowindow.setMap(this.map);
 
-
+          polygon.setOptions({ fillColor: "#fff" });
           // 현재 지도 레벨에서 2레벨 확대한 레벨
           console.log("밑에 들어옴");
           var level = this.map.getLevel()-2;
