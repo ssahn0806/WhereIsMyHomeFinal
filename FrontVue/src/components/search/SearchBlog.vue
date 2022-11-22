@@ -21,7 +21,7 @@
           @sliding-end="onSlideEnd"
         >
           <!-- <tr v-for="(newa, idx) in news.result" :key="newa.link"> -->
-            <b-carousel-slide v-for="(newa, idx) in news.result" :key="newa.link" :img-src="'https://picsum.photos/1024/480/?image=' + no + idx">
+            <b-carousel-slide v-for="(newa, idx) in news" :key="newa.link" :img-src="'https://picsum.photos/1024/480/?image=' + no + idx">
               <h2 v-html="newa.title" @click="openwin(newa.link)"></h2>
               <h6 v-html="newa.description"></h6>
             </b-carousel-slide>

@@ -10,7 +10,7 @@ const HouseStore = {
         apts: {},
         // 상세 보기를 눌렀을 때 아파트 정보
         apt: {},
-        status: "not_checked",
+        status: false,
     },
     getters: {
         status(state) {

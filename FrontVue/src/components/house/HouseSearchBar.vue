@@ -1,51 +1,37 @@
 <template>
-  <b-container fluid>
-    <b-row>
-      <b-dropdown id="search-drop" :text="selectedText">
-        <b-dropdown-item @click="changeOption(1)">법정동명으로 검색</b-dropdown-item>
-        <b-dropdown-item @click="changeOption(2)">아파트명으로 검색</b-dropdown-item>
+  <div class="con">
+    <b-row class="box">
+     <b-dropdown id="search-drop" :text="selectedText" variant="warning">
+        <b-dropdown-item @click="changeOption(1)">법정동으로 조회</b-dropdown-item>
+        <b-dropdown-item @click="changeOption(2)">아파트이름 조회</b-dropdown-item>
       </b-dropdown>
       <template v-if="selectedOpt == 1">
-        <b-col class="sm-3">
+        <b-col lg="3">
           <b-form-select v-model="sidoCode" :options="sidoOpts" @change="gugunLoad"></b-form-select>
         </b-col>
-        <b-col class="sm-3">
+        <b-col lg="3">
           <b-form-select v-model="gugunCode" :options="gugunOpts" @change="dongLoad"></b-form-select>
         </b-col>
+        <b-col lg="3">
+          <b-form-select v-model="dongCode" :options="dongOpts" :disabled="dongOpts.length==1"></b-form-select>
+        </b-col>
+        <b-col>
+          <b-button @click="searchAptByCode" variant="warning">조회</b-button>
+        </b-col>
 
-        <b-col class="sm-3" v-if="dongOpts.length >= 1">
-          <b-form-select v-model="dongCode" :options="dongOpts"></b-form-select>
-
-        </b-col>
-        <b-col class="sm-3">
-        <b-button @click="searchAptByCode">조회</b-button>
-        </b-col>
-        <b-col class="text-center">
-          서울 구 표시
-        </b-col>
-          <b-form-checkbox
-            id="checkbox-1"
-            v-model="status"
-            name="checkbox-1"
-            value="checked"
-            unchecked-value="not_checked"
-            @change="showPoly"
-          >
-          </b-form-checkbox>
-          <!-- <b-col>State: {{ status }}</b-col> -->
     </template>
-      <template v-else-if="selectedOpt == 2">
-        <b-col class="sm-3">
-          <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요"></b-form-input>             
-        </b-col>
-        <b-col class="sm-3">
-          <b-button @click="searchAptByName">조회</b-button>
-        </b-col>
-      </template>
+    <template v-else-if="selectedOpt == 2">
+      <b-col lg="9">
+        <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요..."></b-form-input>             
+      </b-col>
+      <b-col>
+        <b-button @click="searchAptByName" variant="warning">조회</b-button>
+      </b-col>
+    </template>
 
 
     </b-row>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -56,12 +42,12 @@ export default {
   name: "HouseSearchBar",
 
   computed: {
-    ...mapGetters(["ndong", "status"]),
+    ...mapGetters(["ndong"]),
   },
 
   data() {
     return {
-      selectedText : "검색 조건을 선택하세요",
+      selectedText : "검색조건",
       selectedOpt : 0,
       ischecked: false,
       sidoCode: null,
@@ -76,7 +62,7 @@ export default {
 
   methods: {
     ...mapActions([Constant.GET_DEALS,Constant.GET_DEALS_NAME,Constant.GET_LATLNG]),
-    ...mapMutations([Constant.SET_LEVEL,Constant.SET_DEALS,Constant.SET_MODAL,Constant.SET_NDONG,Constant.SET_STATUS,Constant.SET_LATLNG,Constant.SET_STATUS]),
+    ...mapMutations([Constant.SET_LEVEL,Constant.SET_DEALS,Constant.SET_MODAL,Constant.SET_NDONG,Constant.SET_LATLNG,Constant.SET_STATUS]),
     sidoList() {
       this.sidoCode = null;
       this.gugunCode = null;
@@ -84,9 +70,9 @@ export default {
       this.sidoOpts = [];
       this.gugunOpts = [];
       this.dongOpts = [];
-      this.sidoOpts.push({ value: null, text: "시도를 선택하세요." });
-      this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
-
+      this.sidoOpts.push({ value: null, text: "시/도를 선택" });
+      this.gugunOpts.push({ value: null, text: "구/군을 선택" });
+      this.dongOpts.push({value:null, text:"동을 선택"});
       restApi.get("/api/houses/list").then(({ data }) => {
         data.forEach((sido) => {
           this.sidoOpts.push({ value: sido.sidoCode, text: sido.sidoName });
@@ -99,7 +85,8 @@ export default {
       this.gugunCode = null;
       this.gugunOpts = [];
       this.dongOpts = [];
-      this.gugunOpts.push({ value: null, text: "구/군을 선택하세요." });
+      this.gugunOpts.push({ value: null, text: "구/군을 선택" });
+      this.dongOpts.push({value:null, text:"동을 선택"});
       if (this.sidoCode) {
         restApi.get(`/api/houses/gugun/${this.sidoCode}`).then(({ data }) => {
           data.forEach((gugun) => {
@@ -112,7 +99,7 @@ export default {
     dongLoad() {
       this.dongCode = null;
       this.dongOpts = [];
-      this.dongOpts.push({ value: null, text: "동을 선택하세요." });
+      this.dongOpts.push({ value: null, text: "동을 선택" });
       if (this.gugunCode) {
         restApi.get(`/api/houses/dong/${this.gugunCode}`).then(({ data }) => {
           data.forEach((dong) => {
@@ -148,24 +135,16 @@ export default {
       this.selectedOpt = OptNo;
       switch(this.selectedOpt){
         case 1:
-          this.selectedText = "법정동명으로 검색";
+          this.selectedText = "법정동으로 조회";
           this.sidoList();
           break;
         case 2:
           this.searchName = "";
-          this.selectedText = "아파트명으로 검색";
+          this.selectedText = "아파트명칭 조회";
           break;
       }
       this.setDeals([]);
-      this.setStatus("not_checked");
-    },
-    showPoly(status) {
-      console.log("showpoly",status);
-      if(status=="checked"){
-        this.setLevel(9);
-        this.setLatLng({lat:37.5642,lng:127.0016});
-      }
-      this.setStatus(status);
+      this.setStatus(false);
     },
   },
 
@@ -175,4 +154,18 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.con{
+  position: absolute; 
+  top : 5px;
+  left: 10px;
+  z-index: 1;
+  background: rgba(0,0,0,0.7);
+  border-radius: 5px;
+  width: 65%;
+}
+.box{
+  padding: 6px;
+  padding-left: 23px;
+}
+</style>

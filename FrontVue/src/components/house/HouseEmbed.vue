@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-modal title="Test" size="xl"  :visible="openEmbed" @hide="setEmbed(false)" @close="setEmbed(false)" @ok="setEmbed(false)" @cancel="setEmbed(false)">
+        <b-modal size="xl"  :visible="openEmbed" @hide="setEmbed(false)" @close="setEmbed(false)" @ok="setEmbed(false)" @cancel="setEmbed(false)">
             <b-embed type="iframe" :src="url" allowfullscreen aspect="16by9"></b-embed>
         </b-modal>
     </div>

@@ -1,9 +1,15 @@
 <template>
-  <div id="map"></div>
+  <div id="map_wrap">
+    <div id="map"></div>
+    <house-search-bar></house-search-bar>
+    <option-select-bar></option-select-bar>
+  </div>
 </template>
 
 <script>
 import Constant from "@/common/Constant.js";
+import OptionSelectBar from "@/components/house/OptionSelectBar.vue";
+import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 //import geo from "@/assets/ab.json";
 import geo from "@/assets/seoul_gu.json";
@@ -20,6 +26,11 @@ export default {
 
   computed: {
     ...mapGetters(["deals", "LatLng", "Level", "apts", "status","apt","ToggleSidebar"]),
+  },
+
+  components: {
+    OptionSelectBar,
+    HouseSearchBar,
   },
   methods: {
 
@@ -143,7 +154,7 @@ export default {
               duration: 250, //확대 애니메이션 시간
             },
           });
-          this.setStatus("not_checked");
+          this.setStatus(false);
           customOverlay.setMap(null);
           setTimeout(() => {
             this.getDeals(code.slice(0,5));
@@ -173,7 +184,7 @@ export default {
       //지도 생성
       this.map = new kakao.maps.Map(container, options);
       this.createPolygons();
-      this.setStatus("not_checked");
+      this.setStatus(false);
       kakao.maps.event.addListener(this.map, "click", () => {
         this.setSidebar(false);
       });
@@ -333,7 +344,7 @@ export default {
 
     status() {
       console.log("status changed", this.status);
-      if (this.status == "checked") {
+      if (this.status) {
         this.setLatLng({lat:37.5642,lng:127.0016});
         this.setLevel(9);
         this.setPolygons(this.map);
@@ -354,9 +365,16 @@ export default {
 <style>
 #map {
   width: 100%;
-  height: 750px;
+  height: 82vh;
+  position: relative;
+  overflow: hidden;
 }
 
+#map_wrap{
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
 .circle {
   width: 50px;
   height: 50px;
