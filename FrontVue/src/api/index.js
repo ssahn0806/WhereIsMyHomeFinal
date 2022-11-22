@@ -12,15 +12,5 @@ function apiInstance() {
   return instance;
 }
 
-// house deal API axios instance
-// function houseInstance() {
-//   const instance = axios.create({
-//     baseURL: process.env.VUE_APP_HOUSE_DEAL_URL,
-//     headers: {
-//       "Content-Type": "application/json;charset=utf-8",
-//     },
-//   });
-//   return instance;
-// }
 
 export { apiInstance};

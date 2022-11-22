@@ -28,46 +28,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-//	@Override
-//	public Object handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		
-//		String url = request.getServletPath();
-//		
-//        if(url.equals("/user/login.do")) {
-//            return login(request, response);
-//        } else if(url.equals("/user/loginform.do")) {
-//            return loginform(request, response);
-//        } else if(url.equals("/user/registerform.do")) {
-//            return registerform(request, response);
-//        } else if(url.equals("/user/register.do")) {
-//            return register(request, response);
-//        }  else if(url.equals("/user/findPasswordForm.do")) {
-//            return findPasswordForm(request, response);
-//        } else if(url.equals("/user/findPassword.do")) {
-//            return findPassword(request, response);
-//        }
-//        else {
-//            HttpSession session = request.getSession();
-//            if(session.getAttribute("userid") == null) {
-//                System.out.println("로그인 안됨!!");
-//                return new PageInfo(false, "/user/loginform.do");
-//            }
-//            
-//            if(url.equals("/user/logout.do")) {
-//                return logout(request, response);
-//            } else if(url.equals("/user/detail.do")) {
-//                return detailform(request, response);
-//            } else if(url.equals("/user/modify.do")) {
-//                return modify(request, response);
-//            } else if(url.equals("/user/delete.do")) {
-//                return delete(request, response);
-//            } else if(url.equals("/user/favorite.do")) {
-//                return favorite(request,response);
-//            }
-//        }
-//		
-//		return null;
-//	}
 
 	@GetMapping("/{userid}")
 	private ResponseEntity<?> findPassword(@PathVariable String userid, @RequestParam String username) {
@@ -95,8 +55,6 @@ public class UserController {
 			boolean res = userService.modify(target);
 
 			if (res) {
-//				session.setAttribute("userpw", target.getUserpw());
-//				session.setAttribute("userName", target.getUsername());
 				return ResponseEntity.ok(target);
 			} else {
 				return ResponseEntity.internalServerError().build();

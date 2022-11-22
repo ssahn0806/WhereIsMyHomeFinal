@@ -25,27 +25,25 @@ const SearchStore = {
   actions: {
     [Constant.GET_BLOGS](context) {
       return restApi.get("/api/searchs/blogs").then(({ data }) => {
-              console.log(data);
+        console.log(data);
         context.commit(Constant.SET_BLOGS, data);
       });
     },
-    [Constant.GET_NEWS](context,payload) {
+    [Constant.GET_NEWS](context, payload) {
       if (!payload) {
         return restApi.get("/api/searchs/news").then(({ data }) => {
-        // console.log(data.result);
-        context.commit(Constant.SET_NEWS, data.result);
+          console.log(data.result);
+
+          context.commit(Constant.SET_NEWS, data.result);
         });
-      }  
+      }
       if (payload) {
         return restApi.get(`/api/searchs/news/${payload}`).then(({ data }) => {
-        // console.log(data.result);
-        context.commit(Constant.SET_NEWS, data.result);
-      });
-      } 
-      
-      
+          // console.log(data.result);
+          context.commit(Constant.SET_NEWS, data.result);
+        });
+      }
     },
-    
   },
   modules: {},
 };

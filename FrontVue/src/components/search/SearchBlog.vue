@@ -21,10 +21,14 @@
           @sliding-end="onSlideEnd"
         >
           <!-- <tr v-for="(newa, idx) in news.result" :key="newa.link"> -->
-            <b-carousel-slide v-for="(newa, idx) in news.result" :key="newa.link" :img-src="'https://picsum.photos/1024/480/?image=' + no + idx">
-              <h2 v-html="newa.title" @click="openwin(newa.link)"></h2>
-              <h6 v-html="newa.description"></h6>
-            </b-carousel-slide>
+          <b-carousel-slide
+            v-for="(newa, idx) in news"
+            :key="newa.link"
+            :img-src="'https://picsum.photos/1024/480/?image=' + no + idx"
+          >
+            <h2 v-html="newa.title" @click="openwin(newa.link)"></h2>
+            <h6 v-html="newa.description"></h6>
+          </b-carousel-slide>
           <!-- </tr> -->
         </b-carousel>
       </div>
@@ -47,11 +51,6 @@
 <script>
 //`@/assets/logo.png`
 import Constant from "@/common/Constant.js";
-// import user from '@/assets/user.json'
-// import test from '@/assets/map.json'
-//import a from 'C:/Users/Byung Hyun Jeon/Desktop/WhereIsMyHomeFinal/FrontVue/src/assets/map.json'
-//import geo from "@/assets/a.geojson" assert { type: "json" };
-import ab from "@/assets/ab.json";
 import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
@@ -59,7 +58,6 @@ export default {
       no: 52,
       slide: 0,
       sliding: null,
-      de: ab,
     };
   },
 
@@ -86,10 +84,6 @@ export default {
   created() {
     console.log(this.de);
 
-    let data = ab.features;
-    console.log("---");
-    console.log(data);
-    console.log("---");
     // let coordinates = []; //좌표 저장 배열
     // let name = ''; //행정구 이름
 

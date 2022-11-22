@@ -52,15 +52,10 @@ public class SearchController{
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseString = get(apiURL,requestHeaders);
-      //  System.out.println(responseString);
-      //  responseString = responseString.replaceAll("<b>", " ");
-      //  responseString = responseString.replaceAll("<\b>", " ");
-       // responseString = responseString.replaceAll("<", " ");
-        String match = "[^\uAC00-\uD7A30-9a-zA-Z]";
-      //  responseString = responseString.replaceAll(match, ",");
+
         
         String[] fields = {"title", "link", "description"};
-        Map<String, Object> result = getResult(responseString, fields);
+        Map<String, Object> result = getResult(responseString, fields,true);
         
         if(result.size() > 0) System.out.println("total -> " + result.get("total"));
         
@@ -109,7 +104,7 @@ public class SearchController{
       //  responseString = responseString.replaceAll(match, ",");
         
         String[] fields = {"title", "link", "description"};
-        Map<String, Object> result = getResult(responseString, fields);
+        Map<String, Object> result = getResult(responseString, fields,true);
         
         if(result.size() > 0) System.out.println("total -> " + result.get("total"));
         
@@ -146,15 +141,10 @@ public class SearchController{
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseString = get(apiURL,requestHeaders);
-     //   System.out.println(responseString);
-//        responseString = responseString.replaceAll("<b>", " ");
-//        responseString = responseString.replaceAll("b>", " ");
-//        responseString = responseString.replaceAll("<", " ");
         String match = "[^\uAC00-\uD7A30-9a-zA-Z]";
-      //  responseString = responseString.replaceAll(match, ",");
         
         String[] fields = {"title", "link", "description"};
-        Map<String, Object> result = getResult(responseString, fields);
+        Map<String, Object> result = getResult(responseString, fields,false);
         
         if(result.size() > 0) System.out.println("total -> " + result.get("total"));
         
@@ -224,7 +214,7 @@ public class SearchController{
 	        }
 	    }
 	    
-	    public Map<String, Object> getResult(String response, String[] fields) {
+	    public Map<String, Object> getResult(String response, String[] fields,boolean isMain) {
 			Map<String, Object> rtnObj = new HashMap<> ();
 			
 			try {
@@ -244,7 +234,7 @@ public class SearchController{
 						itemMap.put(field, item.get(field));
 					}
 					String obj =  (String)(itemMap.get("link"));
-					if(obj.contains("n.news.naver.com"))
+					if(!isMain && obj.contains("n.news.naver.com"))
 						continue;
 					
 					itemList.add(itemMap);

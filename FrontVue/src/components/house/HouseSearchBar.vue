@@ -10,40 +10,39 @@
           <b-form-select v-model="sidoCode" :options="sidoOpts" @change="gugunLoad"></b-form-select>
         </b-col>
         <b-col class="sm-3">
-          <b-form-select v-model="gugunCode" :options="gugunOpts" @change="dongLoad"></b-form-select>
+          <b-form-select
+            v-model="gugunCode"
+            :options="gugunOpts"
+            @change="dongLoad"
+          ></b-form-select>
         </b-col>
 
         <b-col class="sm-3" v-if="dongOpts.length >= 1">
           <b-form-select v-model="dongCode" :options="dongOpts"></b-form-select>
-
         </b-col>
         <b-col class="sm-3">
-        <b-button @click="searchAptByCode">조회</b-button>
+          <b-button @click="searchAptByCode">조회</b-button>
         </b-col>
-        <b-col class="text-center">
-          서울 구 표시
-        </b-col>
-          <b-form-checkbox
-            id="checkbox-1"
-            v-model="status"
-            name="checkbox-1"
-            value="checked"
-            unchecked-value="not_checked"
-            @change="showPoly"
-          >
-          </b-form-checkbox>
-          <!-- <b-col>State: {{ status }}</b-col> -->
-    </template>
+        <b-col class="text-center"> 서울 구 표시 </b-col>
+        <b-form-checkbox
+          id="checkbox-1"
+          v-model="status"
+          name="checkbox-1"
+          value="checked"
+          unchecked-value="not_checked"
+          @change="showPoly"
+        >
+        </b-form-checkbox>
+        <!-- <b-col>State: {{ status }}</b-col> -->
+      </template>
       <template v-else-if="selectedOpt == 2">
         <b-col class="sm-3">
-          <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요"></b-form-input>             
+          <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요"></b-form-input>
         </b-col>
         <b-col class="sm-3">
           <b-button @click="searchAptByName">조회</b-button>
         </b-col>
       </template>
-
-
     </b-row>
   </b-container>
 </template>
@@ -61,22 +60,35 @@ export default {
 
   data() {
     return {
-      selectedText : "검색 조건을 선택하세요",
-      selectedOpt : 0,
+      selectedText: "검색 조건을 선택하세요",
+      selectedOpt: 0,
       ischecked: false,
       sidoCode: null,
       gugunCode: null,
       dongCode: null,
-      searchName : "",
+      searchName: "",
       sidoOpts: [],
       gugunOpts: [],
       dongOpts: [],
     };
   },
-
+  watch: {
+    polygonclick() {
+      this.sidoList();
+      this.sidoCode = "1100000000";
+    }
+  },
   methods: {
-    ...mapActions([Constant.GET_DEALS,Constant.GET_DEALS_NAME,Constant.GET_LATLNG]),
-    ...mapMutations([Constant.SET_LEVEL,Constant.SET_DEALS,Constant.SET_MODAL,Constant.SET_NDONG,Constant.SET_STATUS,Constant.SET_LATLNG,Constant.SET_STATUS]),
+    ...mapActions([Constant.GET_DEALS, Constant.GET_DEALS_NAME, Constant.GET_LATLNG]),
+    ...mapMutations([
+      Constant.SET_LEVEL,
+      Constant.SET_DEALS,
+      Constant.SET_MODAL,
+      Constant.SET_NDONG,
+      Constant.SET_STATUS,
+      Constant.SET_LATLNG,
+      Constant.SET_STATUS,
+    ]),
     sidoList() {
       this.sidoCode = null;
       this.gugunCode = null;
@@ -123,30 +135,28 @@ export default {
     },
 
     searchAptByCode() {
-      if(this.dongCode){
+      if (this.dongCode) {
         this.getDeals(this.dongCode);
         this.getLatLng(this.dongCode);
         this.setLevel(4);
-      } else if(this.gugunCode){
-        this.getDeals(this.gugunCode.slice(0,5));
-        this.getLatLng(this.gugunCode.slice(0,5));
+      } else if (this.gugunCode) {
+        this.getDeals(this.gugunCode.slice(0, 5));
+        this.getLatLng(this.gugunCode.slice(0, 5));
         this.setLevel(9);
       } else {
-        alert('조회할 동네를 선택하세요');
-      }
-    }
-    ,
-    searchAptByName(){
-      if(this.searchName!=""){
-        this.getDealsName(this.searchName);
-      }
-      else{
-        alert('검색할 아파트 이름을 입력하세요');
+        alert("조회할 동네를 선택하세요");
       }
     },
-    changeOption(OptNo){
+    searchAptByName() {
+      if (this.searchName != "") {
+        this.getDealsName(this.searchName);
+      } else {
+        alert("검색할 아파트 이름을 입력하세요");
+      }
+    },
+    changeOption(OptNo) {
       this.selectedOpt = OptNo;
-      switch(this.selectedOpt){
+      switch (this.selectedOpt) {
         case 1:
           this.selectedText = "법정동명으로 검색";
           this.sidoList();
@@ -160,10 +170,10 @@ export default {
       this.setStatus("not_checked");
     },
     showPoly(status) {
-      console.log("showpoly",status);
-      if(status=="checked"){
+      console.log("showpoly", status);
+      if (status == "checked") {
         this.setLevel(9);
-        this.setLatLng({lat:37.5642,lng:127.0016});
+        this.setLatLng({ lat: 37.5642, lng: 127.0016 });
       }
       this.setStatus(status);
     },
