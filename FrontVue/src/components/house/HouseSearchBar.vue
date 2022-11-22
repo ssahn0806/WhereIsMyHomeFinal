@@ -121,7 +121,7 @@ export default {
         this.getLatLng(this.gugunCode.slice(0, 5));
         this.setLevel(9);
       } else {
-        alert("조회할 동네를 선택하세요");
+        alert("조회할 법정동을 선택하세요");
       }
     },
     searchAptByName() {
