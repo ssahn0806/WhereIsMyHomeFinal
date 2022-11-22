@@ -1,6 +1,6 @@
 <template>
   <b-container class="mt-4">
-    <b-navbar-nav class="ml-auto" v-if="userInfo">
+    <b-navbar-nav class="ml-auto" v-if="userInfo && userInfo != null">
           <b-nav-item class="align-self-center">
             <b-avatar variant="primary" v-text="userInfo.userid.charAt(0).toUpperCase()"></b-avatar>
             {{ userInfo.username }}({{ userInfo.userid }})님 환영합니다.
@@ -47,16 +47,8 @@ export default {
   },
   methods: {
     ...mapActions(memberStore, ["userLogout"]),
-    // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
-      // this.SET_IS_LOGIN(false);
-      // this.SET_USER_INFO(null);
-      // sessionStorage.removeItem("access-token");
-      // if (this.$route.path != "/") this.$router.push({ name: "main" });
       console.log(this.userInfo.userid);
-      //vuex actions에서 userLogout 실행(Backend에 저장 된 리프레시 토큰 없애기
-      //+ satate에 isLogin, userInfo 정보 변경)
-      // this.$store.dispatch("userLogout", this.userInfo.userid);
       this.userLogout(this.userInfo.userid);
       sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
       sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기

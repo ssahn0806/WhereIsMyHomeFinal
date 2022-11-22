@@ -36,15 +36,18 @@
             </b-row>
             <b-row>
               <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">가입일</b-col
-              ><b-col cols="4" align-self="start">{{ userInfo.joindate }}</b-col>
+              <b-col cols="3" align-self="end">관심지역 </b-col>
+              
+                <b-col cols="4" align-self="start" v-if="userInfo.favorloc">{{ userInfo.favorloc }}</b-col>
+                <b-col cols="4" align-self="start" v-else>없음</b-col>
+              
               <b-col cols="2"></b-col>
             </b-row>
           </b-container>
           <hr class="my-4" />
 
-          <b-button variant="primary" href="#" class="mr-1">정보수정</b-button>
-          <b-button variant="danger" @click="remove(userInfo.username)">회원탈퇴</b-button>
+          <b-button variant="primary" @click="modify()" class="mr-1">정보수정</b-button>
+          <b-button variant="danger" @click="remove(userInfo.userid)">회원탈퇴</b-button>
         </b-jumbotron>
       </b-col>
       <b-col></b-col>
@@ -53,8 +56,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import restApi from "@/util/http-common.js";
+import { mapState,mapActions , mapGetters,mapMutations} from "vuex";
+import Constant from "@/common/Constant.js";
 const memberStore = "memberStore";
 
 export default {
@@ -62,13 +65,24 @@ export default {
   components: {},
   computed: {
     ...mapState(memberStore, ["userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
   },
   methods: {
-    ...mapActions(memberStore),
-    remove(context, payload) {
-      restApi.delete(`/user/${payload}`);
-      this.$router.push({ name: "user" });
-    },
+    ...mapActions(memberStore, [Constant.DELETE_MEMBER]),
+    ...mapMutations(memberStore, [Constant.SET_USERINFO]),
+    remove(payload) {
+      console.log("remove : " + payload);
+       this.deleteMember(payload).then(() => {
+         console.log("remove");
+         console.log("userinfo : " + this.userInfo);
+         
+         this.$router.push({ name: "login" });
+       });
+     },
+    modify() {
+      console.log("modify");
+      this.$router.push({ name: "modify" });
+     }
   },
 };
 </script>

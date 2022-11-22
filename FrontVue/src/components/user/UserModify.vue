@@ -5,16 +5,18 @@
       <div class="col-lg-8 col-md-10 col-sm-12">
         <form id="form-register" method="POST" action="">
           <input type="hidden" name="act" value="write" />
-
+          <div>modify</div>
           <div class="mb-3">
             <label for="subject" class="form-label">아이디 : </label>
+           
             <input
               type="text"
+              value="11"
               class="form-control"
               id="userid"
               name="userid"
               v-model.lazy="member.userid"
-              placeholder="아이디"
+              
             />
           </div>
           <div class="mb-3">
@@ -56,9 +58,9 @@
               type="button"
               id="btn-register"
               class="btn btn-outline-primary mb-3"
-              @click="regist(member)"
+              @click="modify(member)"
             >
-              회원 가입
+              회원 정보 수정
             </button>
             <button
               type="button"
@@ -75,6 +77,7 @@
   </div>
 </template>
 <script>
+
 import Constant from "@/common/Constant.js";
 import { mapState, mapActions } from "vuex";
 const memberStore = "memberStore";
@@ -85,30 +88,19 @@ export default {
     };
   },
 
-  name: "UserRegister",
+  name: "UserModify",
 
   computed: {
     ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
   },
   methods: {
-    ...mapActions(memberStore, ["userConfirm", "getUserInfo", Constant.REGIST_MEMBER]),
-    async confirm() {
-      await this.userConfirm(this.user);
-      let token = sessionStorage.getItem("access-token");
-      // console.log("1. confirm() token >> " + token);
-      if (this.isLogin) {
-        await this.getUserInfo(token);
-        // console.log("4. confirm() userInfo :: ", this.userInfo);
-        this.$router.push({ name: "main" });
-      }
-    },
-    movePage() {
-      this.$router.push({ name: "join" });
-    },
-    regist(payload) {
-      this.registMember(payload).then(() => {
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo", Constant.MODIFY_MEMBER]),
+    
+    modify(payload) {
+      console.log("email :" +payload.email);
+      this.modifyMember(payload).then(() => {
         console.log("then");
-        this.$router.push({ name: "login" });
+        this.$router.push({ name: "mypage" });
       });
     },
     changeForm() {

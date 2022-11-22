@@ -44,4 +44,9 @@ export default Object.freeze({
   SET_URL: "setUrl",
 
   REGIST_MEMBER: "registMember",
+  MODIFY_MEMBER: "modifyMember",
+  DELETE_MEMBER: "deleteMember",
+
+  SET_USERINFO: "setUserInfo",
+  MODIFY_USERINFO: "modifyUserInfo",
 });
