@@ -140,11 +140,15 @@ export default {
           this.map.setLevel(level, {
             anchor: centroid(points),
             animate: {
-              duration: 350, //확대 애니메이션 시간
+              duration: 250, //확대 애니메이션 시간
             },
           });
           this.setStatus("not_checked");
-          this.getDeals(code.slice(0,5));
+          customOverlay.setMap(null);
+          setTimeout(() => {
+            this.getDeals(code.slice(0,5));
+          }, 250);
+
           //this.removePolygons(this.polygons);
           //deletePolygon(polygons);                    //폴리곤 제거
         });
