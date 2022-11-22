@@ -1,7 +1,7 @@
 <template>
   <div class="con">
     <b-row class="box">
-     <b-dropdown id="search-drop" :text="selectedText" variant="warning">
+      <b-dropdown id="search-drop" :text="selectedText" variant="warning">
         <b-dropdown-item @click="changeOption(1)">법정동으로 조회</b-dropdown-item>
         <b-dropdown-item @click="changeOption(2)">아파트이름 조회</b-dropdown-item>
       </b-dropdown>
@@ -145,17 +145,6 @@ export default {
       }
       this.setDeals([]);
       this.setStatus(false);
-=======
-      this.setStatus("not_checked");
-    },
-    showPoly(status) {
-      console.log("showpoly", status);
-      if (status == "checked") {
-        this.setLevel(9);
-        this.setLatLng({ lat: 37.5642, lng: 127.0016 });
-      }
-      this.setStatus(status);
->>>>>>> f72cd9b629cd12f2e78fb3956e9614a4350086b7
     },
   },
 
