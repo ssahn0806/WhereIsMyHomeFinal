@@ -8,9 +8,7 @@
 		from place
 		where dongcode=#{dongCode} and categorycode=#{categoryCode}
 		order by distance
-		<if test="limit != null">
-		limit #{limit}
-		</if>
+		limit 30
 	</select>
 
 	<select id="countPlaces" parameterType="map" resultType="int">
