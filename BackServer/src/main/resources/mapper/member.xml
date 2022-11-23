@@ -11,7 +11,7 @@
 	</select>
 	
 	<select id="userInfo" parameterType="string" resultType="memberDto">
-		select username, userid, email, joindate
+		select username, userid, email, joindate, favorloc
 		from ssafy_member
 		where userid = #{userid}
 	</select>
@@ -47,6 +47,9 @@
 		delete from ssafy_member where userid=#{userid}
 	</delete>
 	
+	<update id="registerFavorite" parameterType="map">
+		update ssafy_member set favorloc=#{dongCode} where userid=#{userid}
+	</update>
 	
 	
 </mapper>

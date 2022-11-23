@@ -56,19 +56,22 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public boolean register(MemberDto member) throws Exception {
-		//return userDao.register(user) > 0;
 		return sqlSession.getMapper(MemberMapper.class).register(member);
 	}
 	
 	@Override
 	public boolean modify(MemberDto member) throws Exception {
-		//return userDao.modify(user) > 0;
 		return sqlSession.getMapper(MemberMapper.class).modify(member);
 	}
 
 	@Override
 	public boolean delete(String userid) throws Exception {
 		return sqlSession.getMapper(MemberMapper.class).delete(userid);
+	}
+
+	@Override
+	public boolean favorite(Map<String, Object> info) throws Exception {
+		return sqlSession.getMapper(MemberMapper.class).registerFavorite(info);
 	}
 
 }

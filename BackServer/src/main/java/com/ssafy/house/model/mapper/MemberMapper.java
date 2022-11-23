@@ -19,5 +19,6 @@ public interface MemberMapper {
 	public boolean register(MemberDto member) throws SQLException;
 	public boolean modify(MemberDto member) throws SQLException;
 	public boolean delete(String userid) throws SQLException;
+	public boolean registerFavorite(Map<String, Object> info) throws SQLException;
 	
 }

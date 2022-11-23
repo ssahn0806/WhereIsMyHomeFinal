@@ -25,6 +25,20 @@
         </b-col>
         <b-col>
           <b-button @click="searchAptByCode" variant="warning">조회</b-button>
+          <b-button
+            class="ml-2"
+            variant="warning"
+            v-if="userInfo != null && userInfo.favorloc != null"
+            :disabled="dongCode == null"
+            >변경</b-button
+          >
+          <b-button
+            class="ml-2"
+            variant="warning"
+            :disabled="dongCode == null"
+            v-else-if="userInfo != null && userInfo.favorloc == null"
+            >등록</b-button
+          >
         </b-col>
       </template>
       <template v-else-if="selectedOpt == 2">
@@ -42,12 +56,14 @@
 <script>
 import restApi from "@/util/http-common";
 import Constant from "@/common/Constant";
-import { mapActions, mapMutations, mapGetters } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
+const memberStore = "memberStore";
 export default {
   name: "HouseSearchBar",
 
   computed: {
-    ...mapGetters(["ndong", "status"]),
+    ...mapGetters(["ndong", "status", "openfav"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
 
   data() {
@@ -65,6 +81,26 @@ export default {
     };
   },
   watch: {
+    // userInfo(data) {
+    //   if (data != null) {
+    //     this.myInfo = data;
+    //   } else {
+    //     this.myInfo = {};
+    //   }
+    // },
+    openfav() {
+      //여기서  fav로
+      this.selectedText = "법정동으로 조회";
+      this.selectedOpt = 1;
+      this.sidoList();
+
+      this.sidoCode = this.userInfo.favorloc.slice(0, 2).padEnd(10, "0");
+      this.gugunLoad();
+      this.gugunCode = this.userInfo.favorloc.slice(0, 5).padEnd(10, "0");
+      this.dongLoad();
+      this.dongCode = this.userInfo.favorloc;
+      this.searchAptByCode();
+    },
     status(value) {
       if (value == 1) {
         this.selectedText = "법정동으로 조회";
@@ -76,6 +112,8 @@ export default {
         console.log(value);
         this.gugunCode = value + "00000";
         this.dongLoad();
+        //동코드 주기
+        //this.searchaptByCode()
       }
     },
   },

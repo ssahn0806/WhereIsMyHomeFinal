@@ -13,8 +13,11 @@ const memberStore = {
     isValidToken: false,
   },
   getters: {
-    checkUserInfo: function (state) {
+    userInfo(state) {
       return state.userInfo;
+    },
+    checkUserInfo: function (state) {
+      return { ...state.userInfo };
     },
     checkToken: function (state) {
       return state.isValidToken;
@@ -44,8 +47,13 @@ const memberStore = {
     },
   },
   actions: {
-    [Constant.MODIFY_MEMBER](context,payload){
-      return restApi.put("/user",payload).then(({ data }) => {
+    [Constant.UPDATE_FAV](context, payload) {
+      return restApi.put("/user/favorloc", payload).then(({ data }) => {
+        context.commit(Constant.MODIFY_USERINFO, data);
+      });
+    },
+    [Constant.MODIFY_MEMBER](context, payload) {
+      return restApi.put("/user", payload).then(({ data }) => {
         context.commit(Constant.MODIFY_USERINFO, data);
       });
     },

@@ -200,6 +200,30 @@ public class MemberController {
 		}
 	}
 	
+	@PutMapping("/favorloc/{dongCode}")
+	protected ResponseEntity<?> favorite(@PathVariable String dongCode, @RequestBody MemberDto member) throws Exception {
+		
+		MemberDto target = memberService.userInfo(member.getUserid());
+		if(target!=null) {
+			Map<String,Object> info = new HashMap<>();
+			info.put("dongCode",dongCode);
+			info.put("userid",target.getUserid());
+			//boolean res = userService.favorite(info);
+			boolean res = memberService.favorite(info);
+			if(res) {
+				target.setFavorloc(dongCode);
+				return ResponseEntity.ok(target);
+			}
+			else {
+				return ResponseEntity.internalServerError().build();
+			}
+			
+		}
+		else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
 	
 	
 

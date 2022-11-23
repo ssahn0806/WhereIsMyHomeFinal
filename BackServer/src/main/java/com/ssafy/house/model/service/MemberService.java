@@ -1,5 +1,7 @@
 package com.ssafy.house.model.service;
 
+import java.util.Map;
+
 import com.ssafy.house.model.dto.MemberDto;
 
 
@@ -16,6 +18,7 @@ public interface MemberService {
 	boolean modify(MemberDto member) throws Exception;
 
 	boolean delete(String userid) throws Exception;
+	boolean favorite(Map<String, Object> info) throws Exception;
 	
 	
 }

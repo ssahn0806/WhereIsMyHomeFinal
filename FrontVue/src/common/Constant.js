@@ -54,7 +54,12 @@ export default Object.freeze({
   SET_BANKS: "setBanks",
   SET_THEATERS: "setTheaters",
   SET_HOSPITALS: "setHospitals",
-  
+
   GET_CAFES: "getCafes",
   GET_THEATERS: "getTheaters",
+
+  UPDATE_FAV: "updateFav",
+  SET_FAV: "setFav",
+
+  SET_OPENFAV: "setOpenFav",
 });

@@ -96,13 +96,6 @@ export default {
     },
   },
   created() {
-    console.log(this.de);
-
-    // let coordinates = []; //좌표 저장 배열
-    // let name = ''; //행정구 이름
-
-    // let polygons = [];
-
     this.getBlogs();
     this.getNews();
   },
