@@ -34,6 +34,7 @@ const routes = [
     path: "/",
     name: "main",
     component: MainView,
+    redirect: "/search",
   },
   {
     path: "/house",
@@ -94,7 +95,6 @@ const routes = [
         name: "modify",
         component: () => import("@/components/user/UserModify"),
       },
-
     ],
   },
 

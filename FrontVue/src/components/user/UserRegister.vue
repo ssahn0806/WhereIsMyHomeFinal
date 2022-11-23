@@ -1,7 +1,6 @@
 <template>
   <div class="container" style="height: 81.8vh">
     <div class="row justify-content-center">
-      
       <div class="col-lg-8 col-md-10 col-sm-12">
         <form id="form-register" method="POST" action="">
           <input type="hidden" name="act" value="write" />
@@ -112,7 +111,7 @@ export default {
       });
     },
     changeForm() {
-      this.$router.push({ name: "main" });
+      this.$router.push({ name: "search" });
     },
   },
 };
