@@ -10,7 +10,11 @@ const HouseStore = {
         apts: {},
         // 상세 보기를 눌렀을 때 아파트 정보
         apt: {},
-        status: false,
+        status: 0,
+        cafes: [],
+        theaters: [],
+        hospitals: [],
+        banks: [],
     },
     getters: {
         status(state) {
@@ -30,9 +34,33 @@ const HouseStore = {
         },
         dealsname(state) {
             return state.dealsname;
+        },
+        cafes(state) {
+            return state.cafes;
+        },
+        theaters(state) {
+            return state.theaters;
+        },
+        hospitals(state) {
+            return state.hospitals;
+        },
+        banks(state) {
+            return state.banks;
         }
     },
     mutations: {
+        [Constant.SET_CAFES](state, payload) {
+            state.cafes = payload;
+        },
+        [Constant.SET_THEATERS](state, payload) {
+            state.theaters = payload;
+        },
+        [Constant.SET_HOSPITALS](state, payload) {
+            state.hospitals = payload;
+        },
+        [Constant.SET_BANKS](state, payload) {
+            state.banks = payload;
+        },
         [Constant.SET_STATUS](state, payload) {
             state.status = payload;
         },
@@ -80,7 +108,7 @@ const HouseStore = {
                 context.commit(Constant.SET_DEALS, data);
                 context.commit(Constant.SET_APTS, data);
             });
-          },
+        },
         [Constant.GET_DEALS_NAME](context, payload) {
             return restApi(`/api/houses/housedeals/name/${payload}`).then(({ data }) => {
                 context.commit(Constant.SET_DEALS_NAME, data);
@@ -92,9 +120,18 @@ const HouseStore = {
                 context.commit(Constant.SET_APT, data);
             })
         },
+        [Constant.GET_CAFES](context, payload) {
+            return restApi(`/api/places/${payload}/lists/Q12`).then(({ data }) => {
+                context.commit(Constant.SET_CAFES, data);
+        });
+        },
+        [Constant.GET_THEATERS](context, payload) {
+            return restApi(`/api/places/${payload}/lists/N03`).then(({ data }) => {
+                context.commit(Constant.SET_THEATERS, data);
+        });
+        },
 
-
-  },
+    },
 
 };
 

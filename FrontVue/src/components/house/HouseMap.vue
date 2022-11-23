@@ -73,7 +73,6 @@ export default {
         //   polygon.setMap(this.map);
 
         kakao.maps.event.addListener(polygon, "mouseover", ()=>{
-          console.log("mouseover");
           polygon.setOptions({
             fillColor: "#09f",
           });
@@ -97,7 +96,6 @@ export default {
 
         // // 다각형에 mousemove 이벤트를 등록하고 이벤트가 발생하면 커스텀 오버레이의 위치를 변경합니다
         kakao.maps.event.addListener(polygon, "mousemove", function (mouseEvent) {
-          console.log("mousemove");
           customOverlay.setPosition(mouseEvent.latLng);
           
         });
@@ -105,7 +103,6 @@ export default {
         // 다각형에 mouseout 이벤트를 등록하고 이벤트가 발생하면 폴리곤의 채움색을 원래색으로 변경합니다
         // 커스텀 오버레이를 지도에서 제거합니다
         kakao.maps.event.addListener(polygon, "mouseout", function () {
-          console.log("mouseout");
           polygon.setOptions({ fillColor: "#fff" });
           customOverlay.setMap(null);
         });
@@ -132,7 +129,6 @@ export default {
           return new kakao.maps.LatLng(x / area, y / area);
         }
         kakao.maps.event.addListener(polygon, "click", () => {
-          console.log("click");
       //     var content = '<div class="info">' + 
       //               '   <div class="title">' + name + '</div>' +
       //               '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
@@ -154,7 +150,8 @@ export default {
               duration: 250, //확대 애니메이션 시간
             },
           });
-          this.setStatus(false);
+          console.log('codecode',code);
+          this.setStatus(parseInt(code));
           customOverlay.setMap(null);
           setTimeout(() => {
             this.getDeals(code.slice(0,5));
@@ -184,12 +181,16 @@ export default {
       //지도 생성
       this.map = new kakao.maps.Map(container, options);
       this.createPolygons();
-      this.setStatus(false);
+      this.setStatus(0);
       kakao.maps.event.addListener(this.map, "click", () => {
         this.setSidebar(false);
       });
       kakao.maps.event.addListener(this.map,"zoom_changed",()=>{
         this.setLevel(this.map.getLevel());
+      })
+      kakao.maps.event.addListener(this.map,'center_changed',()=>{
+        let center = this.map.getCenter();
+        this.setLatLng({lat:center.getLat(),lng:center.getLng()});
       })
     },
 
@@ -344,11 +345,12 @@ export default {
 
     status() {
       console.log("status changed", this.status);
-      if (this.status) {
+      if (this.status==1) {
         this.setLatLng({lat:37.5642,lng:127.0016});
         this.setLevel(9);
         this.setPolygons(this.map);
         this.removeMarkers();
+        
       } else {
         this.removePolygons();
       }

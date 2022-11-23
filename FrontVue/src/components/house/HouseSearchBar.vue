@@ -39,7 +39,7 @@ export default {
   name: "HouseSearchBar",
 
   computed: {
-    ...mapGetters(["ndong"]),
+    ...mapGetters(["ndong","status"]),
   },
 
   data() {
@@ -57,9 +57,19 @@ export default {
     };
   },
   watch: {
-    polygonclick() {
-      this.sidoList();
-      this.sidoCode = "1100000000";
+    status(value) {
+      if(value==1){
+        this.selectedText = '법정동으로 조회';
+        this.selectedOpt = 1;
+        this.sidoList();
+        this.sidoCode = '1100000000'
+        this.gugunLoad();
+      }
+      else if(value!=0){
+        console.log(value);
+        this.gugunCode = value+'00000';
+        this.dongLoad();
+      }
     }
   },
   methods: {
@@ -144,7 +154,7 @@ export default {
           break;
       }
       this.setDeals([]);
-      this.setStatus(false);
+      this.setStatus(0);
     },
   },
 

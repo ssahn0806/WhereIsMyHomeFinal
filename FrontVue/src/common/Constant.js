@@ -49,4 +49,12 @@ export default Object.freeze({
 
   SET_USERINFO: "setUserInfo",
   MODIFY_USERINFO: "modifyUserInfo",
+
+  SET_CAFES: "setCafes",
+  SET_BANKS: "setBanks",
+  SET_THEATERS: "setTheaters",
+  SET_HOSPITALS: "setHospitals",
+  
+  GET_CAFES: "getCafes",
+  GET_THEATERS: "getTheaters",
 });

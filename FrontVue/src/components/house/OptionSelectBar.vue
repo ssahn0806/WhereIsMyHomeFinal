@@ -5,10 +5,10 @@
     </div>
     <div class="option2">
         <b-button-group>
-            <b-button variant="outline-light" active pill :pressed.sync="cafe">카페</b-button>
-            <b-button class="ml-3" variant="outline-success" active pill :pressed.sync="bank">은행</b-button>
-            <b-button class="ml-3" variant="outline-danger" active pill :pressed.sync="hospital">병원</b-button>
-            <b-button class="ml-3" variant="outline-primary" active pill :pressed.sync="theater">극장</b-button>
+            <b-button variant="outline-light" active pill :pressed.sync="cafe" @click="getRegionCode('cafe')">카페</b-button>
+            <b-button class="ml-3" variant="outline-success" active pill :pressed.sync="bank" @click="getRegionCode('bank')">은행</b-button>
+            <b-button class="ml-3" variant="outline-danger" active pill :pressed.sync="hospital" @click="getRegionCode('hospital')">병원</b-button>
+            <b-button class="ml-3" variant="outline-primary" active pill :pressed.sync="theater" @click="getRegionCode('theater')">극장</b-button>
         </b-button-group>
     </div>
     </div>
@@ -29,7 +29,7 @@
           <!-- <b-col>State: {{ status }}</b-col> -->
 <script>
 import Constant from "@/common/Constant.js";
-import { mapMutations,mapGetters} from "vuex"
+import { mapMutations,mapGetters, mapActions} from "vuex"
     export default {
         data() {
             return {
@@ -38,13 +38,79 @@ import { mapMutations,mapGetters} from "vuex"
                 hospital: false,
                 theater: false,
                 polygon: false,
+                geocoder: null,
+                service : null,
+                dongcode: "",
             }
         },
         computed: {
-            ...mapGetters(["status"])
+            ...mapGetters(["status","LatLng"])
         },
         methods: {
-            ...mapMutations([Constant.SET_STATUS,Constant.SET_LEVEL,Constant.SET_LATLNG]),
+            ...mapMutations([Constant.SET_STATUS,Constant.SET_LEVEL,Constant.SET_LATLNG,Constant.SET_BANKS,Constant.SET_HOSPITALS]),
+            ...mapActions([Constant.GET_THEATERS,Constant.GET_CAFES]),
+            initGeocoder(){
+                this.geocoder = new kakao.maps.services.Geocoder();
+                this.service = new kakao.maps.services.Places();
+            },
+            getRegionCode(type){
+                console.log(type,this[type]);
+                if(this[type]){
+                    this.geocoder.coord2RegionCode(this.LatLng.Lng,this.LatLng.Lat,(res,status)=>{
+                        if(status==kakao.maps.services.Status.OK){
+                            let data = res[0];
+                            if(data.region_type === 'B'){
+                                this.dongcode = data.code;
+                                switch(type){
+                                    case "bank": //BK9
+                                        this.getData(type,'BK9');
+                                        break;
+                                    case "cafe": //Q12
+                                        this.getCafes(this.dongcode);
+                                        break;
+                                    case "hospital": //HP8
+                                        this.getData(type,'HP8');
+                                        break;
+                                    case "theater": //N03
+                                        this.getTheaters(this.dongcode);
+                                        break;
+                                }
+                            }
+                        }
+                    })
+                }
+            },
+            getData(type,code){
+                this.service.categorySearch(code,(res,status)=>{
+                    if(status == kakao.maps.services.Status.OK){
+                        console.log(res);
+                        if(type=='bank'){
+                            this.setBanks(res);
+                        }
+                        else{
+                            this.setHospitals(res);
+                        }
+                    }
+                },{
+                    x : this.LatLng.Lng,
+                    y : this.LatLng.Lat,
+                })
+            },
+            
+
+        },
+        mounted() {
+            if (!window.kakao || !window.kakao.maps) {
+            const script = document.createElement("script");
+            script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services&autoload=false`;
+            /* global kakao */
+            script.addEventListener("load", () => {
+                kakao.maps.load(this.initGeocoder);
+            });
+            document.head.appendChild(script);
+            } else {
+                this.initGeocoder();
+            }
         },
         watch: {
             polygon(value) {
@@ -52,11 +118,23 @@ import { mapMutations,mapGetters} from "vuex"
                 if(value){
                     this.setLevel(9);
                     this.setLatLng({lat:37.5642,lng:127.0016});
+                    this.setStatus(1);
                 }
-                this.setStatus(value);
+                else{
+                    if(this.status==0 || this.status==1){
+                        this.setStatus(0);
+                    }
+                }
+                
             },
             status(value){
-                this.polygon = value;
+                console.log(value);
+                if(value==1){
+                    this.polygon = true;
+                }
+                else {
+                    this.polygon = false;
+                }
             }
         },
     }
