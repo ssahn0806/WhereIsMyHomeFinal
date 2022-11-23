@@ -11,9 +11,9 @@
 	</select>
 	
 	<select id="userInfo" parameterType="string" resultType="memberDto">
-		select username, userid, email, joindate, favorloc
+		select username,userid,email,joindate,favorloc
 		from ssafy_member
-		where userid = #{userid}
+		where userid=#{userid};
 	</select>
 	
 	<select id="getRefreshToken" parameterType="string" resultType="string">

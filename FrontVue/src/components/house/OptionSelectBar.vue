@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="option">
-      <b-button variant="outline-info" active pill :pressed.sync="polygon"
+      <b-button variant="outline-warning" active pill @click="moveMap()" v-if="userInfo!=null && userInfo.favorloc!=null">관심 지역 보기</b-button>
+      <b-button class="ml-1 mr-1" variant="outline-info" active pill :pressed.sync="polygon" 
         >서울 지역구 보기</b-button
       >
-      <b-button variant="outline-warning" active pill @click="moveMap()">관심 지역 보기</b-button>
     </div>
     <div class="option2">
       <b-button-group>
@@ -48,19 +48,6 @@
   </div>
 </template>
 
-<!-- <b-col class="text-center text-white">
-          서울 구 표시
-        </b-col>
-        <b-form-checkbox
-          id="checkbox-1"
-          v-model="status"
-          name="checkbox-1"
-          value="checked"
-          unchecked-value="not_checked"
-          @change="showPoly"
-        >
-        </b-form-checkbox> -->
-<!-- <b-col>State: {{ status }}</b-col> -->
 <script>
 import Constant from "@/common/Constant.js";
 import { mapState, mapMutations, mapGetters, mapActions } from "vuex";
@@ -222,7 +209,7 @@ export default {
 .option {
   position: absolute;
   top: 5px;
-  right: 24%;
+  right: 20%;
   z-index: 1;
   background: rgba(10, 10, 10, 0.8);
   padding: 6px;

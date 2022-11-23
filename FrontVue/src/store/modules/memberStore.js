@@ -48,8 +48,13 @@ const memberStore = {
   },
   actions: {
     [Constant.UPDATE_FAV](context, payload) {
-      return restApi.put("/user/favorloc", payload).then(({ data }) => {
-        context.commit(Constant.MODIFY_USERINFO, data);
+      console.log("UPDATEFAV");
+      console.log(payload);
+      return restApi.put(`/user/favorloc/${payload.dongCode}`, payload.member).then((res) => {
+        res.data.favorloc = payload.dongCode;
+        console.log(payload.dongCode);
+        console.log(res.data);
+        context.commit(Constant.MODIFY_USERINFO, res.data);
       });
     },
     [Constant.MODIFY_MEMBER](context, payload) {

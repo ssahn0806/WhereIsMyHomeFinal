@@ -212,6 +212,7 @@ public class MemberController {
 			boolean res = memberService.favorite(info);
 			if(res) {
 				target.setFavorloc(dongCode);
+				System.out.println(target.getFavorloc()+"...");
 				return ResponseEntity.ok(target);
 			}
 			else {

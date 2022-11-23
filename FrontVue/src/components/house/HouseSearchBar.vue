@@ -2,8 +2,8 @@
   <div class="con">
     <b-row class="box">
       <b-dropdown id="search-drop" :text="selectedText" variant="warning">
-        <b-dropdown-item @click="changeOption(1)">법정동으로 조회</b-dropdown-item>
-        <b-dropdown-item @click="changeOption(2)">아파트이름 조회</b-dropdown-item>
+        <b-dropdown-item @click="changeOption(1)">법정동</b-dropdown-item>
+        <b-dropdown-item @click="changeOption(2)">아파트</b-dropdown-item>
       </b-dropdown>
       <template v-if="selectedOpt == 1">
         <b-col lg="3">
@@ -24,20 +24,22 @@
           ></b-form-select>
         </b-col>
         <b-col>
-          <b-button @click="searchAptByCode" variant="warning">조회</b-button>
+          <b-button class="ml-1" @click="searchAptByCode" variant="warning">조회</b-button>
           <b-button
-            class="ml-2"
+            class="ml-1"
             variant="warning"
             v-if="userInfo != null && userInfo.favorloc != null"
             :disabled="dongCode == null"
-            >변경</b-button
+            @click="registFavDong('변경')"
+            >관심지역 변경</b-button
           >
           <b-button
-            class="ml-2"
+            class="ml-1"
             variant="warning"
             :disabled="dongCode == null"
             v-else-if="userInfo != null && userInfo.favorloc == null"
-            >등록</b-button
+            @click="registFavDong('등록')"
+            >관심지역 등록</b-button
           >
         </b-col>
       </template>
@@ -45,8 +47,8 @@
         <b-col lg="9">
           <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요..."></b-form-input>
         </b-col>
-        <b-col>
-          <b-button @click="searchAptByName" variant="warning">조회</b-button>
+        <b-col class="ml-8">
+          <b-button @click="searchAptByName" variant="warning">거래매물 조회</b-button>
         </b-col>
       </template>
     </b-row>
@@ -90,7 +92,7 @@ export default {
     // },
     openfav() {
       //여기서  fav로
-      this.selectedText = "법정동으로 조회";
+      this.selectedText = "법정동";
       this.selectedOpt = 1;
       this.sidoList();
 
@@ -103,7 +105,7 @@ export default {
     },
     status(value) {
       if (value == 1) {
-        this.selectedText = "법정동으로 조회";
+        this.selectedText = "법정동";
         this.selectedOpt = 1;
         this.sidoList();
         this.sidoCode = "1100000000";
@@ -119,6 +121,7 @@ export default {
   },
   methods: {
     ...mapActions([Constant.GET_DEALS, Constant.GET_DEALS_NAME, Constant.GET_LATLNG]),
+    ...mapActions(memberStore,[Constant.UPDATE_FAV]),
     ...mapMutations([
       Constant.SET_LEVEL,
       Constant.SET_DEALS,
@@ -197,17 +200,25 @@ export default {
       this.selectedOpt = OptNo;
       switch (this.selectedOpt) {
         case 1:
-          this.selectedText = "법정동으로 조회";
+          this.selectedText = "법정동";
           this.sidoList();
           break;
         case 2:
           this.searchName = "";
-          this.selectedText = "아파트명칭 조회";
+          this.selectedText = "아파트";
           break;
       }
       this.setDeals([]);
       this.setStatus(0);
     },
+    registFavDong(flag){
+      console.log(this.userInfo,this.dongCode);
+      this.updateFav({dongCode:this.dongCode,member:this.userInfo}).then(()=>{
+          alert(`관심지역 ${flag}에 성공하였습니다.`);
+          console.log(this.userInfo);
+          // this.userInfo.favorloc = this.dongcode;
+      });
+    }
   },
 
   created() {
