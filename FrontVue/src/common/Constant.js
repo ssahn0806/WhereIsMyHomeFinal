@@ -61,5 +61,7 @@ export default Object.freeze({
   UPDATE_FAV: "updateFav",
   SET_FAV: "setFav",
 
-  SET_OPENFAV: "setOpenFav",
+  SET_OPENFAV: "setOpenFav", 
+  SET_MARKER: "setMarker",
+  GET_MARKER: "getMarker"
 });

@@ -16,8 +16,12 @@ const HouseStore = {
     hospitals: [],
     banks: [],
     openfav: false,
+    marker : false,
   },
-  getters: {
+    getters: {
+    marker(state) {
+        return state.marker
+    },
     openfav(state) {
       return state.openfav;
     },
@@ -52,7 +56,10 @@ const HouseStore = {
       return state.banks;
     },
   },
-  mutations: {
+    mutations: {
+    [Constant.SET_MARKER](state,payload) {
+        state.marker = payload;
+    },
     [Constant.SET_OPENFAV](state) {
       state.openfav = !state.openfav;
     },

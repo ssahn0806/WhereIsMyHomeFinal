@@ -42,6 +42,7 @@ export default {
       "theaters",
       "hospitals",
       "banks",
+      "marker"
     ]),
   },
 
@@ -205,6 +206,7 @@ export default {
       this.map = new kakao.maps.Map(container, options);
       this.createPolygons();
       this.setStatus(0);
+
       kakao.maps.event.addListener(this.map, "click", () => {
         this.setSidebar(false);
       });
@@ -411,6 +413,14 @@ export default {
   },
 
   watch: {
+    marker(value){
+      if(!value){
+        this.hideMarkers();
+      }
+      else{
+        this.showMarkers();
+      }
+    },
     deals() {
       if (this.deals.length == 0) {
         this.removeMarkers();
@@ -429,6 +439,7 @@ export default {
       if (this.deals.length == 0) this.removeMarkers();
       else this.hideMarkers();
       this.makeMarker(this.apt.aptCode);
+      console.log(this.apt);
       this.setLatLng({ lat: this.apt.lat, lng: this.apt.lng });
       this.setNdong({ dongName: this.apt.dongName, dongCode: this.apt.dongCode });
     },

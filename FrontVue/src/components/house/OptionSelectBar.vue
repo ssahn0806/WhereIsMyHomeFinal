@@ -9,6 +9,14 @@
     <div class="option2">
       <b-button-group>
         <b-button
+          variant="outline-warning"
+          active
+          pill
+          :pressed.sync="mark"
+          >아파트</b-button
+        >
+        <b-button
+          class="ml-3"
           variant="outline-light"
           active
           pill
@@ -55,6 +63,7 @@ const memberStore = "memberStore";
 export default {
   data() {
     return {
+      mark: false,
       cafe: false,
       bank: false,
       hospital: false,
@@ -63,10 +72,11 @@ export default {
       geocoder: null,
       service: null,
       dongcode: "",
+      points : []
     };
   },
   computed: {
-    ...mapGetters(["status", "LatLng"]),
+    ...mapGetters(["status", "LatLng","apts","deals"]),
     ...mapState(memberStore, ["userInfo"]),
   },
   methods: {
@@ -79,6 +89,8 @@ export default {
       Constant.SET_CAFES,
       Constant.SET_THEATERS,
       Constant.SET_OPENFAV,
+      Constant.SET_DEALS,
+      Constant.SET_MARKER
     ]),
     moveMap() {
       this.setOpenFav();
@@ -165,9 +177,32 @@ export default {
     }
   },
   watch: {
+    mark(value){
+        if(!value){
+            this.setMarker(false);
+        }
+        else{
+            this.setMarker(true);
+        }
+    },
+    apts(value){
+        console.log(value);
+        if(Object.keys(value)?.length){
+            this.mark = true;
+        }
+        else{
+            this.mark = false;
+            this.cafe = false;
+            this.theater =false;
+            this.bank = false;
+            this.hospital = false;
+        }
+    },
     polygon(value) {
       console.log(value + "polygon changed");
       if (value) {
+        this.mark = false;
+
         this.setLevel(9);
         this.setLatLng({ lat: 37.5642, lng: 127.0016 });
         this.setStatus(1);

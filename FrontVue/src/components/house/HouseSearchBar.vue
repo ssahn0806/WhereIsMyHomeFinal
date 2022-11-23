@@ -129,6 +129,11 @@ export default {
       Constant.SET_NDONG,
       Constant.SET_LATLNG,
       Constant.SET_STATUS,
+      Constant.SET_APTS,
+      Constant.SET_CAFES,
+      Constant.SET_BANKS,
+      Constant.SET_HOSPITALS,
+      Constant.SET_THEATERS
     ]),
     sidoList() {
       this.sidoCode = null;
@@ -208,8 +213,13 @@ export default {
           this.selectedText = "아파트";
           break;
       }
-      this.setDeals([]);
       this.setStatus(0);
+      this.setDeals([]);
+      this.setApts([]);
+      this.setCafes([]);
+      this.setBanks([]);
+      this.setHospitals([]);
+      this.setTheaters([]);
     },
     registFavDong(flag){
       console.log(this.userInfo,this.dongCode);
