@@ -47,7 +47,7 @@ import { mapMutations,mapGetters, mapActions} from "vuex"
             ...mapGetters(["status","LatLng"])
         },
         methods: {
-            ...mapMutations([Constant.SET_STATUS,Constant.SET_LEVEL,Constant.SET_LATLNG,Constant.SET_BANKS,Constant.SET_HOSPITALS]),
+            ...mapMutations([Constant.SET_STATUS,Constant.SET_LEVEL,Constant.SET_LATLNG,Constant.SET_BANKS,Constant.SET_HOSPITALS,Constant.SET_CAFES,Constant.SET_THEATERS]),
             ...mapActions([Constant.GET_THEATERS,Constant.GET_CAFES]),
             initGeocoder(){
                 this.geocoder = new kakao.maps.services.Geocoder();
@@ -78,6 +78,22 @@ import { mapMutations,mapGetters, mapActions} from "vuex"
                             }
                         }
                     })
+                }
+                else{
+                    switch(type){
+                        case "bank": //BK9
+                            this.setBanks([]);
+                            break;
+                        case "cafe": //Q12
+                            this.setCafes([]);
+                            break;
+                        case "hospital": //HP8
+                            this.setHospitals([]);
+                            break;
+                        case "theater": //N03
+                            this.setTheaters([]);
+                            break;
+                    }
                 }
             },
             getData(type,code){
@@ -131,6 +147,22 @@ import { mapMutations,mapGetters, mapActions} from "vuex"
                 console.log(value);
                 if(value==1){
                     this.polygon = true;
+                    if(this.bank){
+                        this.bank = false;
+                        this.setBanks([]);
+                    }
+                    if(this.theater){
+                        this.theater = false;
+                        this.setTheaters([]);
+                    }
+                    if(this.hospital){
+                        this.hospital = false;
+                        this.setHospitals([]);
+                    }
+                    if(this.cafe){
+                        this.cafe = false;
+                        this.setCafes([]);
+                    }
                 }
                 else {
                     this.polygon = false;

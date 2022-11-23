@@ -238,7 +238,7 @@ export default {
         mounted() {
             if (!window.kakao || !window.kakao.maps) {
             const script = document.createElement("script");
-            script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services`;
+            script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services,clusterer`;
             /* global kakao */
             script.addEventListener("load", () => {
                 kakao.maps.load(this.initRoadView);

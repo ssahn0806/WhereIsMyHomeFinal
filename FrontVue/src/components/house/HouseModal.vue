@@ -50,7 +50,7 @@ import {mapGetters,mapMutations} from 'vuex';
         mounted() {
             if (!window.kakao || !window.kakao.maps) {
             const script = document.createElement("script");
-            script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services&autoload=false`;
+            script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services,clusterer&autoload=false`;
             /* global kakao */
             script.addEventListener("load", () => {
                 kakao.maps.load(this.initGeocoder);

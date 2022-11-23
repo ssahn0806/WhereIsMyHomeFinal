@@ -21,11 +21,16 @@ export default {
       polygons: [],
       guName: [],
       guCode: [],
+      cafeMarkers: [],
+      theaterMarkers: [],
+      hospitalMarkers: [],
+      bankMarkers: [],
+      openedOverlay : new Set()
     };
   },
 
   computed: {
-    ...mapGetters(["deals", "LatLng", "Level", "apts", "status","apt","ToggleSidebar"]),
+    ...mapGetters(["deals", "LatLng", "Level", "apts", "status","apt","ToggleSidebar","cafes","theaters","hospitals","banks"]),
   },
 
   components: {
@@ -35,7 +40,7 @@ export default {
   methods: {
 
     ...mapActions(["getApt",Constant.GET_DEALS,Constant.GET_DEALS_NAME]),
-    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_DEALS,Constant.SET_NDONG,Constant.SET_LEVEL]),
+    ...mapMutations([Constant.SET_SIDEBAR, Constant.SET_STATUS,Constant.SET_MODAL,Constant.SET_LATLNG,Constant.SET_DEALS,Constant.SET_NDONG,Constant.SET_LEVEL,Constant.SET_URL,Constant.SET_EMBED]),
 
     createPolygons() {
       let data = geo.features;
@@ -147,7 +152,7 @@ export default {
           this.map.setLevel(level, {
             anchor: centroid(points),
             animate: {
-              duration: 250, //확대 애니메이션 시간
+              duration: 500, //확대 애니메이션 시간
             },
           });
           console.log('codecode',code);
@@ -155,7 +160,7 @@ export default {
           customOverlay.setMap(null);
           setTimeout(() => {
             this.getDeals(code.slice(0,5));
-          }, 250);
+          }, 500);
 
           //this.removePolygons(this.polygons);
           //deletePolygon(polygons);                    //폴리곤 제거
@@ -301,12 +306,81 @@ export default {
       console.log("setpolygons");
       this.polygons.forEach((polygon) => polygon.setMap(map));
     },
+
+    makeInfoMarkers(type,data){
+        let markers = data.map((info)=>{
+          const markerPosition = new kakao.maps.LatLng(info.y || info.lat, info.x || info.lng);
+          const imageSrc = require(`@/assets/${type}_marker.png`);
+          const imageSize = new kakao.maps.Size(34,39);
+          const imageOptions = {offset: new kakao.maps.Point(27,69)};
+          const markerImage = new kakao.maps.MarkerImage(imageSrc,imageSize,imageOptions);
+          
+          console.log(info);
+          let overlay = new kakao.maps.CustomOverlay({
+            position : markerPosition,
+              yAnchor: 1.0,
+              clickable : true,
+          })
+
+          let div = document.createElement("div");
+          div.classList.add("customoverlay");
+          let child =
+          '<a target="_blank">' +
+          `    <span class="title">${info.place_name || info.name}</span>` +
+          `    <span class="text">주소 : ${info.road_address_name || info.address}</span>` +
+          '</a>';
+          div.innerHTML = child;
+          let close = document.createElement("div");
+          close.classList.add("closeimg");
+          close.setAttribute("title","닫기");
+          close.addEventListener('click',()=>{
+            overlay.setMap(null);
+            this.openedOverlay.delete(overlay);
+          })
+          let open = document.createElement("div");
+          open.classList.add("openimg");
+          open.addEventListener('click',()=>{
+            this.setUrl(info.place_url || `https://map.kakao.com/link/roadview/${info.lat},${info.lng}`);
+            this.setEmbed(true);
+          })
+          div.appendChild(close);
+          div.appendChild(open);
+          overlay.setContent(div);
+          let marker = new kakao.maps.Marker({
+            map: this.map,
+            position : markerPosition,
+            image : markerImage,
+          });
+         
+          kakao.maps.event.addListener(marker,'click',()=>{
+            overlay.setMap(this.map);
+            this.openedOverlay.add(overlay);
+          })
+         
+          return marker;
+        });
+
+        this[`${type}Markers`] = markers;
+    },
+    removeInfoMarkers(type){
+      let targetMarkers = this[`${type}Markers`];
+      targetMarkers.forEach(marker=>{
+        marker.setMap(null);
+      })
+      targetMarkers = [];
+      if(this.openedOverlay.size>0){
+        this.openedOverlay.forEach((overlay)=>{
+          overlay.setMap(null);
+        })
+        this.openedOverlay = new Set();
+      }
+    }
   },
 
   mounted() {
     if (!window.kakao || !window.kakao.maps) {
       const script = document.createElement("script");
-      script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services`;
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_MAP_KEY}&libraries=services,clusterer`;
       /* global kakao */
       script.addEventListener("load", () => {
         kakao.maps.load(this.initMap);
@@ -358,6 +432,39 @@ export default {
     ToggleSidebar(flag){
       if(!flag){
         this.showMarkers(this.map);
+      }
+    },
+    hospitals(){
+      console.log(this.hospitals);
+      if(this.hospitals.length>0){
+        this.makeInfoMarkers("hospital",this.hospitals);
+      }
+      else{
+        this.removeInfoMarkers("hospital");
+      }
+    },
+    cafes(){
+      if(this.cafes.length>0){
+        this.makeInfoMarkers("cafe",this.cafes);
+      }
+      else{
+        this.removeInfoMarkers("cafe");
+      }
+    },
+    banks(){
+      if(this.banks.length>0){
+        this.makeInfoMarkers("bank",this.banks);
+      }
+      else{
+        this.removeInfoMarkers("bank");
+      }
+    },
+    theaters(){
+      if(this.theaters.length>0){
+        this.makeInfoMarkers("theater",this.theaters);
+      }
+      else{
+        this.removeInfoMarkers("theater");
       }
     }
   },
@@ -431,6 +538,13 @@ export default {
     left: 15px;
     padding:2px;
 }
-
-
+.customoverlay {position:relative;bottom:80px;left:-10px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:12px;font-weight:bold;overflow:hidden;background: #d95050;}
+.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:16px;font-weight:bold;}
+.customoverlay .text {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:13px;}
+.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.closeimg {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png') no-repeat;}
+.close:hover {cursor: pointer;}
+.openimg {position: absolute;bottom: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png') no-repeat center;}
 </style>
