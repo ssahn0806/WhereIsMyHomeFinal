@@ -69,16 +69,12 @@ export default {
     ...mapActions(memberStore, [Constant.DELETE_MEMBER]),
     ...mapMutations(memberStore, [Constant.SET_USERINFO]),
     remove(payload) {
-      console.log("remove : " + payload);
        this.deleteMember(payload).then(() => {
-         console.log("remove");
-         console.log("userinfo : " + this.userInfo);
          
          this.$router.push({ name: "login" });
        });
      },
     modify() {
-      console.log("modify");
       this.$router.push({ name: "modify" });
      }
   },

@@ -102,7 +102,6 @@ export default {
       this.service = new kakao.maps.services.Places();
     },
     getRegionCode(type) {
-      console.log(type, this[type]);
       if (this[type]) {
         this.geocoder.coord2RegionCode(this.LatLng.Lng, this.LatLng.Lat, (res, status) => {
           if (status == kakao.maps.services.Status.OK) {
@@ -148,7 +147,6 @@ export default {
         code,
         (res, status) => {
           if (status == kakao.maps.services.Status.OK) {
-            console.log(res);
             if (type == "bank") {
               this.setBanks(res);
             } else {
@@ -186,7 +184,6 @@ export default {
         }
     },
     apts(value){
-        console.log(value);
         if(Object.keys(value)?.length){
             this.mark = true;
         }
@@ -199,7 +196,6 @@ export default {
         }
     },
     polygon(value) {
-      console.log(value + "polygon changed");
       if (value) {
         this.mark = false;
 
@@ -213,7 +209,6 @@ export default {
       }
     },
     status(value) {
-      console.log(value);
       if (value == 1) {
         this.polygon = true;
         if (this.bank) {

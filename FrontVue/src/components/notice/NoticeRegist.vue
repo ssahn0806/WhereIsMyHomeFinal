@@ -82,7 +82,6 @@ export default {
   methods: {
     ...mapActions([Constant.REGIST_NOTICE]),
     regist(payload) {
-      console.log(payload);
       this.registNotice(payload).then(() => {
         this.$router.push("/notice/list");
       });

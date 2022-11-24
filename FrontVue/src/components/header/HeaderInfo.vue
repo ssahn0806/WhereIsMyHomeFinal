@@ -1,38 +1,34 @@
 <template>
-  <b-container class="mt-4">
-    <b-navbar-nav class="ml-auto" v-if="userInfo && userInfo != null">
-      <b-nav-item class="align-self-center">
-        <b-avatar variant="primary" v-text="userInfo.userid.charAt(0).toUpperCase()"></b-avatar>
-        {{ userInfo.username }}({{ userInfo.userid }})님 환영합니다.
-      </b-nav-item>
-      <b-nav-item class="align-self-center">
-        <router-link :to="{ name: 'mypage' }" class="link align-self-center"
-          >내정보보기</router-link
-        >
-      </b-nav-item>
-      <b-nav-item class="align-self-center link" @click.prevent="onClickLogout"
-        >로그아웃</b-nav-item
-      >
-    </b-navbar-nav>
-    <!-- before login -->
-    <b-navbar-nav v-else>
-      <b-nav-item-dropdown right>
-        <template #button-content>
-          <b-icon icon="people" font-scale="2"></b-icon>
-        </template>
-        <b-dropdown-item href="#">
-          <router-link :to="{ name: 'regist' }" class="link">
-            <b-icon icon="person-circle"></b-icon> 회원가입
-          </router-link>
-        </b-dropdown-item>
-        <b-dropdown-item href="#">
-          <router-link :to="{ name: 'login' }" class="link">
-            <b-icon icon="key"></b-icon> 로그인
-          </router-link>
-        </b-dropdown-item>
-      </b-nav-item-dropdown>
-    </b-navbar-nav>
-  </b-container>
+  <b-navbar toggleable="lg" type="dark" variant="success">
+
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item @click="move(`/search`)">Main</b-nav-item>
+        <b-nav-item class="pl-15" @click="move(`/notice`)">공지사항</b-nav-item>
+        <b-nav-item class="pl-15" @click="move(`/house`)">부동산 조회</b-nav-item>
+      </b-navbar-nav>
+
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown right v-if="userInfo == null">
+          <template #button-content>
+            <a style="color: black;font-size:16px;">회원이신가요?</a>
+          </template>
+          <b-dropdown-item @click="move(`/user/login`)">로그인</b-dropdown-item>
+          <b-dropdown-item @click="move(`/user/regist`)">회원가입</b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item-dropdown right v-else>
+          <template #button-content>
+            <a style="color: black;font-size:16px;">{{ userInfo.userid }}님</a>
+          </template>
+          <b-dropdown-item @click="move(`/user/mypage`)">내정보 보기</b-dropdown-item>
+          <b-dropdown-item @click.prevent="onClickLogout">로그 아웃</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>
@@ -42,7 +38,7 @@ const memberStore = "memberStore";
 
 export default {
   //name: "TheHeaderNavbar",
-  name: "HeaderInfo",
+  name: "HeaderInfo2",
 
   data() {
     return {};
@@ -60,6 +56,11 @@ export default {
       sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
       if (this.$route.path != "/") this.$router.push({ name: "main" });
     },
+    move(payload) {
+      //this.$router.push("/notice/list");
+      console.log("payload : " + payload);
+      this.$router.push(`${payload}`);
+    },
   },
 };
 </script>
@@ -68,4 +69,24 @@ export default {
 h2 {
   color: white;
 }
+/* .navbar{
+    padding:"rem 1rem";
+  } */
+nav.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgb(0,0,0);
+  font-size: 1rem;
+}
+.navbar-dark {
+  color: black;
+}
+
 </style>

@@ -92,10 +92,8 @@ export default {
     async confirm() {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
-      // console.log("1. confirm() token >> " + token);
       if (this.isLogin) {
         await this.getUserInfo(token);
-        // console.log("4. confirm() userInfo :: ", this.userInfo);
         this.$router.push({ name: "main" });
       }
     },
@@ -104,7 +102,6 @@ export default {
     },
     regist(payload) {
       this.registMember(payload).then(() => {
-        console.log("then");
         this.$router.push({ name: "login" });
       });
     },

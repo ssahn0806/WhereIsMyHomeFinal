@@ -86,7 +86,6 @@ export default {
     ...mapActions([Constant.GET_NOTICES]),
 
     pickNotice(articleNo) {
-      console.log(articleNo);
       this.$router.push(`/notice/detail/${articleNo}`);
     },
 

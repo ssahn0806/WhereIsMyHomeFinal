@@ -69,11 +69,9 @@ export default {
   methods: {
     ...mapActions([Constant.GET_NOTICE, Constant.REMOVE_NOTICE]),
     modify(articleNo) {
-      console.log(articleNo);
       this.$router.push(`/notice/modify/${articleNo}`);
     },
     remove(payload) {
-      console.log("articleno : " + payload);
       this.removeNotice(payload).then(() => {
         this.$router.push("/notice");
       });
@@ -85,7 +83,6 @@ export default {
 
   created() {
     this.getNotice(this.$route.params.articleNo);
-    console.log(this.userInfo);
   },
   watch: {
     $route() {

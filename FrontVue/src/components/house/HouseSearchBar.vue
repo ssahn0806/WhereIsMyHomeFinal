@@ -111,7 +111,6 @@ export default {
         this.sidoCode = "1100000000";
         this.gugunLoad();
       } else if (value != 0) {
-        console.log(value);
         this.gugunCode = value + "00000";
         this.dongLoad();
         //동코드 주기
@@ -189,7 +188,7 @@ export default {
       } else if (this.gugunCode) {
         this.getDeals(this.gugunCode.slice(0, 5));
         this.getLatLng(this.gugunCode.slice(0, 5));
-        this.setLevel(9);
+        this.setLevel(6);
       } else {
         alert("조회할 법정동을 선택하세요");
       }
@@ -225,7 +224,6 @@ export default {
       console.log(this.userInfo,this.dongCode);
       this.updateFav({dongCode:this.dongCode,member:this.userInfo}).then(()=>{
           alert(`관심지역 ${flag}에 성공하였습니다.`);
-          console.log(this.userInfo);
           // this.userInfo.favorloc = this.dongcode;
       });
     }

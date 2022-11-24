@@ -48,12 +48,8 @@ const memberStore = {
   },
   actions: {
     [Constant.UPDATE_FAV](context, payload) {
-      console.log("UPDATEFAV");
-      console.log(payload);
       return restApi.put(`/user/favorloc/${payload.dongCode}`, payload.member).then((res) => {
         res.data.favorloc = payload.dongCode;
-        console.log(payload.dongCode);
-        console.log(res.data);
         context.commit(Constant.MODIFY_USERINFO, res.data);
       });
     },
@@ -63,13 +59,10 @@ const memberStore = {
       });
     },
     [Constant.REGIST_MEMBER](context, payload) {
-      console.log(payload);
-      return restApi.post("/user", payload).then(({ data }) => {
-        console.log(data);
+      return restApi.post("/user", payload).then(() => {
       });
     },
     [Constant.DELETE_MEMBER](context, payload) {
-      console.log(payload);
       return restApi.delete(`/user/${payload}`).then(() => {
         context.commit(Constant.SET_USERINFO, null);
       });
@@ -94,9 +87,9 @@ const memberStore = {
             commit("SET_IS_VALID_TOKEN", false);
           }
         },
-        (error) => {
-          console.log(error);
-        }
+        // (error) => {
+        //   // console.log(error);
+        // }
       );
     },
     async getUserInfo({ commit, dispatch }, token) {
@@ -109,21 +102,18 @@ const memberStore = {
             commit("SET_USER_INFO", data.userInfo);
             // console.log("3. getUserInfo data >> ", data);
           } else {
-            console.log("유저 정보 없음!!!!");
+            // console.log("유저 정보 없음!!!!");
           }
         },
-        async (error) => {
-          console.log(
-            "getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ",
-            error.response.status
-          );
+        async () => {
+          
           commit("SET_IS_VALID_TOKEN", false);
           await dispatch("tokenRegeneration");
         }
       );
     },
     async tokenRegeneration({ commit, state }) {
-      console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("access-token"));
+      // console.log("토큰 재발급 >> 기존 토큰 정보 : {}", sessionStorage.getItem("access-token"));
       await tokenRegeneration(
         JSON.stringify(state.userInfo),
         ({ data }) => {
@@ -143,9 +133,9 @@ const memberStore = {
               state.userInfo.userid,
               ({ data }) => {
                 if (data.message === "success") {
-                  console.log("리프레시 토큰 제거 성공");
+                  // console.log("리프레시 토큰 제거 성공");
                 } else {
-                  console.log("리프레시 토큰 제거 실패");
+                  // console.log("리프레시 토큰 제거 실패");
                 }
                 alert("RefreshToken 기간 만료!!! 다시 로그인해 주세요.");
                 commit("SET_IS_LOGIN", false);
@@ -153,8 +143,8 @@ const memberStore = {
                 commit("SET_IS_VALID_TOKEN", false);
                 router.push({ name: "login" });
               },
-              (error) => {
-                console.log(error);
+              () => {
+                // console.log(error);
                 commit("SET_IS_LOGIN", false);
                 commit("SET_USER_INFO", null);
               }
@@ -172,11 +162,11 @@ const memberStore = {
             commit("SET_USER_INFO", null);
             commit("SET_IS_VALID_TOKEN", false);
           } else {
-            console.log("유저 정보 없음!!!!");
+            // console.log("유저 정보 없음!!!!");
           }
         },
-        (error) => {
-          console.log(error);
+        () => {
+          // console.log(error);
         }
       );
     },

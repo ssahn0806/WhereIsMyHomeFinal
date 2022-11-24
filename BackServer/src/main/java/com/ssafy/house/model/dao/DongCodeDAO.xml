@@ -3,7 +3,7 @@
 
 <mapper namespace="com.ssafy.house.model.dao.DongCodeDAO">
 	<select id="selectDongCodes" parameterType="string" resultType="DongCode">
-		select dongCode,sidoName,gugunName,dongName from dongcode where dongCode like concat(LEFT(#{dongCode},5),'%')
+		select dongCode,sidoName,gugunName,dongName from dongcode where dongCode like concat(LEFT(#{dongCode},5),'%') order by dongName
 	</select>
 </mapper>
 

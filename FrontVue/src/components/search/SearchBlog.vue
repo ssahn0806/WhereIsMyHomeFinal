@@ -79,7 +79,6 @@ export default {
     ...mapActions([Constant.GET_BLOGS, Constant.GET_NEWS]),
     ...mapMutations([Constant.SET_URL,Constant.SET_EMBED]),
     getNaverBlogs() {
-      console.log("naver blog 부르기 호출");
       this.getBlogs();
     },
     openEmbed(link) {

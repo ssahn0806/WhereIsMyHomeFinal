@@ -30,13 +30,11 @@ const NoticeStore = {
     },
 
     [Constant.GET_NOTICE](context, payload) {
-      console.log(payload);
       restApi.get(`/api/boards/${payload}`).then(({ data }) => {
         context.commit(Constant.SET_NOTICE, data);
       });
     },
     [Constant.REGIST_NOTICE](context, payload) {
-      console.log("payload :" + payload);
       return restApi.post("/api/boards", payload);
     },
 

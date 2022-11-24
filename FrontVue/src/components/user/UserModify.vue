@@ -96,9 +96,7 @@ export default {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo", Constant.MODIFY_MEMBER]),
     
     modify(payload) {
-      console.log("email :" +payload.email);
       this.modifyMember(payload).then(() => {
-        console.log("then");
         this.$router.push({ name: "mypage" });
       });
     },

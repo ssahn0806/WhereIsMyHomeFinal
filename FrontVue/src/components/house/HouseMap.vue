@@ -77,10 +77,8 @@ export default {
 
         coordinates[0].forEach((coordinate) => {
           let point = {};
-          ///console.log(coordinate);
           point.x = coordinate[1];
           point.y = coordinate[0];
-          // console.log(point.x, point.y);
           points.push(point);
           path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));
         });
@@ -96,26 +94,14 @@ export default {
         });
 
         this.polygons.push(polygon);
-        //   polygon.setMap(this.map);
 
         kakao.maps.event.addListener(polygon, "mouseover", () => {
           polygon.setOptions({
             fillColor: "#09f",
           });
-          // console.log("mouseover :" + name);
-          // customOverlay.setContent('<div class="area">' + name + '</div>');
-          // customOverlay.setPosition(mouseEvent.latLng);
-          // customOverlay.setMap(this.map);
-
-          // const content = '<div style="padding:2px;"><p><b>' + name + '</div>';
-          // console.log("위에들어옴");
-          // console.log("status :" + this.status);
-          // infowindow.setContent(content);
-          // infowindow.setPosition(mouseEvent.latLng);
-          // infowindow.setMap(this.map);
+         
           customOverlay.setContent('<div class="name">' + name + "</div>");
-          // customOverlay.setZIndex(3);
-          // console.log(centroid(points));
+         
           customOverlay.setPosition(centroid(points));
           customOverlay.setMap(this.map);
         });
@@ -154,18 +140,10 @@ export default {
           return new kakao.maps.LatLng(x / area, y / area);
         }
         kakao.maps.event.addListener(polygon, "click", () => {
-          //     var content = '<div class="info">' +
-          //               '   <div class="title">' + name + '</div>' +
-          //               '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
-          //               '</div>';
-
-          //   infowindow.setContent(content);
-          //  // infowindow.setPosition(mouseEvent.latLng);
-          //   infowindow.setMap(this.map);
+       
 
           polygon.setOptions({ fillColor: "#fff" });
           // 현재 지도 레벨에서 2레벨 확대한 레벨
-          console.log("밑에 들어옴");
           var level = this.map.getLevel() - 2;
 
           // 지도를 클릭된 폴리곤의 중앙 위치를 기준으로 확대합니다
@@ -175,15 +153,12 @@ export default {
               duration: 500, //확대 애니메이션 시간
             },
           });
-          console.log("codecode", code);
           this.setStatus(parseInt(code));
           customOverlay.setMap(null);
           setTimeout(() => {
             this.getDeals(code.slice(0, 5));
           }, 500);
 
-          //this.removePolygons(this.polygons);
-          //deletePolygon(polygons);                    //폴리곤 제거
         });
       };
 
@@ -254,7 +229,6 @@ export default {
         content: this.createOverlay(className, aptCode, this.apts[aptCode].length, info),
         clickable: true,
       });
-      this.map.setLevel(6);
       this.markers.push(marker);
     },
 
@@ -322,7 +296,6 @@ export default {
     },
 
     setPolygons(map) {
-      console.log("setpolygons");
       this.polygons.forEach((polygon) => polygon.setMap(map));
     },
 
@@ -334,7 +307,6 @@ export default {
         const imageOptions = { offset: new kakao.maps.Point(27, 69) };
         const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOptions);
 
-        console.log(info);
         let overlay = new kakao.maps.CustomOverlay({
           position: markerPosition,
           yAnchor: 1.0,
@@ -439,16 +411,14 @@ export default {
       if (this.deals.length == 0) this.removeMarkers();
       else this.hideMarkers();
       this.makeMarker(this.apt.aptCode);
-      console.log(this.apt);
       this.setLatLng({ lat: this.apt.lat, lng: this.apt.lng });
       this.setNdong({ dongName: this.apt.dongName, dongCode: this.apt.dongCode });
     },
 
     status() {
-      console.log("status changed", this.status);
       if (this.status == 1) {
         this.setLatLng({ lat: 37.5642, lng: 127.0016 });
-        this.setLevel(9);
+        this.setLevel(8);
         this.setPolygons(this.map);
         this.removeMarkers();
       } else {
@@ -461,7 +431,6 @@ export default {
       }
     },
     hospitals() {
-      console.log(this.hospitals);
       if (this.hospitals.length > 0) {
         this.makeInfoMarkers("hospital", this.hospitals);
       } else {
