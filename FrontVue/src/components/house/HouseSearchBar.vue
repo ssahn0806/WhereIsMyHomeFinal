@@ -41,6 +41,14 @@
             @click="registFavDong('등록')"
             >관심지역 등록</b-button
           >
+          <b-button
+            class="ml-1"
+            variant="warning"
+            disabled
+            v-else-if="userInfo == null"
+            @click="registFavDong('등록')"
+            >관심지역 등록</b-button
+          >
         </b-col>
       </template>
       <template v-else-if="selectedOpt == 2">
@@ -120,7 +128,7 @@ export default {
   },
   methods: {
     ...mapActions([Constant.GET_DEALS, Constant.GET_DEALS_NAME, Constant.GET_LATLNG]),
-    ...mapActions(memberStore,[Constant.UPDATE_FAV]),
+    ...mapActions(memberStore, [Constant.UPDATE_FAV]),
     ...mapMutations([
       Constant.SET_LEVEL,
       Constant.SET_DEALS,
@@ -132,7 +140,7 @@ export default {
       Constant.SET_CAFES,
       Constant.SET_BANKS,
       Constant.SET_HOSPITALS,
-      Constant.SET_THEATERS
+      Constant.SET_THEATERS,
     ]),
     sidoList() {
       this.sidoCode = null;
@@ -220,13 +228,13 @@ export default {
       this.setHospitals([]);
       this.setTheaters([]);
     },
-    registFavDong(flag){
-      console.log(this.userInfo,this.dongCode);
-      this.updateFav({dongCode:this.dongCode,member:this.userInfo}).then(()=>{
-          alert(`관심지역 ${flag}에 성공하였습니다.`);
-          // this.userInfo.favorloc = this.dongcode;
+    registFavDong(flag) {
+      console.log(this.userInfo, this.dongCode);
+      this.updateFav({ dongCode: this.dongCode, member: this.userInfo }).then(() => {
+        alert(`관심지역 ${flag}에 성공하였습니다.`);
+        // this.userInfo.favorloc = this.dongcode;
       });
-    }
+    },
   },
 
   created() {
