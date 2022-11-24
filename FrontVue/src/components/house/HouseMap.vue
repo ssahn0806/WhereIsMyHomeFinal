@@ -496,7 +496,7 @@ export default {
 <style>
 #map {
   width: 100%;
-  height: 82vh;
+  height: 89.4vh;
   position: relative;
   overflow: hidden;
 }

@@ -1,6 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" type="dark" variant="secondary">
-    <b-navbar-brand href="#">바로가기</b-navbar-brand>
+  <b-navbar toggleable="lg" type="dark" variant="success">
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -15,7 +14,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item-dropdown right v-if="userInfo == null">
           <template #button-content>
-            <em style="color: black">User</em>
+            <a style="color: black;font-size:16px;">회원이신가요?</a>
           </template>
           <b-dropdown-item @click="move(`/user/login`)">로그인</b-dropdown-item>
           <b-dropdown-item @click="move(`/user/regist`)">회원가입</b-dropdown-item>
@@ -83,10 +82,11 @@ nav.navbar {
 }
 
 .navbar-dark .navbar-nav .nav-link {
-  color: rgb(217, 198, 219);
-  font-size: 2rem;
+  color: rgb(0,0,0);
+  font-size: 1rem;
 }
 .navbar-dark {
   color: black;
 }
+
 </style>

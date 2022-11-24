@@ -1,16 +1,11 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10 col-sm-12"></div>
-    <div class="col-lg-8 col-md-10 col-sm-12">
-      <div class="row">
-        <div class="col-md-8"></div>
-      </div>
-
-      <div>
+    <div style="width:54%">
+      <div class="mt-2">
         <b-carousel
           id="carousel-1"
           v-model="slide"
-          :interval="4000"
+          :interval="3000"
           controls
           indicators
           background="#ababab"
@@ -31,19 +26,16 @@
         </b-carousel>
       </div>
     </div>
-    <div>
-      <tbody>
-        <b-row>
-          <tr v-for="blog in blogs.result" :key="blog.link">
-            <b-col class="pb-2"
-              ><b-button variant="primary" @click="openEmbed(blog.link)">
-                <p v-html="blog.title"></p> </b-button
-            ></b-col>
-          </tr>
-        </b-row>
-      </tbody>
+    <div class="row justify-content-center mt-3">
+      <tr v-for="blog in blogs.result" :key="blog.link" class="ml-4 mr-4">
+        <b-col
+          ><b-card bg-variant="success" @click="openEmbed(blog.link)" img-height="180" img-top img-src="https://mblogthumb-phinf.pstatic.net/MjAyMDA5MjRfMTQ0/MDAxNjAwOTI4MDIxMTQ4.LGGIcSU4FrU6c_-MgA5xerYp1KXlF290JkqaG9uTPskg.MHNU4ycUh0ivOCxgEDo6YWorwOtonE7zwtmJMr1I3RAg.PNG.thdnjs4484/%EB%B8%94%EB%A1%9C%EA%B7%B81.png?type=w800">
+            <b-card-text v-html="blog.title" style="color:white;font-weight:800;font-size:20px;"></b-card-text> 
+            </b-card
+        ></b-col>
+      </tr>
     </div>
-    <b-card
+    <!-- <b-card
       title="Card Title"
       img-src="https://picsum.photos/600/300/?image=25"
       img-alt="Image"
@@ -58,7 +50,7 @@
       </b-card-text>
 
       <b-button href="#" variant="primary">Go somewhere</b-button>
-    </b-card>
+    </b-card> -->
     <house-embed></house-embed>
   </div>
 </template>
