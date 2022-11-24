@@ -133,7 +133,7 @@ public class SearchController{
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text+"&display=9";    // JSON 결과
+        String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text+"&display=20";    // JSON 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
 
