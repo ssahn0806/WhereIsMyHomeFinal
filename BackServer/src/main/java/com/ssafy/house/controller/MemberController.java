@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.house.model.dto.MemberDto;
-import com.ssafy.house.model.dto.User;
 import com.ssafy.house.model.service.JwtServiceImpl;
 import com.ssafy.house.model.service.MemberService;
 
