@@ -33,6 +33,7 @@
             id="btn-list"
             class="btn btn-outline-primary mb-3"
             @click="modify(notice.articleNo)"
+            v-if="userInfo && userInfo.userid == admin"
           >
             수정
           </button>
@@ -41,6 +42,7 @@
             id="btn-list"
             class="btn btn-outline-primary mb-3"
             @click="remove(notice.articleNo)"
+            v-if="userInfo && userInfo.userid == admin"
           >
             삭제
           </button>
@@ -52,16 +54,7 @@
           >
             QnA 목록
           </button>
-          <!--
-          <c:if test="${article.userId eq userinfo.userId}">
-            <button type="button" id="btn-mv-modify" class="btn btn-outline-success mb-3 ms-1">
-              글수정
-            </button>
-            <button type="button" id="btn-delete" class="btn btn-outline-danger mb-3 ms-1">
-              글삭제
-            </button>
-          </c:if>
-          -->
+
         </div>
       </div>
     </div>
@@ -70,15 +63,20 @@
 
 <script>
 import Constant from "@/common/Constant.js";
-import { mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
+const memberStore = "memberStore";
 export default {
-  //props: ["articleNo"],
+  data() {
+    return {
+      admin: "admin",
+    };
+  },
   computed: {
     ...mapGetters(["notice"]),
   },
   methods: {
     ...mapActions([Constant.GET_NOTICE, Constant.REMOVE_NOTICE]),
-
+    ...mapState(memberStore, ["userInfo"]),
     modify(articleNo) {
       console.log(articleNo);
       this.$router.push(`/notice/modify/${articleNo}`);

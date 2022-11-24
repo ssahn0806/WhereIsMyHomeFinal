@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.house.model.dto.MemberDto;
-import com.ssafy.house.model.dto.User;
 import com.ssafy.house.model.mapper.MemberMapper;
 
 

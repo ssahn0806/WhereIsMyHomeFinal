@@ -11,14 +11,7 @@
 		<result column="register_time" property="registerTime"/>
 	</resultMap>
 	
-	<resultMap type="QnA" id="QnAMap">
-		<id column="article_no" property="articleNo"/>
-		<result column="userid" property="userId"/>
-		<result column="subject" property="subject"/>
-		<result column="content" property="content"/>
-		<result column="hit" property="hit"/>
-		<result column="register_time" property="registerTime"/>
-	</resultMap>
+
 	
 	
 </mapper>

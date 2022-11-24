@@ -11,9 +11,9 @@
             <td></td>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="news">
           <tr
-            v-for="notice in notices"
+            v-for="notice in articles"
             :key="notice.articleNo"
             @click="pickNotice(notice.articleNo)"
           >
@@ -24,14 +24,26 @@
             <td>{{ notice.hit }}</td>
             <td>{{ notice.registerTime }}</td>
           </tr>
+
+          <b-pagination
+            class="pagination"
+            v-model="currentIdx"
+            :total-rows="this.notices.length"
+            :per-page="newsPerPage"
+            aria-controls="news"
+          >
+          </b-pagination>
         </tbody>
       </table>
-      <!--
-      <c:if test="${userlevel eq 'admin'}">
-        </c:if>
-      -->
+
       <div class="mt-5">
-        <input class="btn btn-primary" type="button" value="등록" @click="changeForm" />
+        <input
+          class="btn btn-primary"
+          type="button"
+          value="등록"
+          @click="changeForm"
+          v-if="userInfo && userInfo.userid == admin"
+        />
       </div>
     </div>
   </div>
@@ -39,13 +51,32 @@
 
 <script>
 import Constant from "@/common/Constant.js";
-import { mapActions, mapGetters } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
+const memberStore = "memberStore";
 export default {
+  data() {
+    return {
+      admin: "admin",
+      perPage: 5,
+      currentPage: 1,
+      currentIdx: 1,
+      newsPerPage: 5,
+      tabIdx: 0,
+    };
+  },
   computed: {
-    // notices() {
-    //   return this.$store.state.notices;
-    // },
     ...mapGetters(["notices"]),
+    ...mapState(memberStore, ["userInfo"]),
+
+    rows() {
+      return this.notices.length;
+    },
+    articles() {
+      return this.notices.slice(
+        (this.currentIdx - 1) * this.newsPerPage,
+        this.currentIdx * this.newsPerPage
+      );
+    },
   },
 
   methods: {
