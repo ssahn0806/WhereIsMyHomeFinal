@@ -49,7 +49,7 @@
               class="btn btn-outline-primary mb-3"
               @click="modify(notice)"
             >
-              QnA 수정
+              수정
             </button>
             <button
               type="button"
@@ -70,13 +70,13 @@
 import Constant from "@/common/Constant.js";
 import { mapActions, mapGetters } from "vuex";
 export default {
-  props : ["articleNo"],
+  props: ["articleNo"],
 
-  computed : {
-    ...mapGetters(["notice"])
+  computed: {
+    ...mapGetters(["notice"]),
   },
   methods: {
-    ...mapActions([Constant.MODIFY_NOTICE,Constant.GET_NOTICE]),
+    ...mapActions([Constant.MODIFY_NOTICE, Constant.GET_NOTICE]),
     modify(payload) {
       this.modifyNotice(payload).then(() => {
         this.$router.push("/notice/list");
@@ -87,7 +87,7 @@ export default {
       this.$router.push("/notice/list");
     },
   },
-  created () {
+  created() {
     this.getNotice(this.articleNo);
   },
 };
