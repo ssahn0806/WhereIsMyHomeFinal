@@ -1,13 +1,25 @@
 <template>
   <div class="container" style="height: 40.8vh">
     <div>
+
       <table class="table w-100 mt-5">
-        <thead class="thead-dark bg-secondary text-white">
+        <caption>
+          <div style="display:flex;justify-content:flex-end;">
+            <input
+              class="btn btn-success"
+              type="button"
+              value="등록"
+              @click="changeForm"
+              v-if="userInfo && userInfo.userid == admin"
+            />
+          </div>
+        </caption>
+        <thead class="thead-dark bg-success text-white">
           <tr>
-            <td class="w-10">번호</td>
-            <td class="w-50">제목</td>
-            <td class="w-10">조회수</td>
-            <td class="w-10">등록시간</td>
+            <td class="w-10" style="font-size:20px;font-weight:600;">번호</td>
+            <td class="w-50" style="font-size:20px;font-weight:600;">제목</td>
+            <td class="w-10" style="font-size:20px;font-weight:600;">조회수</td>
+            <td class="w-10" style="font-size:20px;font-weight:600;">등록시간</td>
             <td></td>
           </tr>
         </thead>
@@ -25,26 +37,17 @@
             <td>{{ notice.registerTime }}</td>
           </tr>
 
-          <b-pagination
+        </tbody>
+      </table>
+
+      <b-pagination
             class="pagination"
             v-model="currentIdx"
             :total-rows="this.notices.length"
             :per-page="newsPerPage"
             aria-controls="news"
           >
-          </b-pagination>
-        </tbody>
-      </table>
-
-      <div class="mt-5">
-        <input
-          class="btn btn-primary"
-          type="button"
-          value="등록"
-          @click="changeForm"
-          v-if="userInfo && userInfo.userid == admin"
-        />
-      </div>
+        </b-pagination>
     </div>
   </div>
 </template>
@@ -105,4 +108,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.pagination{
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+</style>

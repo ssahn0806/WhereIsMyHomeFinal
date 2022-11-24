@@ -107,6 +107,10 @@ export default {
       this.$router.push({ name: "main" });
     },
   },
+
+  created () {
+    this.member = {...this.userInfo};
+  },
 };
 </script>
 

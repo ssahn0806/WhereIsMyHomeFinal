@@ -1,37 +1,30 @@
 <template>
   <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10 col-sm-12">
-      <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-        <mark class="sky">QnA 보기</mark>
+    <div class="col-lg-10 col-md-10 col-sm-12">
+        <h2 class="mt-3 my-3 py-3 shadow-sm bg-dark text-center" style="border-radius:10px">
+          <mark class="bg-dark text-light">공지사항 상세보기</mark>
       </h2>
     </div>
-    <div class="col-lg-8 col-md-10 col-sm-12">
-      <div class="row my-2">
-        <h2 class="text-secondary px-5">{{ notice.articleNo }}. {{ notice.subject }}</h2>
-      </div>
-      <div class="row">
-        <div class="col-md-8">
-          <div class="clearfix align-content-center">
-            <img
-              class="avatar me-2 float-md-start bg-light p-2"
-              src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
-            />
-            <p>
-              <span class="fw-bold">{{ notice.userId }}</span> <br />
-              <span class="text-secondary fw-light">
-                {{ notice.registerTime }} 조회 : {{ notice.hit }}
-              </span>
-            </p>
-          </div>
+    <div class="col-lg-10 col-md-10 col-sm-12 shadow-sm">
+      <div class="row my-2 justify-content-flex-start align-contents-space-between">
+        <h2 class="text-secondary px-5 mr-5">{{ notice.articleNo }}. {{ notice.subject }}</h2>
+        <div class="clearfix ml-6 align-contents-baseline">
+          <p>
+            <span class="fw-bold">{{ notice.userId }} / </span>
+            <span class="text-secondary fw-light">
+              {{ notice.registerTime }} / 조회 : {{ notice.hit }}
+            </span>
+          </p>
         </div>
-        <div class="divider mb-3"></div>
-        <div class="text-secondary">{{ notice.content }}</div>
-        <div class="divider mt-3 mb-3"></div>
-        <div class="d-flex justify-content-end">
+      </div>
+      <div class="row justify-content-center shadow-lg">
+        <div class="text-secondary" style="height:200px">{{ notice.content }}</div>
+      </div>
+      <div class="row justify-content-end">
           <button
             type="button"
             id="btn-list"
-            class="btn btn-outline-primary mb-3"
+            class="btn btn-outline-success mb-3 mr-3"
             @click="modify(notice.articleNo)"
             v-if="userInfo && userInfo.userid == admin"
           >
@@ -40,7 +33,7 @@
           <button
             type="button"
             id="btn-list"
-            class="btn btn-outline-primary mb-3"
+            class="btn btn-outline-danger mb-3 mr-3"
             @click="remove(notice.articleNo)"
             v-if="userInfo && userInfo.userid == admin"
           >
@@ -49,13 +42,11 @@
           <button
             type="button"
             id="btn-list"
-            class="btn btn-outline-primary mb-3"
+            class="btn btn-outline-primary mb-3 mr-3"
             @click="changeForm"
           >
-            QnA 목록
+            공지사항 목록
           </button>
-
-        </div>
       </div>
     </div>
   </div>
@@ -73,10 +64,10 @@ export default {
   },
   computed: {
     ...mapGetters(["notice"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
   methods: {
     ...mapActions([Constant.GET_NOTICE, Constant.REMOVE_NOTICE]),
-    ...mapState(memberStore, ["userInfo"]),
     modify(articleNo) {
       console.log(articleNo);
       this.$router.push(`/notice/modify/${articleNo}`);
@@ -94,6 +85,7 @@ export default {
 
   created() {
     this.getNotice(this.$route.params.articleNo);
+    console.log(this.userInfo);
   },
   watch: {
     $route() {

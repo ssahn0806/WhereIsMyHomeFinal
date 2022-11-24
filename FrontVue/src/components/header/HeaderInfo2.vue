@@ -21,7 +21,7 @@
         </b-nav-item-dropdown>
         <b-nav-item-dropdown right v-else>
           <template #button-content>
-            <h5 style="color: black">{{ userInfo.userid }}님</h5>
+            <a style="color: black;font-size:16px;">{{ userInfo.userid }}님</a>
           </template>
           <b-dropdown-item @click="move(`/user/mypage`)">내정보 보기</b-dropdown-item>
           <b-dropdown-item @click.prevent="onClickLogout">로그 아웃</b-dropdown-item>

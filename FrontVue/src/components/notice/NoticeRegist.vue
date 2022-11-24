@@ -2,15 +2,15 @@
   <div class="container" style="height: 81.8vh">
     <div class="row justify-content-center">
       <div class="col-lg-8 col-md-10 col-sm-12">
-        <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-          <mark class="sky">QnA 쓰기</mark>
+        <h2 class="mt-3 my-3 py-3 shadow-sm bg-dark text-center" style="border-radius:10px">
+          <mark class="bg-dark text-light">공지사항 작성</mark>
         </h2>
       </div>
       <div class="col-lg-8 col-md-10 col-sm-12">
         <form id="form-register" method="POST" action="">
           <input type="hidden" name="act" value="write" />
           <div class="mb-3">
-            <label for="subject" class="form-label">아이디 : </label>
+            <label for="subject" class="form-label">아이디</label>
             <input
               type="text"
               class="form-control"
@@ -22,7 +22,7 @@
             />
           </div>
           <div class="mb-3">
-            <label for="subject" class="form-label">제목 : </label>
+            <label for="subject" class="form-label">제목</label>
             <input
               type="text"
               class="form-control"
@@ -33,7 +33,7 @@
             />
           </div>
           <div class="mb-3">
-            <label for="content" class="form-label">내용 : </label>
+            <label for="content" class="form-label">내용</label>
             <textarea
               class="form-control"
               id="content"
@@ -46,19 +46,19 @@
           <div class="col-auto text-center">
             <button
               type="button"
-              id="btn-register"
-              class="btn btn-outline-primary mb-3"
-              @click="regist(notice)"
+              id="btn-list"
+              class="btn btn-outline-danger mb-3 mr-3"
+              @click="changeForm"
             >
-              QnA 작성
+              목록 보기
             </button>
             <button
               type="button"
-              id="btn-list"
-              class="btn btn-outline-danger mb-3"
-              @click="changeForm"
+              id="btn-register"
+              class="btn btn-outline-success mb-3 ml-3"
+              @click="regist(notice)"
             >
-              목록으로이동
+              공지사항 등록
             </button>
           </div>
         </form>
