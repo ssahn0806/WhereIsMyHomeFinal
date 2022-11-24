@@ -1,8 +1,7 @@
 <template>
   <b-container fluid class="main">
       <b-col class="mt-2" lg="12">
-        <house-map>
-        </house-map>
+        <house-map></house-map>
         <house-modal></house-modal>
         <house-embed></house-embed>
         <house-side-bar></house-side-bar>

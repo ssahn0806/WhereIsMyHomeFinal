@@ -25,7 +25,7 @@
             :key="newa.link"
             :img-src="'https://picsum.photos/1024/480/?image=' + no + idx"
           >
-            <h2 v-html="newa.title" @click="openwin(newa.link)"></h2>
+            <h2 v-html="newa.title" @click="openEmbed(newa.link)"></h2>
             <h6 v-html="newa.description"></h6>
           </b-carousel-slide>
         </b-carousel>
@@ -36,7 +36,7 @@
         <b-row>
           <tr v-for="blog in blogs.result" :key="blog.link">
             <b-col class="pb-2"
-              ><b-button variant="primary" @click="openwin(blog.link)">
+              ><b-button variant="primary" @click="openEmbed(blog.link)">
                 <p v-html="blog.title"></p> </b-button
             ></b-col>
           </tr>
@@ -59,14 +59,19 @@
 
       <b-button href="#" variant="primary">Go somewhere</b-button>
     </b-card>
+    <house-embed></house-embed>
   </div>
 </template>
 
 <script>
 //`@/assets/logo.png`
 import Constant from "@/common/Constant.js";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import HouseEmbed from "@/components/house/HouseEmbed.vue";
 export default {
+  components: {
+    HouseEmbed,
+  },
   data() {
     return {
       no: 52,
@@ -80,13 +85,14 @@ export default {
   },
   methods: {
     ...mapActions([Constant.GET_BLOGS, Constant.GET_NEWS]),
-
+    ...mapMutations([Constant.SET_URL,Constant.SET_EMBED]),
     getNaverBlogs() {
       console.log("naver blog 부르기 호출");
       this.getBlogs();
     },
-    openwin(link) {
-      window.open(link);
+    openEmbed(link) {
+      this.setUrl(link);
+      this.setEmbed(true);
     },
     onSlideStart() {
       this.sliding = true;

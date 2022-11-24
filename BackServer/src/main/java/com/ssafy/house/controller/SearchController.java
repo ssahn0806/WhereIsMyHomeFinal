@@ -104,7 +104,7 @@ public class SearchController{
       //  responseString = responseString.replaceAll(match, ",");
         
         String[] fields = {"title", "link", "description"};
-        Map<String, Object> result = getResult(responseString, fields,true);
+        Map<String, Object> result = getResult(responseString, fields,false);
         
         if(result.size() > 0) System.out.println("total -> " + result.get("total"));
         
