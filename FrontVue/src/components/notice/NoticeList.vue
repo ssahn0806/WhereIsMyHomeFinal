@@ -1,8 +1,8 @@
 <template>
   <div class="container" style="height: 40.8vh">
     <div>
-
-      <table class="table w-100 mt-5">
+      
+      <table class="table w-100 mt-3">
         <caption>
           <div style="display:flex;justify-content:flex-end;">
             <input
@@ -14,7 +14,7 @@
             />
           </div>
         </caption>
-        <thead class="thead-dark bg-success text-white">
+        <thead class="thead-dark bg-dark text-white">
           <tr>
             <td class="w-10" style="font-size:20px;font-weight:600;">번호</td>
             <td class="w-50" style="font-size:20px;font-weight:600;">제목</td>

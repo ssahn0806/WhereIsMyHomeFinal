@@ -1,8 +1,8 @@
 <template>
   <b-container class="mt-4" v-if="userInfo">
-    <b-row>
-      <b-col>
-        <b-alert variant="secondary" show><h3>내정보</h3></b-alert>
+    <b-row class="justify-content-center" >
+      <b-col cols="8">
+        <b-alert variant="secondary" show><h3>나의 정보</h3></b-alert>
       </b-col>
     </b-row>
     <b-row>
@@ -36,12 +36,10 @@
             </b-row>
             <b-row>
               <b-col cols="2"></b-col>
-              <b-col cols="3" align-self="end">관심지역 </b-col>
-              
+              <b-col cols="2" align-self="end">관심지역 </b-col>
                 <b-col cols="4" align-self="start" v-if="userInfo.favorloc">{{ userInfo.favorloc }}</b-col>
                 <b-col cols="4" align-self="start" v-else>없음</b-col>
               
-              <b-col cols="2"></b-col>
             </b-row>
           </b-container>
           <hr class="my-4" />

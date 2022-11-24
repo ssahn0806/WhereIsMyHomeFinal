@@ -68,18 +68,15 @@
 
 <script>
 import Constant from "@/common/Constant.js";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
-  data() {
-    return {
-      notice: {
-        userId: "admin",
-        articleNo: this.$route.params.articleNo,
-      },
-    };
+  props : ["articleNo"],
+
+  computed : {
+    ...mapGetters(["notice"])
   },
   methods: {
-    ...mapActions([Constant.MODIFY_NOTICE]),
+    ...mapActions([Constant.MODIFY_NOTICE,Constant.GET_NOTICE]),
     modify(payload) {
       this.modifyNotice(payload).then(() => {
         this.$router.push("/notice/list");
@@ -89,6 +86,9 @@ export default {
     changeForm() {
       this.$router.push("/notice/list");
     },
+  },
+  created () {
+    this.getNotice(this.articleNo);
   },
 };
 </script>

@@ -66,6 +66,7 @@ const routes = [
       {
         path: "modify/:articleNo",
         component: () => import("@/components/notice/NoticeModify"),
+        props: true,
       },
     ],
   },

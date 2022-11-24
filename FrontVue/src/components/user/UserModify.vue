@@ -5,9 +5,8 @@
       <div class="col-lg-8 col-md-10 col-sm-12">
         <form id="form-register" method="POST" action="">
           <input type="hidden" name="act" value="write" />
-          <div>modify</div>
           <div class="mb-3">
-            <label for="subject" class="form-label">아이디 : </label>
+            <label for="subject" class="form-label">아이디 </label>
            
             <input
               type="text"
@@ -16,11 +15,11 @@
               id="userid"
               name="userid"
               v-model.lazy="member.userid"
-              
+              disabled
             />
           </div>
           <div class="mb-3">
-            <label for="subject" class="form-label">이름 : </label>
+            <label for="subject" class="form-label">이름 </label>
             <input
               type="text"
               class="form-control"
@@ -31,7 +30,7 @@
             />
           </div>
           <div class="mb-3">
-            <label for="subject" class="form-label">비밀번호 : </label>
+            <label for="subject" class="form-label">비밀번호 </label>
             <input
               type="text"
               class="form-control"
@@ -42,7 +41,7 @@
             />
           </div>
           <div class="mb-3">
-            <label for="subject" class="form-label">이메일 : </label>
+            <label for="subject" class="form-label">이메일 </label>
             <input
               type="text"
               class="form-control"

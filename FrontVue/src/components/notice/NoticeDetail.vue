@@ -1,14 +1,14 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-lg-10 col-md-10 col-sm-12">
-        <h2 class="mt-3 my-3 py-3 shadow-sm bg-dark text-center" style="border-radius:10px">
+        <h2 class="my-3 py-3 shadow-sm bg-dark text-center" style="border-radius:10px">
           <mark class="bg-dark text-light">공지사항 상세보기</mark>
       </h2>
     </div>
-    <div class="col-lg-10 col-md-10 col-sm-12 shadow-sm">
+    <div class="col-lg-10 col-md-10 col-sm-12">
       <div class="row my-2 justify-content-flex-start align-contents-space-between">
         <h2 class="text-secondary px-5 mr-5">{{ notice.articleNo }}. {{ notice.subject }}</h2>
-        <div class="clearfix ml-6 align-contents-baseline">
+        <div class="clearfix ml-6 justify-content-flex-end">
           <p>
             <span class="fw-bold">{{ notice.userId }} / </span>
             <span class="text-secondary fw-light">
@@ -17,14 +17,14 @@
           </p>
         </div>
       </div>
-      <div class="row justify-content-center shadow-lg">
-        <div class="text-secondary" style="height:200px">{{ notice.content }}</div>
+      <div class="row justify-content-flex-start shadow-lg pl-5 pt-5 ml-1 mr-1" style="border-radius:10px;">
+        <div class="text-dark" style="height:120px;font-size:20px;">{{ notice.content }}</div>
       </div>
       <div class="row justify-content-end">
           <button
             type="button"
             id="btn-list"
-            class="btn btn-outline-success mb-3 mr-3"
+            class="btn btn-success mb-3 mr-3 mt-3"
             @click="modify(notice.articleNo)"
             v-if="userInfo && userInfo.userid == admin"
           >
@@ -33,7 +33,7 @@
           <button
             type="button"
             id="btn-list"
-            class="btn btn-outline-danger mb-3 mr-3"
+            class="btn btn-danger mb-3 mr-3 mt-3"
             @click="remove(notice.articleNo)"
             v-if="userInfo && userInfo.userid == admin"
           >
@@ -42,7 +42,7 @@
           <button
             type="button"
             id="btn-list"
-            class="btn btn-outline-primary mb-3 mr-3"
+            class="btn btn-primary mb-3 mr-3 mt-3"
             @click="changeForm"
           >
             공지사항 목록

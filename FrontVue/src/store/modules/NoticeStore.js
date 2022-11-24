@@ -41,7 +41,7 @@ const NoticeStore = {
     },
 
     [Constant.MODIFY_NOTICE](context, payload) {
-      return restApi.put(`/api/boards`, payload).then(({ data }) => {
+      return restApi.put(`/api/boards/${payload.articleNo}`, payload).then(({ data }) => {
         context.commit(Constant.SET_NOTICE, data);
       });
     },
