@@ -134,7 +134,7 @@ public class HouseController{
 		
 	
 	}
-	@GetMapping("coordsMap/{dongCode}")
+	@GetMapping("/coordsMap/{dongCode}")
 	public ResponseEntity<Map<String,String>> doCoords(@PathVariable String dongCode){
 		Map<String,String> coordsMap = addressService.selectLatLng(dongCode);
 		if(coordsMap != null) {

@@ -93,6 +93,9 @@ export default {
       Constant.SET_MARKER
     ]),
     moveMap() {
+      if(this.status){
+        this.setStatus(false);
+      }
       this.setOpenFav();
     },
 
@@ -239,7 +242,7 @@ export default {
 .option {
   position: absolute;
   top: 5px;
-  right: 20%;
+  right: 25%;
   z-index: 1;
   background: rgba(10, 10, 10, 0.8);
   padding: 6px;
@@ -248,7 +251,7 @@ export default {
 .option2 {
   position: absolute;
   top: 5px;
-  right: 10px;
+  right: 2px;
   z-index: 1;
   background: rgba(10, 10, 10, 0.8);
   padding: 6px;

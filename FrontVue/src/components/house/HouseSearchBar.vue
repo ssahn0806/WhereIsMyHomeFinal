@@ -9,14 +9,14 @@
         <b-col lg="3">
           <b-form-select v-model="sidoCode" :options="sidoOpts" @change="gugunLoad"></b-form-select>
         </b-col>
-        <b-col lg="3">
+        <b-col lg="2">
           <b-form-select
             v-model="gugunCode"
             :options="gugunOpts"
             @change="dongLoad"
           ></b-form-select>
         </b-col>
-        <b-col lg="3">
+        <b-col lg="2">
           <b-form-select
             v-model="dongCode"
             :options="dongOpts"
@@ -52,7 +52,7 @@
         </b-col>
       </template>
       <template v-else-if="selectedOpt == 2">
-        <b-col lg="9">
+        <b-col lg="8">
           <b-form-input v-model="searchName" placeholder="아파트명을 입력하세요..."></b-form-input>
         </b-col>
         <b-col class="ml-8">
@@ -247,11 +247,11 @@ export default {
 .con {
   position: absolute;
   top: 5px;
-  left: 10px;
+  left: 5px;
   z-index: 1;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 5px;
-  width: 65%;
+  width: 56%;
 }
 .box {
   padding: 6px;
