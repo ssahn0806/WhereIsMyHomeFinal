@@ -40,7 +40,9 @@
 
 ## 📹시연 영상
 
-[유튜브 링크](https://www.youtube.com/watch?v=jwE1bGr3RMs)
+|미리 보기|링크|
+|:---:|:---:|
+|<img src="https://img.youtube.com/vi/jwE1bGr3RMs/0.jpg" width="80%">|<h2>[유튜브 링크](https://www.youtube.com/watch?v=jwE1bGr3RMs)</h2>|
 
 <br>
 
@@ -92,5 +94,3 @@
 [설계보고서\_화면캡처.pdf](https://github.com/ssahn0806/WhereIsMyHomeFinal/files/10776923/1_.pdf)
 
 ---
-
-# 🏡WhereIsMyHome
